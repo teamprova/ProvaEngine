@@ -2,7 +2,7 @@
 	"name": "provaengine",
 	"description": "A game engine by TeamProva",
 	"license": "public domain",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"targetType": "library",
 	"authors": [
 		"TeamProva",
