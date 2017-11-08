@@ -1,0 +1,17 @@
+{
+	"name": "provaengine",
+	"description": "A game engine by TeamProva",
+	"license": "public domain",
+	"version": "0.0.0",
+	"targetType": "library",
+	"authors": [
+		"TeamProva",
+		"Arthur Cosentino"
+	],
+	"targetName": "prova",
+	"dependencies": {
+		"derelict-sdl2": "~>3.1.0-alpha.2",
+		"derelict-gl3": "~>2.0.0-beta.4",
+		"imageformats": "~>6.1.2"
+	}
+}

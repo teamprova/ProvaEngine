@@ -1,0 +1,16 @@
+.dub
+docs.json
+__dummy.html
+docs/
+libprova.so
+libprova.a
+prova.so
+prova.dylib
+prova.dll
+prova.a
+prova.lib
+prova-test-*
+*.exe
+*.o
+*.obj
+*.lst
