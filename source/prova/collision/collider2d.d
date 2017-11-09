@@ -97,60 +97,28 @@ abstract class Collider2D
   ///
   bool intersects(Collider2D collider)
   {
-    Collider2D colliderA = this;
-    Collider2D colliderB = collider;
-
-    if(colliderA._shape == Shape.POINT && colliderB._shape == Shape.POINT)
-      return pointIntersectsPoint(cast(PointCollider) colliderA, cast(PointCollider) colliderB);
-    if(colliderA._shape == Shape.POINT && colliderB._shape == Shape.CIRCLE)
-      return pointIntersectsCircle(cast(PointCollider) colliderA, cast(CircleCollider) colliderB);
-    if(colliderA._shape == Shape.POINT && colliderB._shape == Shape.RECTANGLE)
-      return pointIntersectsRect(cast(PointCollider) colliderA, cast(RectCollider) colliderB);
-
-    if(colliderA._shape == Shape.CIRCLE && colliderB._shape == Shape.POINT)
-      return pointIntersectsCircle(cast(PointCollider) colliderB, cast(CircleCollider) colliderA);
-    if(colliderA._shape == Shape.CIRCLE && colliderB._shape == Shape.CIRCLE)
-      return circleIntersectsCircle(cast(CircleCollider) colliderA, cast(CircleCollider) colliderB);
-    if(colliderA._shape == Shape.CIRCLE && colliderB._shape == Shape.RECTANGLE)
-      return circleIntersectsRect(cast(CircleCollider) colliderA, cast(RectCollider) colliderB);
-
-    if(colliderA._shape == Shape.RECTANGLE && colliderB._shape == Shape.POINT)
-      return pointIntersectsRect(cast(PointCollider) colliderB, cast(RectCollider) colliderA);
-    if(colliderA._shape == Shape.RECTANGLE && colliderB._shape == Shape.CIRCLE)
-      return circleIntersectsRect(cast(CircleCollider) colliderB, cast(RectCollider) colliderA);
-    if(colliderA._shape == Shape.RECTANGLE && colliderB._shape == Shape.RECTANGLE)
-      return rectIntersectsRect(cast(RectCollider) colliderA, cast(RectCollider) colliderB);
-
-    throw new Exception("Could not test intersection");
+    final switch(collider._shape)
+    {
+      case Shape.POINT:
+        return intersects(cast(PointCollider) collider);
+      case Shape.CIRCLE:
+        return intersects(cast(CircleCollider) collider);
+      case Shape.RECTANGLE:
+        return intersects(cast(RectCollider) collider);
+    }
   }
 
   /// Returns a vector that can be used to move the entity out of the collider
   Vector2 resolve(Collider2D collider)
   {
-    Collider2D colliderA = this;
-    Collider2D colliderB = collider;
-
-    if(colliderA._shape == Shape.POINT && colliderB._shape == Shape.POINT)
-      return resolvePointPoint(cast(PointCollider) colliderA, cast(PointCollider) colliderB);
-    if(colliderA._shape == Shape.POINT && colliderB._shape == Shape.CIRCLE)
-      return resolvePointCircle(cast(PointCollider) colliderA, cast(CircleCollider) colliderB);
-    if(colliderA._shape == Shape.POINT && colliderB._shape == Shape.RECTANGLE)
-      return resolvePointRect(cast(PointCollider) colliderA, cast(RectCollider) colliderB);
-
-    if(colliderA._shape == Shape.CIRCLE && colliderB._shape == Shape.POINT)
-      return -resolvePointCircle(cast(PointCollider) colliderB, cast(CircleCollider) colliderA);
-    if(colliderA._shape == Shape.CIRCLE && colliderB._shape == Shape.CIRCLE)
-      return resolveCircleCircle(cast(CircleCollider) colliderA, cast(CircleCollider) colliderB);
-    if(colliderA._shape == Shape.CIRCLE && colliderB._shape == Shape.RECTANGLE)
-      return resolveCircleRect(cast(CircleCollider) colliderA, cast(RectCollider) colliderB);
-
-    if(colliderA._shape == Shape.RECTANGLE && colliderB._shape == Shape.POINT)
-      return -resolvePointRect(cast(PointCollider) colliderB, cast(RectCollider) colliderA);
-    if(colliderA._shape == Shape.RECTANGLE && colliderB._shape == Shape.CIRCLE)
-      return -resolveCircleRect(cast(CircleCollider) colliderB, cast(RectCollider) colliderA);
-    if(colliderA._shape == Shape.RECTANGLE && colliderB._shape == Shape.RECTANGLE)
-      return resolveRectRect(cast(RectCollider) colliderA, cast(RectCollider) colliderB);
-
-    throw new Exception("Could not resolve intersection");
+    final switch(collider._shape)
+    {
+      case Shape.POINT:
+        return resolve(cast(PointCollider) collider);
+      case Shape.CIRCLE:
+        return resolve(cast(CircleCollider) collider);
+      case Shape.RECTANGLE:
+        return resolve(cast(RectCollider) collider);
+    }
   }
 }
