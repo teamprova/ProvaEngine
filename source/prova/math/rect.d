@@ -3,6 +3,7 @@ module prova.math.rect;
 import prova.math,
        std.math;
 
+///
 enum Side { LEFT, RIGHT, TOP, BOTTOM }
 
 ///

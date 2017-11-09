@@ -69,6 +69,7 @@ class Text
     _text = text;
   }
 
+  ///
   Vector2 getSize()
   {
     return font.measureString(_text, scale);
