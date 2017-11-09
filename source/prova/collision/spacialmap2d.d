@@ -2,6 +2,7 @@ module prova.collision.spacialmap2d;
 
 import prova.collision,
        prova.core,
+       prova.graphics,
        prova.math,
        prova.util,
        std.math;

@@ -1,4 +1,4 @@
-module prova.core.screen;
+module prova.graphics.screen;
 
 import derelict.sdl2.sdl,
        prova.core,
@@ -23,7 +23,7 @@ class Screen
   private int _width;
   private int _height;
 
-  package this(Game game, int width, int height)
+  package(prova) this(Game game, int width, int height)
   {
     this.game = game;
     _width = width;
@@ -66,7 +66,7 @@ class Screen
     updateResolution(width, height);
   }
 
-  package void updateResolution(int width, int height)
+  package(prova) void updateResolution(int width, int height)
   {
     _width = width;
     _height = height;
@@ -256,7 +256,7 @@ class Screen
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   }
 
-  package void prepare()
+  package(prova) void prepare()
   {
     if(camera.useDepthBuffer)
       glEnable(GL_DEPTH_TEST);
@@ -269,19 +269,19 @@ class Screen
     }
   }
 
-  package void prepareDynamic()
+  package(prova) void prepareDynamic()
   {
     transforms = camera.getProjection() * camera.getTransform();
 
     spriteBatch.begin(transforms);
   }
 
-  package void endDynamic()
+  package(prova) void endDynamic()
   {
     spriteBatch.end();
   }
 
-  package void prepareStatic()
+  package(prova) void prepareStatic()
   {
     glDisable(GL_DEPTH_TEST);
 
@@ -290,12 +290,12 @@ class Screen
     spriteBatch.begin(transforms);
   }
 
-  package void endStatic()
+  package(prova) void endStatic()
   {
     spriteBatch.end();
   }
 
-  package void swapBuffer()
+  package(prova) void swapBuffer()
   {
     SDL_GL_SwapWindow(game.window);
   }

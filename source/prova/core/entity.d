@@ -2,6 +2,7 @@ module prova.core.entity;
 
 import prova.collision,
        prova.core,
+       prova.graphics,
        prova.input,
        prova.math,
        prova.util;

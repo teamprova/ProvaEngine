@@ -4,6 +4,7 @@ import prova.collision,
        prova.collision.intersects,
        prova.collision.resolve,
        prova.core,
+       prova.graphics,
        prova.math,
        prova.util;
 
