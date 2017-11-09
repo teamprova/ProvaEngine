@@ -12,7 +12,7 @@ import derelict.sdl2.sdl,
 class Game
 {
   /// The FPS the gameloop will attempt to maintain
-  public int targetFPS = 60;
+  int targetFPS = 60;
   package SDL_Window* window;
   private Screen _screen;
   private Input _input;
