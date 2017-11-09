@@ -1,4 +1,4 @@
-module prova.input.keys;
+module prova.input.key;
 
 ///
 enum Key

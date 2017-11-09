@@ -3,4 +3,4 @@ module prova.input;
 public import prova.input.binding,
               prova.input.controller,
               prova.input.input,
-              prova.input.keys;
+              prova.input.key;
