@@ -13,13 +13,13 @@ class Input
   private bool[] keystate;
   private bool[] oldKeystate;
 
-  this()
+  package(prova) this()
   {
     updateKeystate();
     oldKeystate = keystate;
   }
 
-  void update()
+  package(prova) void update()
   {
     // update controller state
     foreach(Controller controller; controllers)
