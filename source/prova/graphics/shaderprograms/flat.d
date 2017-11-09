@@ -1,6 +1,6 @@
 module prova.graphics.shaderprograms.flat;
 
-import prova.graphics.shaderprogram;
+import prova.graphics.shaderprograms;
 
 /**
  * Uniforms:

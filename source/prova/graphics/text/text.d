@@ -1,4 +1,4 @@
-module prova.graphics.text;
+module prova.graphics.text.text;
 
 import prova.core,
        prova.graphics,

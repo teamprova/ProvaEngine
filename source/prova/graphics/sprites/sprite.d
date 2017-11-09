@@ -1,4 +1,4 @@
-module prova.graphics.sprite;
+module prova.graphics.sprites.sprite;
 
 import prova.graphics,
        prova.math;

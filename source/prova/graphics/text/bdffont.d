@@ -1,6 +1,6 @@
 // todo: cleanup this
 
-module prova.graphics.bdffont;
+module prova.graphics.text.bdffont;
 
 import prova.graphics,
        prova.math,

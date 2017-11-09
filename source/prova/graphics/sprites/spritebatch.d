@@ -1,4 +1,4 @@
-module prova.graphics.spritebatch;
+module prova.graphics.sprites.spritebatch;
 
 import prova.graphics,
        prova.math,

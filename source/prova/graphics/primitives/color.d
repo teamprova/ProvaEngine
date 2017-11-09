@@ -1,4 +1,4 @@
-module prova.graphics.color;
+module prova.graphics.primitives.color;
 
 ///
 struct Color

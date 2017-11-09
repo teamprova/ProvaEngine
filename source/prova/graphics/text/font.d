@@ -1,4 +1,4 @@
-module prova.graphics.font;
+module prova.graphics.text.font;
 
 import prova.graphics,
        prova.math,

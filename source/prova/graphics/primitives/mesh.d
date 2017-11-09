@@ -1,4 +1,4 @@
-module prova.graphics.mesh;
+module prova.graphics.primitives.mesh;
 
 import prova.graphics,
        prova.math;
@@ -10,7 +10,7 @@ class Mesh
   uint VAO;
   private uint VBO = -1;
   private uint IBO = -1;
-  package int indexCount;
+  package(prova) int indexCount;
 
   ///
   this()

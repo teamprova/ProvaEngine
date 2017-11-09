@@ -153,11 +153,13 @@ class Screen
     flatShaderProgram.drawMesh(DrawMode.LINE_LOOP, mesh);
   }
 
+  ///
   void drawCircle(Vector2 position, float radius, int segments, Color color)
   {
     drawCircle(position.x, position.y, radius, segments, color);
   }
 
+  ///
   void drawCircle(float x, float y, float radius, int segments, Color color)
   {
     float[] vertices;

@@ -1,4 +1,4 @@
-module prova.graphics.shaderprogram;
+module prova.graphics.shaderprograms.shaderprogram;
 
 import prova.graphics,
        prova.math,

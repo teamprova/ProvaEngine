@@ -1,4 +1,4 @@
-module prova.graphics.animatedsprite;
+module prova.graphics.sprites.animatedsprite;
 
 import derelict.sdl2.sdl,
        prova.graphics,

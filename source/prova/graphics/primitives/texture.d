@@ -1,4 +1,4 @@
-module prova.graphics.texture;
+module prova.graphics.primitives.texture;
 
 import imageformats,
        prova.graphics,
