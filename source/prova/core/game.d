@@ -96,7 +96,6 @@ class Game
     setScene(scene);
   }
 
-  ///
   private void setScene(Scene scene)
   {
     _activeScene = scene;
