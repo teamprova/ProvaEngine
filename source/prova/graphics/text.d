@@ -76,9 +76,18 @@ class Text
   }
 
   ///
+  Rect getBounds()
+  {
+    Vector3 start = position + getOffset();
+    Vector2 size = getSize();
+
+    return Rect(start.x, start.y + font.maxHeight * scale, size.x, size.y);
+  }
+
+  ///
   void draw(Screen screen)
   {
-    Vector3 pos = position + offset();
+    Vector3 pos = position + getOffset();
 
     foreach(i; 0 .. _text.length)
     {
@@ -95,7 +104,7 @@ class Text
     }
   }
 
-  private Vector2 offset()
+  private Vector2 getOffset()
   {
     const Vector2 size = font.measureString(_text, scale);
     Vector2 offset;
@@ -106,7 +115,7 @@ class Text
       offset.x -= size.x;
 
     if(textBaseline == TextBaseline.TOP)
-      offset.y -= font.maxHeight;
+      offset.y -= font.maxHeight * scale;
     else if(textBaseline == TextBaseline.MIDDLE)
       offset.y -= size.y / 2;
 
