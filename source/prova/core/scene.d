@@ -74,7 +74,7 @@ class Scene
     entities.insertBack(entity);
     entity._scene = this;
 
-    collider2DMap.addColliders(entity.colliders2d);
+    collider2DMap.add(entity.colliders2d);
 
     if(!entity.isSetup) {
       entity.setup();
@@ -92,7 +92,7 @@ class Scene
     if(entity._scene == this)
       entity._scene = null;
     
-    collider2DMap.removeColliders(entity.colliders2d);
+    collider2DMap.remove(entity.colliders2d);
   }
 
   /// Finds the closest entity to this entity

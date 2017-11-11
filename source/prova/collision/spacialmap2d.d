@@ -144,7 +144,7 @@ class SpacialMap2D
   }
 
   /// Should not be called in most circumstances
-  void addCollider(Collider2D collider)
+  void add(Collider2D collider)
   {
     colliders.insertBack(collider);
 
@@ -152,7 +152,7 @@ class SpacialMap2D
   }
 
   /// Should not be called in most circumstances
-  void addColliders(LinkedList!Collider2D colliders)
+  void add(LinkedList!Collider2D colliders)
   {
     foreach(Collider2D collider; colliders) {
       this.colliders.insertBack(collider);
@@ -162,7 +162,7 @@ class SpacialMap2D
   }
 
   /// Should not be called in most circumstances
-  void removeCollider(Collider2D collider)
+  void remove(Collider2D collider)
   {
     colliders.remove(collider);
 
@@ -170,7 +170,7 @@ class SpacialMap2D
   }
 
   /// Should not be called in most circumstances
-  void removeColliders(LinkedList!Collider2D colliders)
+  void remove(LinkedList!Collider2D colliders)
   {
     foreach(Collider2D collider; colliders)
       colliders.remove(collider);

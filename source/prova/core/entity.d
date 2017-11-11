@@ -64,7 +64,7 @@ class Entity
   }
 
   ///
-  void addCollider(Collider2D collider)
+  void attach(Collider2D collider)
   {
     if(collider.entity != this)
       throw new Exception("Collider can not be attached to non owner entity");
@@ -72,16 +72,16 @@ class Entity
       throw new Exception("Collider already added");
 
     if(scene)
-      scene.collider2DMap.addCollider(collider);
+      scene.collider2DMap.add(collider);
 
     colliders2d.insertBack(collider);
   }
 
   ///
-  void removeCollider(Collider2D collider)
+  void remove(Collider2D collider)
   {
     if(scene)
-      scene.collider2DMap.removeCollider(collider);
+      scene.collider2DMap.remove(collider);
 
     colliders2d.remove(collider);
   }
