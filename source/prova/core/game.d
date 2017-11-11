@@ -55,6 +55,7 @@ class Game
     return _input;
   }
 
+  ///
   @property bool isFullscreen()
   {
     return _isFullscreen;
