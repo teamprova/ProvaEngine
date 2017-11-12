@@ -205,6 +205,5 @@ class Game
   private void cleanUp()
   {
     SDL_DestroyWindow(window);
-    SDL_Quit();
   }
 }
