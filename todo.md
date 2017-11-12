@@ -1,14 +1,8 @@
 # Todo
 
 ## Priority
-* Sound class
-    * Path
-    * Play - maybe play through an audio class instead?
-    * Pause
-    * Pitch
-    * Speed
-    * Loop
-    * Position
+* Entity class
+    * Attach method for audio for automatically setting panning and fading audio
 * SaveFile or GameState class
     * Name
     * Path
@@ -46,3 +40,7 @@
 * Quaternions for rotation
 * Entities
     * Children? toWorldSpacePosition and toWorldRotation?
+* Audio class
+    * PlaybackRate property
+    * Duration property
+    * CurrentTime property

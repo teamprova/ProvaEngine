@@ -1,6 +1,7 @@
 module prova;
 
-public import prova.collision,
+public import prova.audio,
+              prova.collision,
               prova.core,
               prova.graphics,
               prova.init,
