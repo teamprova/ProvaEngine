@@ -182,6 +182,7 @@ class Game
 
     _input.update();
     _activeScene.update();
+    _activeScene.updateAudio();
   }
 
   private void draw()

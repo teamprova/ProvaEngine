@@ -1,8 +1,6 @@
 # Todo
 
 ## Priority
-* Entity class
-    * Attach method for audio for automatically setting panning and fading audio
 * SaveFile or GameState class
     * Name
     * Path

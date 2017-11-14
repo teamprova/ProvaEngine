@@ -1,13 +1,16 @@
 module prova.audio.audio;
 
 import derelict.sdl2.mixer,
+       prova.core,
        std.string,
        std.conv;
 
 ///
 class Audio
 {
-  package(prova) bool attached;
+  /// What distance in units equals one meter (defaults to 1)
+  static float scale = 1;
+  package(prova) Entity entity;
   private static Mix_Chunk*[string] cache;
   private static shared Audio[int] playingChannels;
   private Mix_Chunk* chunk;
@@ -58,7 +61,6 @@ class Audio
       right = cast(ubyte) (127 + 127 * value);
       left = cast(ubyte) (254 - right);
     }
-      import std.stdio; writeln(left, " ", right);
 
     if(isPlaying)
       Mix_SetPanning(channel, left, right);
@@ -113,6 +115,7 @@ class Audio
       stop();
   }
 
+  ///
   static void cacheFile(string path)
   {
     Mix_Chunk* chunk = Mix_LoadWAV(toStringz(path));

@@ -1,6 +1,7 @@
 module prova.core.entity;
 
-import prova.collision,
+import prova.audio,
+       prova.collision,
        prova.core,
        prova.graphics,
        prova.input,
@@ -19,11 +20,13 @@ class Entity
   package bool isSetup = false;
   package Scene _scene;
   package LinkedList!(Collider2D) colliders2d;
+  package LinkedList!(Audio) audioSources;
   private LinkedList!(int) tags;
 
   this()
   {
     colliders2d = new LinkedList!(Collider2D);
+    audioSources = new LinkedList!(Audio);
     tags = new LinkedList!(int);
   }
 
@@ -84,6 +87,29 @@ class Entity
       scene.collider2DMap.remove(collider);
 
     colliders2d.remove(collider);
+  }
+
+  ///
+  void attach(Audio source)
+  {
+    if(source.entity)
+      throw new Exception("Remove the audio before attaching it to a new entity");
+
+    if(scene)
+      scene.audioSources.insertBack(source);
+
+    audioSources.insertBack(source);
+    source.entity = this;
+  }
+
+  ///
+  void remove(Audio source)
+  {
+    if(scene)
+      scene.audioSources.remove(source);
+
+    audioSources.remove(source);
+    source.entity = null;
   }
 
   /// Called when first attached to a scene

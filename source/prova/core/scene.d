@@ -1,17 +1,21 @@
 module prova.core.scene;
 
-import prova.collision,
+import prova.audio,
+       prova.collision,
        prova.core,
        prova.graphics,
        prova.input,
+       prova.math,
        prova.util,
-       std.algorithm;
+       std.algorithm,
+       std.math;
 
 ///
 class Scene
 {
   ///
   public Camera camera;
+  package LinkedList!(Audio) audioSources;
   package SpacialMap2D collider2DMap;
   package Game _game;
   package bool isSetup;
@@ -23,6 +27,7 @@ class Scene
     camera = new Camera();
     collider2DMap = new SpacialMap2D();
     entities = new LinkedList!(Entity);
+    audioSources = new LinkedList!(Audio);
   }
 
   ///
@@ -74,6 +79,9 @@ class Scene
     entities.insertBack(entity);
     entity._scene = this;
 
+    foreach(Audio source; entity.audioSources)
+      audioSources.insertBack(source);
+
     collider2DMap.add(entity.colliders2d);
 
     if(!entity.isSetup) {
@@ -88,10 +96,13 @@ class Scene
   void removeEntity(Entity entity)
   {
     entities.remove(entity);
-    
+
     if(entity._scene == this)
       entity._scene = null;
-    
+
+    foreach(Audio source; entity.audioSources)
+      audioSources.remove(source);
+
     collider2DMap.remove(entity.colliders2d);
   }
 
@@ -141,25 +152,52 @@ class Scene
   /// Call super.update() to update entities if overridden
   void update()
   {
-    entityUpdate();
-    collider2DUpdate();
+    updateEntities();
+    updateCollisions();
   }
 
   /// Called by Scene.update()
-  void collider2DUpdate()
+  void updateEntities()
+  {
+    foreach(Entity entity; entities) {
+      entity.update();
+      entity.position += entity.velocity;
+      entity.velocity *= 1 - entity.friction;
+    }
+  }
+
+  /// Called by Scene.update()
+  void updateCollisions()
   {
     collider2DMap.mapColliders();
     collider2DMap.markCollisions();
     collider2DMap.resolveCollisions();
   }
 
-  /// Called by Scene.update()
-  void entityUpdate()
+  /// Called after Scene.update()
+  void updateAudio()
   {
-    foreach(Entity entity; entities) {
-      entity.update();
-      entity.position += entity.velocity;
-      entity.velocity *= 1 - entity.friction;
+    Quaternion rotation = Quaternion.fromEuler(camera.rotation);
+    Vector3 earOffset = rotation * Vector3(.26, 0, 0) * Audio.scale;
+    Vector3 leftEar = camera.position - earOffset;
+    Vector3 rightEar = camera.position + earOffset;
+
+    // .26 * 2
+    float earsDistance = .52;
+    float audioScaleSquared = Audio.scale ^^ 2;
+
+    foreach(Audio source; audioSources) {
+      Vector3 position = source.entity.position;
+
+      float leftSquared = position.distanceToSquared(leftEar) / audioScaleSquared;
+      float rightSquared = position.distanceToSquared(rightEar) / audioScaleSquared;
+      float leftDistance = sqrt(leftSquared);
+      float rightDistance = sqrt(rightSquared);
+
+      float volume = 1 / min(leftSquared, rightSquared);
+
+      source.volume = volume > 1 || volume == 0 ? 1 : volume;
+      source.panning = (leftDistance - rightDistance) / earsDistance;
     }
   }
 
@@ -189,7 +227,7 @@ class Scene
         entity.draw(screen);
 
     if(debugEnabled)
-      collider2DMap.draw(_game.screen);
+      collider2DMap.draw(screen);
   }
 
   /**
