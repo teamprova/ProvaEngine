@@ -127,6 +127,17 @@ struct Vector4
     return sqrt(a * a + b * b + c * c + d * d);
   }
 
+  /// Returns the squared distance between the vectors
+  float distanceToSquared(Vector4 vector) const
+  {
+    const float a = vector.x - x;
+    const float b = vector.y - y;
+    const float c = vector.z - z;
+    const float d = vector.w - w;
+
+    return a * a + b * b + c * c + d * d;
+  }
+
 
   // assignment overloading
   Vector4 opAddAssign(Vector4 vector)

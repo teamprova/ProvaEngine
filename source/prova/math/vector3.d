@@ -113,6 +113,16 @@ struct Vector3
     return sqrt(a * a + b * b + c * c);
   }
 
+  /// Returns the squared distance between the vectors
+  float distanceToSquared(Vector3 vector) const
+  {
+    const float a = vector.x - x;
+    const float b = vector.y - y;
+    const float c = vector.z - z;
+
+    return a * a + b * b + c * c;
+  }
+
 
   // assignment overloading
   Vector3 opAddAssign(Vector3 vector)

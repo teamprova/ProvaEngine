@@ -125,6 +125,15 @@ struct Vector2
     return sqrt(a * a + b * b);
   }
 
+  /// Returns the squared distance between the vectors
+  float distanceToSquared(Vector2 vector) const
+  {
+    const float a = vector.x - x;
+    const float b = vector.y - y;
+
+    return a * a + b * b;
+  }
+
 
   // assignment overloading
   Vector2 opAddAssign(Vector2 vector)
