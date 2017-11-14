@@ -37,6 +37,21 @@ struct Vector2
     return vector;
   }
 
+  /// Returns a normalized copy of this vector
+  Vector2 getNormalized() const
+  {
+    const float magnitude = getMagnitude();
+
+    Vector2 result;
+
+    if(magnitude != 0) {
+      result.x = x / magnitude;
+      result.y = y / magnitude;
+    }
+
+    return result;
+  }
+
   /// Normalizes the vector
   void normalize()
   {
@@ -47,22 +62,6 @@ struct Vector2
 
     x = x / magnitude;
     y = y / magnitude;
-  }
-
-  /// Returns a normalized copy of this vector
-  Vector2 getNormalized() const
-  {
-    const float magnitude = getMagnitude();
-
-    Vector2 result;
-
-    if(magnitude != 0)
-    {
-      result.x = x / magnitude;
-      result.y = y / magnitude;
-    }
-
-    return result;
   }
 
   /// Returns the magnitude of the vector
@@ -132,6 +131,12 @@ struct Vector2
     const float b = vector.y - y;
 
     return a * a + b * b;
+  }
+
+  // Returns the dot product of the two vectors
+  float dot(Vector2 vector)
+  {
+    return x * vector.x + y * vector.y;
   }
 
 

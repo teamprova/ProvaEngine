@@ -57,6 +57,23 @@ struct Vector4
     return vector;
   }
 
+  /// Returns a normalized copy of this vector
+  Vector4 getNormalized() const
+  {
+    const float magnitude = getMagnitude();
+
+    Vector4 result;
+    
+    if(magnitude != 0) {
+      result.x = x / magnitude;
+      result.y = y / magnitude;
+      result.z = z / magnitude;
+      result.w = w / magnitude;
+    }
+    
+    return result;
+  }
+
   /// Normalizes the vector
   void normalize()
   {
@@ -69,24 +86,6 @@ struct Vector4
     y = y / magnitude;
     z = z / magnitude;
     w = w / magnitude;
-  }
-
-  /// Returns a normalized copy of this vector
-  Vector4 getNormalized() const
-  {
-    const float magnitude = getMagnitude();
-
-    Vector4 result;
-    
-    if(magnitude != 0)
-    {
-      result.x = x / magnitude;
-      result.y = y / magnitude;
-      result.z = z / magnitude;
-      result.w = w / magnitude;
-    }
-    
-    return result;
   }
 
   /// Returns the magnitude of the vector
@@ -136,6 +135,12 @@ struct Vector4
     const float d = vector.w - w;
 
     return a * a + b * b + c * c + d * d;
+  }
+
+  // Returns the dot product of the two vectors
+  float dot(Vector4 vector)
+  {
+    return x * vector.x + y * vector.y + z * vector.z + w * vector.w;
   }
 
 

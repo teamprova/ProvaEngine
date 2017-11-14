@@ -47,6 +47,22 @@ struct Vector3
     return vector;
   }
 
+  /// Returns a normalized copy of this vector
+  Vector3 getNormalized() const
+  {
+    const float magnitude = getMagnitude();
+
+    Vector3 result;
+
+    if(magnitude != 0) {
+      result.x = x / magnitude;
+      result.y = y / magnitude;
+      result.z = y / magnitude;
+    }
+
+    return result;
+  }
+
   /// Normalizes the vector
   void normalize()
   {
@@ -58,23 +74,6 @@ struct Vector3
     x = x / magnitude;
     y = y / magnitude;
     z = z / magnitude;
-  }
-
-  /// Returns a normalized copy of this vector
-  Vector3 getNormalized() const
-  {
-    const float magnitude = getMagnitude();
-
-    Vector3 result;
-
-    if(magnitude != 0)
-    {
-      result.x = x / magnitude;
-      result.y = y / magnitude;
-      result.z = y / magnitude;
-    }
-
-    return result;
   }
 
   /// Returns the magnitude of the vector
@@ -121,6 +120,23 @@ struct Vector3
     const float c = vector.z - z;
 
     return a * a + b * b + c * c;
+  }
+
+  // Returns the dot product of the two vectors
+  float dot(Vector3 vector)
+  {
+    return x * vector.x + y * vector.y + z * vector.z;
+  }
+
+  // Returns the cross product of the two vectors
+  Vector3 cross(Vector3 vector)
+  {
+    Vector3 result;
+    result.x = y * vector.z - vector.y * x;
+    result.y = -(x * vector.z - vector.x * z);
+    result.z = x * vector.y - vector.x * y;
+
+    return result;
   }
 
 
