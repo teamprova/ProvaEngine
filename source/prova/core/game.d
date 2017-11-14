@@ -2,8 +2,8 @@ module prova.core.game;
 
 import derelict.sdl2.sdl,
        prova.core,
+       prova.core.init,
        prova.graphics,
-       prova.init,
        prova.input,
        prova.util,
        std.string;
@@ -20,11 +20,10 @@ class Game
   private bool _isFullscreen = false;
   private bool running = false;
 
-  /// Sets up the window and calls prova.init.init()
+  /// Sets up the window
   this(string title, int width, int height)
   {
-    if(!provaInitialized)
-      init();
+    init();
 
     window = SDL_CreateWindow(
       toStringz(title),
@@ -127,7 +126,7 @@ class Game
   }
 
   /// Stops the game loop after it finishes a final cycle
-  void close()
+  void quit()
   {
     running = false;
   }
@@ -165,7 +164,7 @@ class Game
     while(SDL_PollEvent(&event) != 0) {
       switch(event.type) {
         case SDL_QUIT:
-          close();
+          quit();
           return;
         case SDL_WINDOWEVENT:
           switch(event.window.event) {
@@ -205,5 +204,6 @@ class Game
   private void cleanUp()
   {
     SDL_DestroyWindow(window);
+    finalize();
   }
 }

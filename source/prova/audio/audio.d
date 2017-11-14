@@ -9,6 +9,7 @@ class Audio
 {
   package(prova) bool attached;
   private static Mix_Chunk*[string] cache;
+  private static shared Audio[int] playingChannels;
   private Mix_Chunk* chunk;
   private int channel = -1;
   private bool _looping;
@@ -84,6 +85,8 @@ class Audio
     channel = Mix_PlayChannel(-1, chunk, loop ? -1: 0);
     Mix_Volume(channel, _volume);
     Mix_SetPanning(channel, left, right);
+
+    playingChannels[channel] = cast(shared(Audio)) this;
   }
 
   ///
@@ -118,5 +121,15 @@ class Audio
       throw new Exception("Audio load error: " ~ to!string(Mix_GetError()));
 
     cache[path] = chunk;
+  }
+
+  package(prova) extern(C) static void channelFinished(int channel) nothrow
+  {
+    shared(Audio) source = playingChannels[channel];
+
+    if(source.channel == channel)
+      source.channel = -1;
+
+    playingChannels.remove(channel);
   }
 }
