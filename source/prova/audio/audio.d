@@ -1,8 +1,8 @@
 module prova.audio.audio;
 
 import derelict.sdl2.mixer,
-       prova.core,
-       std.string;
+       std.string,
+       std.conv;
 
 ///
 class Audio
@@ -19,8 +19,8 @@ class Audio
   ///
   this(string path)
   {
-    if(!(path in cache))
-      cache[path] = Mix_LoadWAV(toStringz(path));
+    if(!(path in cache)) 
+      cacheFile(path);
 
     chunk = cache[path];
   }
@@ -108,5 +108,15 @@ class Audio
   {
     if(isPlaying)
       stop();
+  }
+
+  static void cacheFile(string path)
+  {
+    Mix_Chunk* chunk = Mix_LoadWAV(toStringz(path));
+
+    if(!chunk)
+      throw new Exception("Audio load error: " ~ to!string(Mix_GetError()));
+
+    cache[path] = chunk;
   }
 }
