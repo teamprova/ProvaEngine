@@ -10,15 +10,16 @@ class Audio
 {
   /// What distance in units equals one meter (defaults to 1)
   static float scale = 1;
+  ///
+  float volume = 1;
   package(prova) Entity entity;
   private static Mix_Chunk*[string] cache;
   private static shared Audio[int] playingChannels;
   private Mix_Chunk* chunk;
   private int channel = -1;
   private bool _looping;
-  private ubyte _volume = MIX_MAX_VOLUME;
-  private ubyte left = 127;
-  private ubyte right = 127;
+  private float left = .5;
+  private float right = .5;
 
   ///
   this(string path)
@@ -30,40 +31,22 @@ class Audio
   }
 
   ///
-  @property float volume()
-  {
-    return _volume / cast(float) MIX_MAX_VOLUME;
-  }
-
-  /// Volume should be in range [0, 1]
-  @property void volume(float value)
-  {
-    _volume = cast(ubyte) (value * MIX_MAX_VOLUME);
-
-    if(isPlaying)
-      Mix_Volume(channel, _volume);
-  }
-
-  ///
   @property float panning()
   {
-    return (right - left) / 254f;
+    return right - left;
   }
 
   /// Panning should be in range [-1, 1]
   @property void panning(float value)
   {
     if(value < 0) {
-      left = cast(ubyte) (127 + 127 * -value);
-      right = cast(ubyte) (254 - left);
+      left = .5 + -value / 2;
+      right = 1 - left;
     }
     else {
-      right = cast(ubyte) (127 + 127 * value);
-      left = cast(ubyte) (254 - right);
+      right = .5 + value / 2;
+      left = 1 - right;
     }
-
-    if(isPlaying)
-      Mix_SetPanning(channel, left, right);
   }
 
   ///
@@ -83,12 +66,14 @@ class Audio
   ///
   void play(bool loop = false)
   {
+    if(isPlaying())
+      stop();
+
     _looping = loop;
     channel = Mix_PlayChannel(-1, chunk, loop ? -1: 0);
-    Mix_Volume(channel, _volume);
-    Mix_SetPanning(channel, left, right);
 
     playingChannels[channel] = cast(shared(Audio)) this;
+    Mix_RegisterEffect(channel, &effectFunction, null, null);
   }
 
   ///
@@ -124,6 +109,18 @@ class Audio
       throw new Exception("Audio load error: " ~ to!string(Mix_GetError()));
 
     cache[path] = chunk;
+  }
+
+  private extern(C) static void effectFunction(int channel, void* stream, int length, void* udata) nothrow
+  {
+    shared(Audio) source = playingChannels[channel];
+    short* buffer = cast(short*) stream;
+
+    foreach(i; 0 .. length / 4) {
+      *buffer = cast(short) (*buffer * source.left * source.volume);
+      *++buffer = cast(short) (*buffer * source.right * source.volume);
+      buffer++;
+    }
   }
 
   package(prova) extern(C) static void channelFinished(int channel) nothrow
