@@ -17,12 +17,6 @@ struct Quaternion
     set(x, y, z, w);
   }
 
-  ///
-  this(Vector3 axis, float w)
-  {
-    set(axis, w);
-  }
-
   /// Sets the values of x, y, z, and w in a single statement
   void set(float x, float y, float z, float w)
   {
@@ -32,29 +26,28 @@ struct Quaternion
     this.w = w;
   }
 
-  ///
-  void set(Vector3 axis, float w)
+  /// angle is in degrees
+  static Quaternion fromAxisAngle(Vector3 axis, float angle)
   {
-    x = axis.x;
-    y = axis.y;
-    z = axis.z;
-    this.w = w;
+    return fromAxisAngle(axis.x, axis.y, axis.z, angle);
   }
 
-  /// 
-  void setAxis(float x, float y, float z)
+  /// angle is in degrees
+  static Quaternion fromAxisAngle(float x, float y, float z, float angle)
   {
-    this.x = x;
-    this.y = y;
-    this.z = z;
-  }
+    angle *= PI / 180 / 2;
 
-  /// 
-  void setAxis(Vector3 axis)
-  {
-    x = axis.x;
-    y = axis.y;
-    z = axis.z;
+    float sinAngle = sin(angle);
+    float cosAngle = cos(angle);
+
+    Quaternion result;
+    result.x = x * sinAngle;
+    result.y = y * sinAngle;
+    result.z = z * sinAngle;
+    result.w = cosAngle;
+    result.normalize();
+
+    return result;
   }
 
   /// Create a quaternion from euler angles in degrees
@@ -66,9 +59,9 @@ struct Quaternion
   /// Create a quaternion from euler angles in degrees
   static Quaternion fromEuler(float x, float y, float z)
   {
-    x *= PI / 180;
-    y *= PI / 180;
-    z *= PI / 180;
+    x *= PI / 180 / 2;
+    y *= PI / 180 / 2;
+    z *= PI / 180 / 2;
 
     float cosX = cos(x);
     float sinX = sin(x);
@@ -78,10 +71,11 @@ struct Quaternion
     float sinZ = sin(z);
 
     Quaternion result;
-    result.w = cosZ * cosX * cosY + sinZ * sinX * sinY;
     result.x = cosZ * sinX * cosY - sinZ * cosX * sinY;
     result.y = cosZ * cosX * sinY + sinZ * sinX * cosY;
     result.z = sinZ * cosX * cosY - cosZ * sinX * sinY;
+    result.w = cosZ * cosX * cosY + sinZ * sinX * sinY;
+
     return result;
   }
 
@@ -254,10 +248,14 @@ struct Quaternion
 
   Vector3 opMul(Vector3 vector) const
   {
-    // taken from:
-    // https://blog.molecular-matters.com/2013/05/24/a-faster-quaternion-vector-multiplication/
-    Vector3 t = 2 * xyz.cross(vector);
-    return vector + w * t + xyz.cross(t);
+    // Solution from Laurent Couvidou https://gamedev.stackexchange.com/users/14808/laurent-couvidou
+    // https://gamedev.stackexchange.com/questions/28395/rotating-vector3-by-a-quaternion
+
+    Vector3 xyz = this.xyz;
+
+    return 2 * xyz.dot(vector) * xyz +
+           (w * w - xyz.dot(xyz)) * vector +
+           2 * w * xyz.cross(vector);
   }
 
   Quaternion opMul(Quaternion quaternion) const
@@ -268,8 +266,11 @@ struct Quaternion
     Vector3 axis = xyz * quaternion.w + quaternion.xyz * w + crossProduct;
 
     Quaternion result;
-    result.setAxis(axis);
+    result.x = axis.x;
+    result.y = axis.y;
+    result.z = axis.z;
     result.w = (w * quaternion.w) - dotProduct;
+
     return result;
   }
 
