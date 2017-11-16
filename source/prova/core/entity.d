@@ -1,12 +1,6 @@
 module prova.core.entity;
 
-import prova.audio,
-       prova.collision,
-       prova.core,
-       prova.graphics,
-       prova.input,
-       prova.math,
-       prova.util;
+import prova;
 
 ///
 class Entity
@@ -71,6 +65,7 @@ class Entity
   {
     if(collider.entity != this)
       throw new Exception("Collider can not be attached to non owner entity");
+
     if(colliders2d.contains(collider))
       throw new Exception("Collider already added");
 
@@ -92,6 +87,9 @@ class Entity
   ///
   void attach(Audio source)
   {
+    if(source.channels == 2)
+      throw new Exception("Source must use a mono format");
+
     if(source.entity)
       throw new Exception("Remove the audio before attaching it to a new entity");
 

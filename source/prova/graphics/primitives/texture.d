@@ -106,4 +106,10 @@ class Texture
 
     reverse(image.pixels);
   }
+
+  package(prova) static cleanUp()
+  {
+    // Textures are freed when the context is destroyed
+    textureCache.clear();
+  }
 }

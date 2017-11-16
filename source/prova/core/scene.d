@@ -1,12 +1,7 @@
 module prova.core.scene;
 
-import prova.audio,
-       prova.collision,
-       prova.core,
-       prova.graphics,
-       prova.input,
-       prova.math,
-       prova.util,
+import derelict.openal.al,
+       prova,
        std.algorithm,
        std.math;
 
@@ -22,6 +17,7 @@ class Scene
   private LinkedList!(Entity) entities;
   private bool debugEnabled;
 
+  ///
   this()
   {
     camera = new Camera();
@@ -174,31 +170,21 @@ class Scene
     collider2DMap.resolveCollisions();
   }
 
-  /// Called after Scene.update()
-  void updateAudio()
+  package void updateAudio()
   {
     Quaternion rotation = Quaternion.fromEuler(camera.rotation);
-    Vector3 earOffset = rotation * Vector3(.26, 0, 0) * Audio.scale;
-    Vector3 leftEar = camera.position - earOffset;
-    Vector3 rightEar = camera.position + earOffset;
 
-    // .26 * 2
-    float earsDistance = .52;
-    float audioScaleSquared = Audio.scale ^^ 2;
+    Vector3 position = camera.position / Audio.scale;
+    Vector3[] orientation = [
+      rotation * Vector3(0, 0, -1), // forward
+      rotation * Vector3(0, 1, 0) // up
+    ];
 
-    foreach(Audio source; audioSources) {
-      Vector3 position = source.entity.position;
+    alListener3f(AL_POSITION, position.x, position.y, position.z);
+    alListenerfv(AL_ORIENTATION, cast(float*) orientation.ptr);
 
-      float leftSquared = position.distanceToSquared(leftEar) / audioScaleSquared;
-      float rightSquared = position.distanceToSquared(rightEar) / audioScaleSquared;
-      float leftDistance = sqrt(leftSquared);
-      float rightDistance = sqrt(rightSquared);
-
-      float volume = 1 / min(leftSquared, rightSquared);
-
-      source.volume = volume > 1 || volume == 0 ? 1 : volume;
-      source.panning = (leftDistance - rightDistance) / earsDistance;
-    }
+    foreach(Audio source; audioSources)
+      source.update();
   }
 
   /**

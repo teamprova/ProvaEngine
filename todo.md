@@ -1,6 +1,8 @@
 # Todo
 
 ## Priority
+* AnimatedSprite
+    * Use json format instead of programmed row format
 * SaveFile or GameState class
     * Name
     * Path
@@ -42,3 +44,4 @@
     * PlaybackRate property
     * Duration property
     * CurrentTime property
+    * Static fromArray method

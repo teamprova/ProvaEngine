@@ -1,14 +1,16 @@
 module prova.core.init;
 
-import derelict.sdl2.mixer,
+import derelict.openal.al,
        derelict.sdl2.sdl,
+       derelict.vorbis,
        prova,
        std.conv;
 
 package void init()
 {
   initSDL();
-  initSDLMixer();
+  initOpenAL();
+  initVorbis();
   initOpenGL();
 }
 
@@ -20,21 +22,26 @@ private void initSDL()
     throw new Exception("Initialization Error: " ~ to!string(SDL_GetError()));
 }
 
-private void initSDLMixer()
+private void initOpenAL()
 {
-  DerelictSDL2Mixer.load();
+  DerelictAL.load();
 
-  Mix_Init(
-    MIX_INIT_FLAC |
-    MIX_INIT_MOD |
-    MIX_INIT_MP3 |
-    MIX_INIT_OGG
-  );
+  Audio.device = alcOpenDevice(null);
 
-  if(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, AUDIO_S16SYS, 2, 4096) < 0)
-    throw new Exception("Initialization Error: " ~ to!string(Mix_GetError()));
+  if(!Audio.device)
+    throw new Exception("Initialization Error: Failed to open audio device");
 
-  Mix_ChannelFinished(&Audio.channelFinished);
+  Audio.context = alcCreateContext(Audio.device, null);
+
+  if(!Audio.context)
+    throw new Exception("Initialization Error: Failed audio context creation");
+
+  alcMakeContextCurrent(Audio.context);
+}
+
+private void initVorbis()
+{
+  DerelictVorbisFile.load();
 }
 
 private void initOpenGL()
@@ -48,7 +55,25 @@ private void initOpenGL()
 
 package void finalize()
 {
-  Mix_CloseAudio();
-  Mix_Quit();
+  finalizeOpenAL();
+  finalizeOpenGL();
+  finalizeSDL();
+}
+
+private void finalizeOpenAL()
+{
+  Audio.cleanUp();
+  alcMakeContextCurrent(null);
+  alcDestroyContext(Audio.context);
+  alcCloseDevice(Audio.device);
+}
+
+private void finalizeOpenGL()
+{
+  Texture.cleanUp();
+}
+
+private void finalizeSDL()
+{
   SDL_Quit();
 }
