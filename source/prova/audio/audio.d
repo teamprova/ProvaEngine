@@ -1,60 +1,88 @@
 module prova.audio.audio;
 
-import derelict.sdl2.mixer,
+import derelict.openal.al,
+       prova.audio,
        prova.core,
-       std.string,
-       std.conv;
+       prova.math;
 
-///
+private class AudioBuffer
+{
+  uint id;
+  int channels;
+
+  ~this()
+  {
+    alDeleteBuffers(1, &id);
+  }
+}
+
+/// 
 class Audio
 {
   /// What distance in units equals one meter (defaults to 1)
   static float scale = 1;
-  ///
-  float volume = 1;
-  package(prova) Entity entity;
-  private static Mix_Chunk*[string] cache;
-  private static shared Audio[int] playingChannels;
-  private Mix_Chunk* chunk;
-  private int channel = -1;
-  private bool _looping;
-  private float left = .5;
-  private float right = .5;
+  package(prova) static ALCdevice* device;
+  package(prova) static ALCcontext* context;
+  private static AudioBuffer[string] bufferCache;
 
-  ///
+  package(prova) Entity entity;
+  private uint sourceId;
+  private AudioBuffer buffer;
+  private bool _looping = false;
+  private float _volume = 1;
+  private float _pitch = 1;
+
+  /// Limited to Ogg files for now
   this(string path)
   {
-    if(!(path in cache)) 
+    if(!(path in bufferCache)) 
       cacheFile(path);
 
-    chunk = cache[path];
+    buffer = bufferCache[path];
+
+    alGenSources(1, &sourceId);
+    alSourcei(sourceId, AL_BUFFER, buffer.id);
   }
 
   ///
-  @property float panning()
+  @property uint channels()
   {
-    return right - left;
+    return buffer.channels;
   }
 
-  /// Panning should be in range [-1, 1]
-  @property void panning(float value)
+  ///
+  @property float volume()
   {
-    if(value < 0) {
-      left = .5 + -value / 2;
-      right = 1 - left;
-    }
-    else {
-      right = .5 + value / 2;
-      left = 1 - right;
-    }
+    return _volume;
+  }
+
+  ///
+  @property void volume(float value)
+  {
+    _volume = value;
+    alSourcef(sourceId, AL_GAIN, value);
+  }
+
+  ///
+  @property float pitch()
+  {
+    return _pitch;
+  }
+
+  ///
+  @property void pitch(float value)
+  {
+    _pitch = value;
+    alSourcef(sourceId, AL_PITCH, value);
   }
 
   ///
   @property bool isPlaying()
   {
-    if(channel == -1)
-      return false;
-    return Mix_Playing(channel) != 0;
+    ALenum status;
+    alGetSourcei(sourceId, AL_SOURCE_STATE, &status);
+
+    return status == AL_PLAYING;
   }
 
   ///
@@ -70,66 +98,73 @@ class Audio
       stop();
 
     _looping = loop;
-    channel = Mix_PlayChannel(-1, chunk, loop ? -1: 0);
+    alSourcei(sourceId, AL_LOOPING, loop);
 
-    playingChannels[channel] = cast(shared(Audio)) this;
-    Mix_RegisterEffect(channel, &effectFunction, null, null);
+    alSourceRewind(sourceId);
+    alSourcePlay(sourceId);
   }
 
   ///
   void stop()
   {
-    Mix_HaltChannel(channel);
+    alSourceStop(sourceId);
   }
 
   ///
   void pause()
   {
-    Mix_Pause(channel);
+    alSourcePause(sourceId);
   }
 
   ///
   void resume()
   {
-    Mix_Resume(channel);
+    alSourcePlay(sourceId);
+  }
+
+  package(prova) void update()
+  {
+    if(!entity)
+      return;
+
+    Vector3 position = entity.position / scale;
+    Vector3 velocity = entity.velocity / scale;
+
+    alSource3f(sourceId, AL_POSITION, position.x, position.y, position.z);
+    alSource3f(sourceId, AL_VELOCITY, velocity.x, velocity.y, velocity.z);
   }
 
   ~this()
   {
     if(isPlaying)
       stop();
+
+    alDeleteSources(1, &sourceId);
   }
 
-  ///
+  /// Limited to Ogg files for now
   static void cacheFile(string path)
   {
-    Mix_Chunk* chunk = Mix_LoadWAV(toStringz(path));
+    AudioFile file = new OggFile(path);
 
-    if(!chunk)
-      throw new Exception("Audio load error: " ~ to!string(Mix_GetError()));
-
-    cache[path] = chunk;
+    genBuffer(path, file.channels, file.data, file.frequency);
   }
 
-  private extern(C) static void effectFunction(int channel, void* stream, int length, void* udata) nothrow
+  private static void genBuffer(string path, int channels, byte[] data, int frequency)
   {
-    shared(Audio) source = playingChannels[channel];
-    short* buffer = cast(short*) stream;
+    AudioBuffer buffer = new AudioBuffer();
+    buffer.channels = channels;
 
-    foreach(i; 0 .. length / 4) {
-      *buffer = cast(short) (*buffer * source.left * source.volume);
-      *++buffer = cast(short) (*buffer * source.right * source.volume);
-      buffer++;
-    }
+    ALenum format = channels ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16;
+
+    alGenBuffers(1, &buffer.id);
+    alBufferData(buffer.id, format, data.ptr, cast(int) data.length, frequency);
+
+    bufferCache[path] = buffer;
   }
 
-  package(prova) extern(C) static void channelFinished(int channel) nothrow
+  package(prova) static void cleanUp()
   {
-    shared(Audio) source = playingChannels[channel];
-
-    if(source.channel == channel)
-      source.channel = -1;
-
-    playingChannels.remove(channel);
+    bufferCache.clear();
   }
 }

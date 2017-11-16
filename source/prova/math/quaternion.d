@@ -158,6 +158,18 @@ struct Quaternion
     w *= magnitude;
   }
 
+  ///
+  Quaternion getConjugate() const
+  {
+    Quaternion result;
+    result.x = -x;
+    result.y = -y;
+    result.z = -z;
+    result.w = w;
+
+    return result;
+  }
+
 
   // assignment overloading
   Quaternion opAddAssign(Quaternion quaternion)

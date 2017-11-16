@@ -1,11 +1,8 @@
 module prova.core.game;
 
 import derelict.sdl2.sdl,
-       prova.core,
+       prova,
        prova.core.init,
-       prova.graphics,
-       prova.input,
-       prova.util,
        std.string;
 
 /// Core class that manages input, scenes, and the window

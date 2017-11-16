@@ -1,3 +1,3 @@
 # ProvaEngine
 
-Requires SDL2 and SDL_Mixer dynamic libraries.
+Requires the dynamic library files for SDL2, OpenAL, libvorbis, and libogg.
