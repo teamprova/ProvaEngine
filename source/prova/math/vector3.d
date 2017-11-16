@@ -132,7 +132,7 @@ struct Vector3
   Vector3 cross(Vector3 vector)
   {
     Vector3 result;
-    result.x = y * vector.z - vector.y * x;
+    result.x = y * vector.z - vector.y * z;
     result.y = -(x * vector.z - vector.x * z);
     result.z = x * vector.y - vector.x * y;
 
