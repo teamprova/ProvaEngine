@@ -208,7 +208,7 @@ struct Vector2
     Vector3 result;
     result.x = x - vector.x;
     result.y = y - vector.y;
-    result.y = vector.z;
+    result.z = vector.z;
 
     return result; 
   }
