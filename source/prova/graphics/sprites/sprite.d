@@ -15,7 +15,7 @@ class Sprite
   ///
   int height;
   ///
-  Rect clip = Rect(0, 0, 1, 1);
+  Rect clip;
   /// Defaults to the center of the sprite
   Vector2 origin;
   ///
@@ -39,7 +39,8 @@ class Sprite
     this.texture = texture;
     width = texture.width;
     height = texture.height;
-    origin.x = width / 2;
-    origin.y = height / 2;
+
+    clip.width = width;
+    clip.height = height;
   }
 }

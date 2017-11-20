@@ -5,59 +5,44 @@ import derelict.sdl2.sdl,
        prova.math,
        std.math;
 
-private class Animation
-{
-  int id;
-  int frameCount;
-  int row;
-  float frameDuration;
-  float duration;
-}
-
 ///
 class AnimatedSprite : Sprite
 {
-  private bool looping;
+  private SpriteAnimation[string] animations;
+  private SpriteAnimation currentAnimation;
+  private SpriteFrame currentFrame;
   private uint startTime;
-  private Animation[int] animations;
-  private Animation currentAnimation;
+  private float frameEndTime;
+  private int currentFrameIndex;
+  private bool looping;
 
   ///
-  this(string sheetpath, int width, int height)
+  this(SpriteSheet sheet)
   {
-    super(sheetpath);
-    this.width = width;
-    this.height = height;
-    clip.width = width / cast(float) texture.width;
-    clip.height = height / cast(float) texture.height;
+    animations = sheet.animations;
+    texture = sheet.texture;
   }
 
   ///
-  void createAnimation(int id, int row, int frameCount, float frameDuration)
-  {
-    Animation animation = new Animation();
-    animation.id = id;
-    animation.row = row;
-    animation.frameCount = frameCount;
-    animation.frameDuration = frameDuration;
-    animation.duration = frameCount * frameDuration;
+  void playAnimation(string name, bool loop = false)
+  { 
+    if(!(name in animations))
+      throw new Exception("Animation " ~ name ~ " does not exist");
 
-    animations[id] = animation;
-  }
-
-  ///
-  void playAnimation(int id, bool loop)
-  {
-    startTime = SDL_GetTicks();
+    currentAnimation = animations[name];
     looping = loop;
-    
-    currentAnimation = animations[id];
+    reset();
+
+    update();
   }
 
   ///
   bool isAnimationFinished()
   {
-    return getCurrentTime() > currentAnimation.duration;
+    if(!currentAnimation)
+      return true;
+
+    return getCurrentTime() == currentAnimation.getDuration();
   }
 
   ///
@@ -72,33 +57,32 @@ class AnimatedSprite : Sprite
     float currentTime = SDL_GetTicks() - startTime;
     currentTime /= 1000.0f;
 
+    float animationDuration = currentAnimation.getDuration();
+
     if(looping)
-      currentTime = fmod(currentTime, currentAnimation.duration);
+      currentTime = fmod(currentTime, animationDuration);
+    else if(currentTime > animationDuration)
+      currentTime = animationDuration;
 
     return currentTime;
   }
 
-  ///
+  /// Returns the index of the current frame within the current animation
   int getCurrentFrame()
   {
     if(!currentAnimation)
       return 0;
-    
-    int frame = cast(int)(getCurrentTime() / currentAnimation.frameDuration);
 
-    if(isAnimationFinished())
-      frame = cast(int)(currentAnimation.duration / currentAnimation.frameDuration - 1);
-    
-    return frame;
+    return currentFrameIndex;
   }
 
-  ///
-  int getCurrentAnimation()
+  /// Returns the name of the current animation
+  string getCurrentAnimation()
   {
     if(!currentAnimation)
-      return -1;
+      return null;
 
-    return currentAnimation.id;
+    return currentAnimation.name;
   }
 
   /// Usually unnecessary to call directly
@@ -107,7 +91,39 @@ class AnimatedSprite : Sprite
     if(!currentAnimation)
       return;
 
-    clip.left = clip.width * getCurrentFrame();
-    clip.top = 1 - clip.height * (currentAnimation.row + 1);
+    updateCurrentFrame();
+
+    width = cast(int) currentFrame.clip.width;
+    height = cast(int) currentFrame.clip.height;
+
+    clip = currentFrame.clip;
+  }
+
+  private void updateCurrentFrame()
+  {
+    float currentTime = SDL_GetTicks() - startTime;
+    currentTime /= 1000.0f;
+
+    while(currentTime > frameEndTime) {
+      if(++currentFrameIndex >= currentAnimation.frames.length) {
+        if(looping)
+          reset();
+        else
+          currentFrameIndex -= 1;
+
+        break;
+      }
+
+      currentFrame = currentAnimation.frames[currentFrameIndex];
+      frameEndTime += currentFrame.duration;
+    }
+  }
+
+  private void reset()
+  {
+    currentFrameIndex = 0;
+    currentFrame = currentAnimation.frames[0];
+    frameEndTime = currentFrame.duration;
+    startTime = SDL_GetTicks();
   }
 }

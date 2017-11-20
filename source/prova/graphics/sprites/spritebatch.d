@@ -8,7 +8,7 @@ import prova.graphics,
 class SpriteBatch
 {
   private static ShaderProgram defaultShaderProgram;
-  /// SpriteShaderProgram by default
+  /// Uses SpriteShaderProgram by default
   ShaderProgram shaderProgram;
   private bool begun;
   private Mesh mesh;
@@ -111,15 +111,23 @@ class SpriteBatch
   ///
   void drawSprite(Sprite sprite, Vector3 position)
   {
+    Vector3 center = Vector3(sprite.width / 2, sprite.height / 2, 0);
+
+    Rect clip;
+    clip.left = sprite.clip.left / sprite.texture.width;
+    clip.width = sprite.clip.width / sprite.texture.width;
+    clip.height = sprite.clip.height / sprite.texture.height;
+    clip.top = 1 - sprite.clip.top / sprite.texture.height - clip.height;
+
     Matrix transform = Matrix.identity();
     transform = transform.scale(sprite.width, sprite.height, 1);
-    transform = transform.translate(-sprite.origin);
+    transform = transform.translate(-sprite.origin - center);
     transform = transform.scale(sprite.scale);
     transform = transform.rotateZ(sprite.angle);
     transform = transform.translate(position.x, position.y, position.z);
 
     shaderProgram.setMatrix("transform", projection * transform);
-    shaderProgram.setVector4("clip", sprite.clip);
+    shaderProgram.setVector4("clip", clip);
     shaderProgram.drawMesh(DrawMode.TRIANGLE_FAN, mesh);
   }
 }

@@ -1,15 +1,15 @@
 # Todo
 
 ## Priority
-* AnimatedSprite
-    * Use json format instead of programmed row format
 * SaveFile or GameState class
     * Name
     * Path
     * Property of game to provide accessibility?
 * Render targets?
+    * Move screen functions to here?
 * Screen class
     * Rename to renderer?
+    * Convert into RenderTarget?
     * Stroke and Fill methods?
     * Blend mode?
 
