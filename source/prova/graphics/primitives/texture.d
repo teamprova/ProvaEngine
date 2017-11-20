@@ -13,15 +13,35 @@ class Texture
   private int _width;
   private int _height;
 
-  ///
-  this()
+  /// Creates a new blank texture using the specified width and height
+  this(int width, int height)
   {
-    _id = 0;
-    _width = 0;
-    _height = 0;
+    _width = width;
+    _height = height;
+
+    glGenTextures(1, &_id);
+    glBindTexture(GL_TEXTURE_2D, _id);
+    
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    glTexImage2D(
+      GL_TEXTURE_2D,
+      0,
+      GL_RGBA,
+      width,
+      height,
+      0,
+      GL_RGBA,
+      GL_UNSIGNED_BYTE,
+      null
+    );
   }
 
-  /// RGBA by row
+  /**
+   * Params:
+   *   data = RGBA by row
+   */
   this(ubyte[] data, int width, int height)
   {
     _width = width;
