@@ -7,8 +7,8 @@ import prova.graphics,
 ///
 class RenderTarget
 {
+  static ShaderProgram flatShaderProgram;
   private static uint currentFrameBuffer = -1;
-  private static ShaderProgram flatShaderProgram;
 
   ///
   SpriteBatch spriteBatch;

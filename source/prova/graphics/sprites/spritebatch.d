@@ -7,8 +7,8 @@ import prova.graphics,
 ///
 class SpriteBatch
 {
-  package(prova) static ShaderProgram defaultShaderProgram;
-  /// Uses SpriteShaderProgram by default
+  static ShaderProgram defaultShaderProgram;
+  /// Copy of defaultShaderProgram
   ShaderProgram shaderProgram;
   private bool begun;
   private Mesh mesh;

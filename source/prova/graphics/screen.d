@@ -163,11 +163,13 @@ class Screen : RenderTarget
   package(prova) void swapBuffer()
   {
     // render the FBO
-    spriteBatch.shaderProgram.setMatrix("transform", quadProjectionMatrix);
-    spriteBatch.shaderProgram.setTexture(0, texture.id);
-    spriteBatch.shaderProgram.setVector4("clip", Rect(0, 0, 1, 1));
-    spriteBatch.shaderProgram.setVector4("tint", Color(1, 1, 1));
-    spriteBatch.shaderProgram.drawMesh(DrawMode.TRIANGLE_FAN, quad, 0);
+    ShaderProgram shaderProgram = SpriteBatch.defaultShaderProgram;
+
+    shaderProgram.setMatrix("transform", quadProjectionMatrix);
+    shaderProgram.setTexture(0, texture.id);
+    shaderProgram.setVector4("clip", Rect(0, 0, 1, 1));
+    shaderProgram.setVector4("tint", Color(1, 1, 1));
+    shaderProgram.drawMesh(DrawMode.TRIANGLE_FAN, quad, 0);
 
     SDL_GL_SwapWindow(game.window);
   }
