@@ -85,7 +85,7 @@ class Text
   }
 
   ///
-  void draw(Screen screen)
+  void draw(RenderTarget renderTarget)
   {
     Vector3 pos = position + getOffset();
 
@@ -98,7 +98,7 @@ class Text
       sprite.scale.x = scale;
       sprite.scale.y = scale;
 
-      screen.drawSprite(sprite, pos + glyph.offset * scale);
+      renderTarget.drawSprite(sprite, pos + glyph.offset * scale);
 
       pos += glyph.shift * scale;
     }

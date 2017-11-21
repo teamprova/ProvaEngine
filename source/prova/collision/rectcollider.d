@@ -70,11 +70,11 @@ class RectCollider : Collider2D
   alias resolve = Collider2D.resolve;
 
   ///
-  override void draw(Screen screen)
+  override void draw(RenderTarget renderTarget)
   {
     Color color = collisionOccurred ? Color(1, 0, 0) : Color(0, 0, 1);
 
     Rect bounds = getBounds();
-    screen.drawRect(bounds, color);
+    renderTarget.drawRect(bounds, color);
   }
 }

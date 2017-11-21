@@ -12,6 +12,7 @@ class Texture
   private uint _id;
   private int _width;
   private int _height;
+  private bool disposed;
 
   /// Creates a new blank texture using the specified width and height
   this(int width, int height)
@@ -74,6 +75,9 @@ class Texture
     _id = cachedTexture.id;
     _width = cachedTexture.width;
     _height = cachedTexture.height;
+
+    // set to disposed as this copy of a pointer should not delete the texture
+    disposed = true;
   }
 
   ///
@@ -127,9 +131,22 @@ class Texture
     reverse(image.pixels);
   }
 
+  void dispose()
+  {
+    if(disposed)
+      return;
+
+    glDeleteTextures(1, &_id);
+    disposed = true;
+  }
+
+  ~this()
+  {
+    dispose();
+  }
+
   package(prova) static cleanUp()
   {
-    // Textures are freed when the context is destroyed
     textureCache.clear();
   }
 }

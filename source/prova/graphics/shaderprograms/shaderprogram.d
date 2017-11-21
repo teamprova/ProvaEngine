@@ -21,7 +21,7 @@ enum DrawMode : uint {
 ///
 class ShaderProgram
 {
-  private static uint lastUsedId = -1;
+  private static uint currentId = -1;
   private uint[] shaders;
   private int _id;
 
@@ -39,10 +39,10 @@ class ShaderProgram
 
   private void useProgram()
   {
-    if(lastUsedId == _id)
+    if(currentId == _id)
       return;
 
-    lastUsedId = _id;
+    currentId = _id;
     glUseProgram(_id);
   }
 
@@ -154,8 +154,19 @@ class ShaderProgram
   }
 
   ///
-  void drawMesh(DrawMode mode, Mesh mesh)
+  void drawMesh(DrawMode mode, Mesh mesh, RenderTarget target)
   {
+    target.bindFrameBuffer();
+    useProgram();
+
+    glBindVertexArray(mesh.VAO);
+    glDrawElements(mode, mesh.indexCount, GL_UNSIGNED_INT, null);
+  }
+
+  ///
+  void drawMesh(DrawMode mode, Mesh mesh, uint frameBufferId)
+  {
+    RenderTarget.bindFrameBuffer(frameBufferId);
     useProgram();
 
     glBindVertexArray(mesh.VAO);

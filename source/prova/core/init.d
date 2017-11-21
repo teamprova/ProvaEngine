@@ -70,6 +70,7 @@ private void finalizeOpenAL()
 
 private void finalizeOpenGL()
 {
+  SpriteBatch.defaultShaderProgram = null;
   Texture.cleanUp();
 }
 

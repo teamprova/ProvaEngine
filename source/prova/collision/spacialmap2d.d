@@ -136,11 +136,11 @@ class SpacialMap2D
   }
 
   ///
-  void draw(Screen screen)
+  void draw(RenderTarget renderTarget)
   {
     // todo, draw cells
     foreach(Collider2D collider; colliders)
-      collider.draw(screen);
+      collider.draw(renderTarget);
   }
 
   /// Should not be called in most circumstances

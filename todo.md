@@ -5,13 +5,17 @@
     * Name
     * Path
     * Property of game to provide accessibility?
-* Render targets?
-    * Move screen functions to here?
 * Screen class
-    * Rename to renderer?
-    * Convert into RenderTarget?
     * Stroke and Fill methods?
     * Blend mode?
+* Font
+    * Unicode support
+    * Cache fonts
+* Input
+    * Text input
+* Stencils
+    * Rectangle stencil using glScissor
+    * Texture stencil
 
 ## Optional/Future functionality
 * Console like Otter2D?

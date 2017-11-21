@@ -184,8 +184,6 @@ class Game
 
   private void draw()
   {
-    _screen.clear();
-
     _screen.prepare();
 
     _screen.prepareDynamic();

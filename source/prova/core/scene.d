@@ -190,9 +190,9 @@ class Scene
   /**
    * All draw operations performed here will be affected by the camera
    *
-   * Call super.draw(screen) to render entities if overridden
+   * Call super.draw(renderTarget) to render entities if overridden
    */
-  void draw(Screen screen)
+  void draw(RenderTarget renderTarget)
   {
     Entity[][float] distanceMappedEntities;
 
@@ -208,12 +208,12 @@ class Scene
       distanceMappedEntities[distance] ~= entity;
     }
 
-    foreach(float key; sort(distanceMappedEntities.keys))
+    foreach_reverse(float key; sort(distanceMappedEntities.keys))
       foreach(Entity entity; distanceMappedEntities[key])
-        entity.draw(screen);
+        entity.draw(renderTarget);
 
     if(debugEnabled)
-      collider2DMap.draw(screen);
+      collider2DMap.draw(renderTarget);
   }
 
   /**
@@ -221,5 +221,5 @@ class Scene
    *
    * Origin is moved to the bottom left of the window
    */
-  void drawStatic(Screen screen) { }
+  void drawStatic(RenderTarget renderTarget) { }
 }

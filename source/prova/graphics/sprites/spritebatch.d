@@ -2,16 +2,17 @@ module prova.graphics.sprites.spritebatch;
 
 import prova.graphics,
        prova.math,
-       prova.util.linkedlist;
+       prova.util;
 
 ///
 class SpriteBatch
 {
-  private static ShaderProgram defaultShaderProgram;
+  package(prova) static ShaderProgram defaultShaderProgram;
   /// Uses SpriteShaderProgram by default
   ShaderProgram shaderProgram;
   private bool begun;
   private Mesh mesh;
+  private RenderTarget target;
   private Matrix projection;
   private LinkedList!(Sprite) spritePrimitives;
   private LinkedList!(Vector3) positions;
@@ -42,11 +43,12 @@ class SpriteBatch
   }
 
   ///
-  void begin(Matrix transform)
+  void begin(RenderTarget renderTarget, Matrix transform)
   {
     if(begun)
       throw new Exception("Batch already started");
 
+    target = renderTarget;
     projection = transform;
     begun = true;
   }
@@ -128,6 +130,6 @@ class SpriteBatch
 
     shaderProgram.setMatrix("transform", projection * transform);
     shaderProgram.setVector4("clip", clip);
-    shaderProgram.drawMesh(DrawMode.TRIANGLE_FAN, mesh);
+    shaderProgram.drawMesh(DrawMode.TRIANGLE_FAN, mesh, target);
   }
 }

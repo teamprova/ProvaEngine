@@ -52,7 +52,7 @@ abstract class Collider2D
   Vector2 resolve(PointCollider collider);
 
   ///
-  void draw(Screen screen);
+  void draw(RenderTarget renderTarget);
 
   ///
   Vector2 getPosition()

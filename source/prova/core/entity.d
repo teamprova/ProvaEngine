@@ -117,7 +117,7 @@ class Entity
   /// Called every update tick
   void update(){}
   /// Called every draw tick (skipped if update loop is behind)
-  void draw(Screen screen){}
+  void draw(RenderTarget renderTarget){}
 
   ///
   void onCollisionEnter2D(Collider2D collider, Collider2D other){}
