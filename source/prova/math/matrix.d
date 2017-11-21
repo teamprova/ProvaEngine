@@ -35,7 +35,7 @@ struct Matrix
 
     ortho[0][3] = (left + right) / (left - right);
     ortho[1][3] = (bottom + top) / (bottom - top);
-    ortho[2][3] = -(near + far) / (near - far);
+    ortho[2][3] = (near + far) / (near - far);
     ortho[3][3] = 1;
 
     return ortho;
@@ -53,10 +53,9 @@ struct Matrix
     Matrix perspective;
     perspective[0][0] = 1 / (tanHalfFov * aspectRatio);
     perspective[1][1] = 1 / tanHalfFov;
-    perspective[2][2] = -(far + near) / range;
+    perspective[2][2] = - (far + near) / range;
     perspective[2][3] = - (2 * near * far) / range;
-    perspective[3][2] = 1;
-
+    perspective[3][2] = -1;
     return perspective;
   }
 
