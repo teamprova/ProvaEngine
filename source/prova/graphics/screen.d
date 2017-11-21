@@ -148,8 +148,6 @@ class Screen : RenderTarget
 
   package(prova) void prepareStatic()
   {
-    glDisable(GL_DEPTH_TEST);
-
     Matrix projection = camera.getUIMatrix();
 
     begin(projection);
