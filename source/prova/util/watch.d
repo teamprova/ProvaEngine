@@ -9,20 +9,26 @@ class Watch
 {
   private bool running = false;
   private int startTime = 0;
-  private int timeStoredBeforeLastStop = 0;
+  private int timeStored = 0;
+
+  /**
+   * Returns the state of the watch
+   */
+  @property bool isRunning()
+  {
+    return running;
+  }
 
   /**
    * Starts or resumes the watch
    */
   void start()
   {
+    if(running)
+      timeStored = getElapsedMilliseconds();
+
+    startTime = SDL_GetTicks();
     running = true;
-    
-    // reset
-    if(startTime == 0) {
-      timeStoredBeforeLastStop = 0;
-      startTime = SDL_GetTicks();
-    }
   }
 
   /**
@@ -30,7 +36,7 @@ class Watch
    */
   void pause()
   {
-    timeStoredBeforeLastStop = getElapsedMilliseconds();
+    timeStored = getElapsedMilliseconds();
     running = false;
   }
 
@@ -40,6 +46,7 @@ class Watch
   void reset()
   {
     startTime = 0;
+    timeStored = 0;
     running = false;
   }
 
@@ -48,8 +55,7 @@ class Watch
    */
   void restart()
   {
-    startTime = 0;
-    
+    reset();
     start();
   }
 
@@ -60,14 +66,6 @@ class Watch
     if(startTime == 0)
       throw new Exception("Watch never started");
     
-    return SDL_GetTicks() - startTime + timeStoredBeforeLastStop;
-  }
-
-  /**
-   * Returns the state of the watch
-   */
-  bool isRunning()
-  {
-    return running;
+    return SDL_GetTicks() - startTime + timeStored;
   }
 }
