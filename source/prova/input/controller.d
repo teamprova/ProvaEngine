@@ -19,22 +19,27 @@ enum ControllerButton {
 class Controller
 {
   ///
-  immutable int id;
-  ///
   float deadzone = .15;
   private SDL_GameController* handle;
   private int[18] oldButtonState;
   private int[18] buttonState;
+  private int _id;
 
   package this(int index)
   {
-    id = index;
+    _id = index;
     handle = SDL_GameControllerOpen(index);
     
     foreach(i; 0 .. 17) {
       oldButtonState[i] = false;
       buttonState[i] = false;
     }
+  }
+
+  ///
+  @property int id()
+  {
+    return _id;
   }
 
   ///
