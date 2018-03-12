@@ -22,34 +22,29 @@ enum DrawMode : uint {
 class ShaderProgram
 {
   private static uint currentId = -1;
+  ///
+  immutable int id;
   private uint[] shaders;
-  private int _id;
 
   ///
   this()
   {
-    _id = glCreateProgram();
-  }
-
-  ///
-  @property int id()
-  {
-    return _id;
+    id = glCreateProgram();
   }
 
   private void useProgram()
   {
-    if(currentId == _id)
+    if(currentId == id)
       return;
 
-    currentId = _id;
-    glUseProgram(_id);
+    currentId = id;
+    glUseProgram(id);
   }
 
   ///
   uint getAttribute(string name)
   {
-    const uint location = glGetAttribLocation(_id, toStringz(name));
+    const uint location = glGetAttribLocation(id, toStringz(name));
 
     if(location == -1)
       throw new Exception("Couldn't find attribute: " ~ name);
@@ -60,7 +55,7 @@ class ShaderProgram
   ///
   uint getUniform(string name)
   {
-    const uint location = glGetUniformLocation(_id, toStringz(name));
+    const uint location = glGetUniformLocation(id, toStringz(name));
 
     if(location == -1)
       throw new Exception("Couldn't find uniform: " ~ name);
@@ -200,11 +195,11 @@ class ShaderProgram
   ///
   void link()
   {
-    glLinkProgram(_id);
+    glLinkProgram(id);
 
     //Check for errors
     int programSuccess;
-    glGetProgramiv(_id, GL_LINK_STATUS, &programSuccess);
+    glGetProgramiv(id, GL_LINK_STATUS, &programSuccess);
 
     if(programSuccess == true)
       return;
@@ -238,7 +233,7 @@ class ShaderProgram
       throw new Exception("Unable to compile shader");
     }
 
-    glAttachShader(_id, shader);
+    glAttachShader(id, shader);
 
     shaders ~= shader;
   }
@@ -249,12 +244,12 @@ class ShaderProgram
     int infoLogLength = 0;
     int maxLength = 0;
 
-    glGetProgramiv(_id, GL_INFO_LOG_LENGTH, &maxLength);
+    glGetProgramiv(id, GL_INFO_LOG_LENGTH, &maxLength);
 
     char[] infoLog;
     infoLog.length = maxLength;
 
-    glGetProgramInfoLog(_id, maxLength, &infoLogLength, infoLog.ptr);
+    glGetProgramInfoLog(id, maxLength, &infoLogLength, infoLog.ptr);
 
     if(infoLogLength > 0)
       writeln(infoLog);
@@ -280,10 +275,10 @@ class ShaderProgram
   ~this()
   {
     foreach(uint shader; shaders) {
-      glDetachShader(_id, shader);
+      glDetachShader(id, shader);
       glDeleteShader(shader);
     }
 
-    glDeleteProgram(_id);
+    glDeleteProgram(id);
   }
 }
