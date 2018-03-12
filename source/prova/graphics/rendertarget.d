@@ -37,7 +37,7 @@ class RenderTarget
   void resize(int width, int height)
   {
     if(_texture) {
-      _texture.dispose();
+      _texture.destroy();
       glDeleteFramebuffers(1, &_frameBufferId);
       glDeleteRenderbuffers(1, &renderBufferId);
     }

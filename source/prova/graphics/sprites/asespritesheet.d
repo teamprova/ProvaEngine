@@ -19,7 +19,7 @@ class AseSpriteSheet : SpriteSheet
   this(string path)
   {
     SpriteSheet cachedSheet;
-    cachedSheet = path in sheetCache ? sheetCache[path] : cacheSheet(path);
+    cachedSheet = path in sheetCache ? sheetCache[path] : cacheFile(path);
 
     frames = cachedSheet.frames;
     animations = cachedSheet.animations;
@@ -27,7 +27,7 @@ class AseSpriteSheet : SpriteSheet
   }
 
   ///
-  static SpriteSheet cacheSheet(string path)
+  static SpriteSheet cacheFile(string path)
   {
     string jsonPath = stripExtension(path) ~ ".json";
     string jsonString = readText(jsonPath);
@@ -40,7 +40,7 @@ class AseSpriteSheet : SpriteSheet
     SpriteSheet sheet = new SpriteSheet();
     sheet.frames = getFrames(framesObject);
     sheet.animations = getAnimations(frameTagsObject, sheet.frames);
-    sheet.texture = new Texture(path);
+    sheet.texture = Texture.fetch(path);
 
     sheetCache[path] = sheet;
 

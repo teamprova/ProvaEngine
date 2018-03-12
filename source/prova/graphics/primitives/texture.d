@@ -9,34 +9,19 @@ import imageformats,
 class Texture
 {
   private static Texture[string] textureCache;
-  private uint _id;
-  private int _width;
-  private int _height;
-  private bool disposed;
+  ///
+  immutable uint id;
+  ///
+  immutable int width;
+  ///
+  immutable int height;
 
   /// Creates a new blank texture using the specified width and height
   this(int width, int height)
   {
-    _width = width;
-    _height = height;
-
-    glGenTextures(1, &_id);
-    glBindTexture(GL_TEXTURE_2D, _id);
-    
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-    glTexImage2D(
-      GL_TEXTURE_2D,
-      0,
-      GL_RGBA,
-      width,
-      height,
-      0,
-      GL_RGBA,
-      GL_UNSIGNED_BYTE,
-      null
-    );
+    this.id = generateTexture(null, width, height);
+    this.width = width;
+    this.height = height;
   }
 
   /**
@@ -45,11 +30,16 @@ class Texture
    */
   this(ubyte[] data, int width, int height)
   {
-    _width = width;
-    _height = height;
+    this.id = generateTexture(data, width, height);
+    this.width = width;
+    this.height = height;
+  }
 
-    glGenTextures(1, &_id);
-    glBindTexture(GL_TEXTURE_2D, _id);
+  private uint generateTexture(ubyte[] data, int width, int height)
+  {
+    uint id;
+    glGenTextures(1, &id);
+    glBindTexture(GL_TEXTURE_2D, id);
     
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -63,46 +53,21 @@ class Texture
       0,
       GL_RGBA,
       GL_UNSIGNED_BYTE,
-      data.ptr
+      data ? data.ptr : null
     );
-  }
 
-  /// Loads a texture from file or cache
-  this(string path)
-  {
-    Texture cachedTexture = fetchTexture(path);
-
-    _id = cachedTexture.id;
-    _width = cachedTexture.width;
-    _height = cachedTexture.height;
-
-    // set to disposed as this copy of a pointer should not delete the texture
-    disposed = true;
+    return id;
   }
 
   ///
-  @property uint id()
+  public static Texture fetch(string path)
   {
-    return _id;
+    return path in textureCache ? textureCache[path] : cacheFile(path);
   }
 
   ///
-  @property int width()
+  public static Texture cacheFile(string path)
   {
-    return _width;
-  }
-
-  ///
-  @property int height()
-  {
-    return _height;
-  }
-
-  private static Texture fetchTexture(string path)
-  {
-    if(path in textureCache)
-      return textureCache[path];
-
     IFImage image = read_image(path, ColFmt.RGBA);
 
     flipImage(image);
@@ -131,18 +96,9 @@ class Texture
     reverse(image.pixels);
   }
 
-  void dispose()
-  {
-    if(disposed)
-      return;
-
-    glDeleteTextures(1, &_id);
-    disposed = true;
-  }
-
   ~this()
   {
-    dispose();
+    glDeleteTextures(1, &id);
   }
 
   package(prova) static cleanUp()

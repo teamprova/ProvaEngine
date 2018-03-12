@@ -11,10 +11,6 @@ class Sprite
   ///
   int angle = 0;
   ///
-  int width;
-  ///
-  int height;
-  ///
   Rect clip;
   /// Defaults to the center of the sprite
   Vector2 origin;
@@ -30,17 +26,16 @@ class Sprite
   ///
   this(string sheetpath)
   {
-    this(new Texture(sheetpath));
+    Texture texture = Texture.fetch(sheetpath);
+    this(texture);
   }
 
   ///
   this(Texture texture)
   {
     this.texture = texture;
-    width = texture.width;
-    height = texture.height;
 
-    clip.width = width;
-    clip.height = height;
+    clip.width = texture.width;
+    clip.height = texture.height;
   }
 }

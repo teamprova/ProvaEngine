@@ -93,9 +93,6 @@ class AnimatedSprite : Sprite
 
     updateCurrentFrame();
 
-    width = cast(int) currentFrame.clip.width;
-    height = cast(int) currentFrame.clip.height;
-
     clip = currentFrame.clip;
   }
 

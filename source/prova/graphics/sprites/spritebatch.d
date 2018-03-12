@@ -113,16 +113,17 @@ class SpriteBatch
   ///
   void drawSprite(Sprite sprite, Vector3 position)
   {
-    Vector3 center = Vector3(sprite.width / 2, sprite.height / 2, 0);
+    Vector2 size = sprite.clip.getSize();
+    Vector3 center = size / 2;
 
     Rect clip;
     clip.left = sprite.clip.left / sprite.texture.width;
+    clip.top = 1 - (sprite.clip.top + sprite.clip.height) / sprite.texture.height;
     clip.width = sprite.clip.width / sprite.texture.width;
     clip.height = sprite.clip.height / sprite.texture.height;
-    clip.top = 1 - sprite.clip.top / sprite.texture.height - clip.height;
 
     Matrix transform = Matrix.identity();
-    transform = transform.scale(sprite.width, sprite.height, 1);
+    transform = transform.scale(size);
     transform = transform.translate(-sprite.origin - center);
     transform = transform.scale(sprite.scale);
     transform = transform.rotateZ(sprite.angle);
