@@ -1,6 +1,7 @@
 module prova.core.init;
 
-import derelict.openal.al,
+import derelict.freetype,
+       derelict.openal.al,
        derelict.sdl2.sdl,
        derelict.vorbis,
        prova,
@@ -12,6 +13,7 @@ package void init()
   initOpenAL();
   initVorbis();
   initOpenGL();
+  initFreeType();
 }
 
 private void initSDL()
@@ -53,11 +55,21 @@ private void initOpenGL()
   DerelictGL3.load();
 }
 
+private void initFreeType()
+{
+  DerelictFT.load();
+  int error = FT_Init_FreeType(&Font.ftlibrary);
+
+  if(error != 0)
+    throw new Exception("Initialization Error: Failed to initalize FreeType library");
+}
+
 package void finalize()
 {
   finalizeOpenAL();
   finalizeOpenGL();
   finalizeSDL();
+  finalizeFreeType();
 }
 
 private void finalizeOpenAL()
@@ -77,4 +89,9 @@ private void finalizeOpenGL()
 private void finalizeSDL()
 {
   SDL_Quit();
+}
+
+private void finalizeFreeType()
+{
+  FT_Done_FreeType(Font.ftlibrary);
 }

@@ -144,7 +144,7 @@ class Game
         lag -= frameDuration;
       }
 
-      draw();
+      draw(); 
 
       // give the processor a break if we are ahead of schedule
       const int sleepTime = frameDuration - watch.getElapsedMilliseconds() - lag;

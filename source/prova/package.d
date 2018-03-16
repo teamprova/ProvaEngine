@@ -5,5 +5,6 @@ public import prova.audio,
               prova.core,
               prova.graphics,
               prova.input,
+              prova.legal,
               prova.math,
               prova.util;

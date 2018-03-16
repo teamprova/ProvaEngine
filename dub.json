@@ -11,8 +11,9 @@
 	"targetName": "prova",
 	"dependencies": {
 		"derelict-al": "~>2.0.0-beta.2",
-		"derelict-gl3": "~>2.0.0-beta.4",
-		"derelict-sdl2": "~>3.1.0-alpha.2",
+		"derelict-ft": "~>2.0.0-beta.4",
+		"derelict-gl3": "~>2.0.0-beta.5",
+		"derelict-sdl2": "~>3.1.0-alpha.3",
 		"derelict-vorbis": "~>2.0.0-beta.2",
 		"imageformats": "~>6.1.2"
 	}

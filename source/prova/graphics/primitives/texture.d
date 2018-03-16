@@ -9,19 +9,16 @@ import imageformats,
 class Texture
 {
   private static Texture[string] textureCache;
+  private static uint bindedId;
   ///
   immutable uint id;
-  ///
-  immutable int width;
-  ///
-  immutable int height;
+  private int _width;
+  private int _height;
 
   /// Creates a new blank texture using the specified width and height
   this(int width, int height)
   {
-    this.id = generateTexture(null, width, height);
-    this.width = width;
-    this.height = height;
+    this(null, width, height);
   }
 
   /**
@@ -30,17 +27,36 @@ class Texture
    */
   this(ubyte[] data, int width, int height)
   {
-    this.id = generateTexture(data, width, height);
-    this.width = width;
-    this.height = height;
-  }
-
-  private uint generateTexture(ubyte[] data, int width, int height)
-  {
     uint id;
     glGenTextures(1, &id);
-    glBindTexture(GL_TEXTURE_2D, id);
-    
+
+    this.id = id;
+
+    recreate(data, width, height);
+  }
+
+  ///
+  @property int width()
+  {
+    return _width;
+  }
+
+  ///
+  @property int height()
+  {
+    return _height;
+  }
+
+  /**
+   * Params:
+   *   data = RGBA by row
+   *   width = new width of the texture
+   *   width = new height of the texture
+   */
+  void recreate(ubyte[] data, int width, int height)
+  {
+    bind();
+
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
@@ -56,7 +72,74 @@ class Texture
       data ? data.ptr : null
     );
 
-    return id;
+    _width = width;
+    _height = height;
+  }
+
+  /**
+   * Updates the texture
+   *
+   * Params:
+   *   data = RGBA by row
+   */
+  void update(ubyte[] data)
+  {
+    update(data, 0, 0, _width, _height);
+  }
+
+  /**
+   * Updates part of the texture
+   *
+   * Params:
+   *   data = RGBA by row
+   *   x = x offset of the change
+   *   y = y offset of the change
+   *   width = width of the change
+   *   height = height of the change
+   */
+  void update(ubyte[] data, int x, int y, int width, int height)
+  {
+    bind();
+
+    glTexSubImage2D(
+      GL_TEXTURE_2D,
+      0,
+      x,
+      y,
+      width,
+      height,
+      GL_RGBA,
+      GL_UNSIGNED_BYTE,
+      data ? data.ptr : null
+    );
+  }
+
+  /// Resizes texture, preserving data
+  void resize(int width, int height)
+  {
+    ubyte[] data = getData();
+
+    recreate(null, width, height);
+    update(data, 0, 0, _width, _height);
+  }
+
+  /// 
+  ubyte[] getData()
+  {
+    ubyte[] data;
+    data.length = _width * _height * 4;
+
+    bind();
+
+    glGetTexImage(
+      GL_TEXTURE_2D,
+      0,
+      GL_RGBA,
+      GL_UNSIGNED_BYTE,
+      data.ptr
+    );
+
+    return data;
   }
 
   ///
@@ -99,6 +182,20 @@ class Texture
   ~this()
   {
     glDeleteTextures(1, &id);
+  }
+
+  package(prova) void bind()
+  {
+    bind(id);
+  }
+
+  package(prova) static void bind(uint id)
+  {
+    if(bindedId == id)
+      return;
+
+    bindedId = id;
+    glBindTexture(GL_TEXTURE_2D, id);
   }
 
   package(prova) static cleanUp()

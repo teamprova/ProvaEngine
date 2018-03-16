@@ -5,17 +5,16 @@
     * Name
     * Path
     * Property of game to provide accessibility?
-* Screen class
-    * Stroke and Fill methods?
-    * Blend mode?
 * Font
+    * Test kerning
     * Unicode support
-    * Cache fonts
+    * Colored glyphs
 * Input
     * Text input
 * Stencils
     * Rectangle stencil using glScissor
     * Texture stencil
+* Borderless Fullscreen
 
 ## Optional/Future functionality
 * Console like Otter2D?

@@ -125,7 +125,10 @@ class ShaderProgram
   ///
   void setTexture(int sampler, Texture texture)
   {
-    setTexture(sampler, texture.id);
+    useProgram();
+
+    glActiveTexture(GL_TEXTURE0 + sampler);
+    texture.bind();
   }
 
   ///
@@ -134,7 +137,7 @@ class ShaderProgram
     useProgram();
 
     glActiveTexture(GL_TEXTURE0 + sampler);
-    glBindTexture(GL_TEXTURE_2D, texture);
+    Texture.bind(texture);
   }
 
   ///
@@ -150,7 +153,7 @@ class ShaderProgram
     
     const uint location = getUniform(name);
     glActiveTexture(location);
-    glBindTexture(GL_TEXTURE_2D, texture);
+    Texture.bind(texture);
   }
 
   ///

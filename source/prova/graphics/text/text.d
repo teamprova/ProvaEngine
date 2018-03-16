@@ -7,7 +7,7 @@ import prova.core,
 ///
 enum TextAlign { LEFT, CENTER, RIGHT }
 ///
-enum TextBaseline { MIDDLE, TOP, BOTTOM }
+enum TextBaseline { TOP, MIDDLE, BOTTOM, HANGING, ALPHABETIC }
 
 ///
 class Text
@@ -59,8 +59,7 @@ class Text
       Sprite sprite = new Sprite();
       sprite.texture = font.texture;
       sprite.clip = glyph.clip;
-      sprite.width = glyph.width;
-      sprite.height = glyph.height;
+      sprite.origin = Vector2(-glyph.clip.width / 2, glyph.clip.height / 2);
 
       sprites[i] = sprite;
       glyphs[i] = glyph;
@@ -72,7 +71,7 @@ class Text
   ///
   Vector2 getSize()
   {
-    return font.measureString(_text, scale);
+    return font.measureString(_text) * scale;
   }
 
   ///
@@ -81,7 +80,7 @@ class Text
     Vector3 start = position + getOffset();
     Vector2 size = getSize();
 
-    return Rect(start.x, start.y + font.maxHeight * scale, size.x, size.y);
+    return Rect(start.x, start.y, size.x, size.y);
   }
 
   ///
@@ -98,15 +97,19 @@ class Text
       sprite.scale.x = scale;
       sprite.scale.y = scale;
 
-      renderTarget.drawSprite(sprite, pos + glyph.offset * scale);
+      Vector2 offset = glyph.offset;
 
-      pos += glyph.shift * scale;
+      if(i > 0)
+        offset += font.getKerning(_text[i - 1], _text[i]);
+
+      renderTarget.drawSprite(sprite, pos + offset * scale);
+      pos += glyph.advance * scale;
     }
   }
 
   private Vector2 getOffset()
   {
-    const Vector2 size = font.measureString(_text, scale);
+    const Vector2 size = font.measureString(_text) * scale;
     Vector2 offset;
 
     if(textAlign == TextAlign.CENTER)
@@ -114,10 +117,23 @@ class Text
     else if(textAlign == TextAlign.RIGHT)
       offset.x -= size.x;
 
-    if(textBaseline == TextBaseline.TOP)
-      offset.y -= font.maxHeight * scale;
-    else if(textBaseline == TextBaseline.MIDDLE)
-      offset.y -= size.y / 2;
+    final switch(textBaseline)
+    {
+      case TextBaseline.TOP:
+        break;
+      case TextBaseline.MIDDLE:
+        offset.y += (font.ascentLine - font.descentLine) * scale / 2;
+        break;
+      case TextBaseline.BOTTOM:
+        offset.y += (font.size - font.descentLine) * scale;
+        break;
+      case TextBaseline.HANGING:
+        offset.y += (font.ascentLine - font.size) * scale;
+        break;
+      case TextBaseline.ALPHABETIC:
+        offset.y += font.size * scale;
+        break;
+    }
 
     return offset;
   }

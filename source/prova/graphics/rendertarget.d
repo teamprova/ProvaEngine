@@ -29,24 +29,16 @@ class RenderTarget
       flatShaderProgram = new FlatShaderProgram();
 
     spriteBatch = new SpriteBatch();
-
-    resize(width, height);
-  }
-
-  ///
-  void resize(int width, int height)
-  {
-    if(_texture) {
-      _texture.destroy();
-      glDeleteFramebuffers(1, &_frameBufferId);
-      glDeleteRenderbuffers(1, &renderBufferId);
-    }
-
     _texture = new Texture(width, height);
     _width = width;
     _height = height;
 
-    // create the frame buffer
+    createFrameBuffer();
+    createRenderBuffer();
+  }
+
+  private void createFrameBuffer()
+  {
     glGenFramebuffers(1, &_frameBufferId);
     bindFrameBuffer();
 
@@ -59,24 +51,41 @@ class RenderTarget
       0
     );
 
-    // create render buffer
+    glDepthFunc(GL_LEQUAL);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glViewport(0, 0, width, height);
+  }
+
+  private void createRenderBuffer()
+  {
     glGenRenderbuffers(1, &renderBufferId);
     glBindRenderbuffer(GL_RENDERBUFFER, renderBufferId);
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
 
-    // attach render buffer to frame buffer
+    bindFrameBuffer();
+
     glFramebufferRenderbuffer(
       GL_FRAMEBUFFER,
       GL_DEPTH_ATTACHMENT,
       GL_RENDERBUFFER,
       renderBufferId
     );
+  }
 
-    // change settings
+  ///
+  void resize(int width, int height)
+  {
+    _width = width;
+    _height = height;
+
+    texture.recreate(null, width, height);
+
+    glBindRenderbuffer(GL_RENDERBUFFER, renderBufferId);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
+
+    // update settings
     glViewport(0, 0, width, height);
-    glDepthFunc(GL_LEQUAL);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   }
 
   ///

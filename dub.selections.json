@@ -2,9 +2,10 @@
 	"fileVersion": 1,
 	"versions": {
 		"derelict-al": "2.0.0-beta.2",
-		"derelict-gl3": "2.0.0-beta.4",
+		"derelict-ft": "2.0.0-beta.4",
+		"derelict-gl3": "2.0.0-beta.5",
 		"derelict-ogg": "2.0.0-beta.1",
-		"derelict-sdl2": "3.1.0-alpha.2",
+		"derelict-sdl2": "3.1.0-alpha.3",
 		"derelict-util": "3.0.0-beta.2",
 		"derelict-vorbis": "2.0.0-beta.2",
 		"imageformats": "6.1.2"
