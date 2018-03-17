@@ -2,19 +2,23 @@ module prova.input.input;
 
 import core.stdc.string,
        derelict.sdl2.sdl,
+       prova.core,
        prova.input,
        prova.math;
 
 ///
 class Input
 {
+  private Game game;
   private Vector2 mousePosition;
   private Controller[int] controllers;
   private bool[] keystate;
   private bool[] oldKeystate;
 
-  package(prova) this()
+  package(prova) this(Game game)
   {
+    this.game = game;
+
     updateKeystate();
     oldKeystate = keystate;
   }
@@ -33,8 +37,8 @@ class Input
     int x, y;
     SDL_GetMouseState(&x, &y);
 
-    mousePosition.x = x;
-    mousePosition.y = y;
+    mousePosition.x = -1f + x / (game.screen.width * .5f);
+    mousePosition.y = 1f - y / (game.screen.height * .5f);
   }
 
   private void updateKeystate()

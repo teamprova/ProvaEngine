@@ -30,7 +30,7 @@ class Game
     );
 
     _screen = new Screen(this, width, height);
-    _input = new Input();
+    _input = new Input(this);
   }
 
   ///
