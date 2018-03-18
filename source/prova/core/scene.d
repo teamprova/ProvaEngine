@@ -15,7 +15,6 @@ class Scene
   package Game _game;
   package bool isSetup;
   private LinkedList!(Entity) entities;
-  private bool debugEnabled;
 
   ///
   this()
@@ -36,24 +35,6 @@ class Scene
   @property Input input()
   {
     return _game.input;
-  }
-
-  ///
-  void enableDebug()
-  {
-    debugEnabled = true;
-  }
-
-  ///
-  void disableDebug()
-  {
-    debugEnabled = false;
-  }
-
-  ///
-  bool isDebugEnabled()
-  {
-    return debugEnabled;
   }
 
   ///
@@ -211,9 +192,6 @@ class Scene
     foreach_reverse(float key; sort(distanceMappedEntities.keys))
       foreach(Entity entity; distanceMappedEntities[key])
         entity.draw(renderTarget);
-
-    if(debugEnabled)
-      collider2DMap.draw(renderTarget);
   }
 
   /**

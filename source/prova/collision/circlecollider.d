@@ -65,13 +65,4 @@ class CircleCollider : Collider2D
   }
 
   alias resolve = Collider2D.resolve;
-
-  ///
-  override void draw(RenderTarget renderTarget)
-  {
-    // todo, draw an actual circle
-    const Color color = collisionOccurred ? Color(1, 0, 0) : Color(0, 0, 1);
-
-    renderTarget.drawCircle(getPosition(), radius, 16, color);
-  }
 }

@@ -61,13 +61,4 @@ class PointCollider : Collider2D
   }
 
   alias resolve = Collider2D.resolve;
-
-  ///
-  override void draw(RenderTarget renderTarget)
-  {
-    Color color = collisionOccurred ? Color(1, 0, 0) : Color(0, 0, 1);
-    Vector3 position = getPosition();
-
-    renderTarget.drawLine(position, position, color);
-  }
 }

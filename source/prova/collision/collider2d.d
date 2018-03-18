@@ -15,7 +15,6 @@ abstract class Collider2D
 {
   ///
   Vector2 offset;
-  package bool collisionOccurred = false;
   package LinkedList!(Collider2D) collisions;
   package LinkedList!(Collider2D) previousCollisions;
   private LinkedList!(int) tags;
@@ -37,6 +36,12 @@ abstract class Collider2D
   }
 
   ///
+  @property bool collisionOccured()
+  {
+    return collisions.length > 0;
+  }
+
+  ///
   Vector2 getSize();
   ///
   bool intersects(RectCollider collider);
@@ -50,9 +55,6 @@ abstract class Collider2D
   Vector2 resolve(CircleCollider collider);
   ///
   Vector2 resolve(PointCollider collider);
-
-  ///
-  void draw(RenderTarget renderTarget);
 
   ///
   Vector2 getPosition()

@@ -41,7 +41,6 @@ class SpacialMap2D
 
       collider.previousCollisions = collider.collisions;
       collider.collisions = new LinkedList!Collider2D;
-      collider.collisionOccurred = false;
     }
   }
 
@@ -96,9 +95,6 @@ class SpacialMap2D
 
   private void markCollision(Collider2D colliderA, Collider2D colliderB)
   {
-    colliderA.collisionOccurred = true;
-    colliderB.collisionOccurred = true;
-
     colliderA.collisions.insertBack(colliderB);
     colliderB.collisions.insertBack(colliderA);
 
@@ -133,14 +129,6 @@ class SpacialMap2D
     // to speed up the collision exit loop
     colliderA.previousCollisions.remove(colliderB);
     colliderB.previousCollisions.remove(colliderA);
-  }
-
-  ///
-  void draw(RenderTarget renderTarget)
-  {
-    // todo, draw cells
-    foreach(Collider2D collider; colliders)
-      collider.draw(renderTarget);
   }
 
   /// Should not be called in most circumstances
