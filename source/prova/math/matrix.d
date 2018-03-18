@@ -1,6 +1,7 @@
 module prova.math.matrix;
 
 import prova.math,
+       std.algorithm.mutation,
        std.math;
 
 /// Struct representing a 4x4 matrix
@@ -163,6 +164,64 @@ struct Matrix
     return translation * this;
   }
 
+  ///
+  Matrix transpose() const
+  {
+    Matrix transposition;
+
+    foreach(x; 0 .. 4)
+      foreach(y; 0 .. 4)
+        transposition[x][y] = array[y][x];
+
+    return transposition;
+  }
+
+  ///
+  Matrix invert() const
+  {
+    // calculating inverse using row operations
+    Matrix identity = Matrix.identity();
+    float[8][4] appendedMatrix;
+
+    // setup
+    foreach(row; 0 .. 4)
+      appendedMatrix[row] = array[row] ~ identity[row];
+
+    // down
+    foreach(i; 0 .. 4) {
+      float denominator = appendedMatrix[i][i];
+
+      if(denominator == 0)
+        foreach(col; 0 .. 4)
+          foreach(row; i .. 4) {
+            denominator = appendedMatrix[row][col];
+
+            if(denominator == 0)
+              continue;
+
+            swap(appendedMatrix[i], appendedMatrix[row]);
+          }
+
+      appendedMatrix[i][] *= 1 / denominator;
+
+      foreach(j; i + 1 .. 4)
+        appendedMatrix[j][] += appendedMatrix[i][] * -appendedMatrix[j][i];
+    }
+
+    // up
+    foreach_reverse(i; 1 .. 4)
+      foreach_reverse(j; 0 .. i)
+        appendedMatrix[j][] += appendedMatrix[i][] * -appendedMatrix[j][i];
+
+    // storing results
+    Matrix result;
+
+    foreach(i; 0 .. 4)
+      result.array[i] = appendedMatrix[i][4 .. 8];
+
+    return result;
+  }
+
   ref float[4] opIndex(int i)
   {
     return array[i];
@@ -200,16 +259,43 @@ struct Matrix
 
   Vector4 opMul(Vector4 vector) const
   {
-    Vector4 result;
+    float[4] result;
 
-    foreach(col; 0 .. 4) {
-      result.x += array[0][col] * vector.x;
-      result.y += array[1][col] * vector.y;
-      result.z += array[2][col] * vector.z;
-      result.w += array[3][col] * vector.w;
+    foreach(i; 0 .. 4) {
+      result[i] = array[0][i] * vector.x +
+                  array[1][i] * vector.y +
+                  array[2][i] * vector.z +
+                  array[3][i] * vector.w;
     }
 
-    return result;
+    return Vector4(result[0], result[1], result[2], result[3]);
+  }
+
+  Vector3 opMul(Vector3 vector) const
+  {
+    float[3] result;
+
+    foreach(i; 0 .. 3) {
+      result[i] = array[0][i] * vector.x +
+                  array[1][i] * vector.y +
+                  array[2][i] * vector.z +
+                  array[3][i];
+    }
+
+    return Vector3(result[0], result[1], result[2]);
+  }
+
+  Vector2 opMul(Vector2 vector) const
+  {
+    float[2] result;
+
+    foreach(i; 0 .. 2) {
+      result[i] = array[0][i] * vector.x +
+                  array[1][i] * vector.y +
+                  array[3][i];
+    }
+
+    return Vector2(result[0], result[1]);
   }
 
   Matrix opMul(float a) const
