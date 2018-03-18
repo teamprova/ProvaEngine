@@ -28,11 +28,11 @@ class Camera
   float zNear = 0;
   ///
   float zFar = 1000;
-  /// for orthographic projection and UI
+  /// For orthographic projection and UI
   float width = 1;
-  /// for orthographic projection and UI
+  /// For orthographic projection and UI
   float height = 1;
-  /// for perspective projection
+  /// For perspective projection
   float FOV = 90;
 
   ///
@@ -42,7 +42,7 @@ class Camera
   }
 
   ///
-  Matrix getTransform()
+  Matrix getViewMatrix()
   {
     Matrix transform = Matrix.identity();
     transform = transform.translate(-position);
@@ -55,11 +55,20 @@ class Camera
   }
 
   ///
-  Matrix getProjection()
+  Matrix getProjectionMatrix()
   {
     if(projection == Projection.Orthographic)
       return Matrix.ortho(-width/2, width/2, height/2, -height/2, zNear, zFar);
     return Matrix.perspective(width, height, zNear, zFar, FOV);
+  }
+
+  /**
+   * Converts world position to screen position
+   * - This is equal to getProjectionMatrix() * getViewMatrix()
+   */
+  Matrix getScreenMatrix()
+  {
+    return getProjectionMatrix() * getViewMatrix();
   }
 
   ///

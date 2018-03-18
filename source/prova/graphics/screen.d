@@ -136,7 +136,7 @@ class Screen : RenderTarget
 
   package(prova) void prepareDynamic()
   {
-    Matrix projection = camera.getProjection() * camera.getTransform();
+    Matrix projection = camera.getScreenMatrix();
 
     begin(projection);
   }
