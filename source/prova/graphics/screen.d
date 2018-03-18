@@ -30,31 +30,14 @@ class Screen : RenderTarget
     this(width, height);
     disableVSync();
 
-    quad = createQuad();
+    quad = new SpriteMesh();
     quadProjectionMatrix = createQuadProjectionMatrix();
     clearColor.set(0, 0, 0, 0);
   }
 
-  private Mesh createQuad()
-  {
-    float[] vertices = [
-      0, 0,
-      1, 0,
-      1, 1,
-      0, 1
-    ];
-    uint[] indexes = [0, 1, 2, 3];
-
-    Mesh quad = new Mesh();
-    quad.setVBO(vertices, 2);
-    quad.setIBO(indexes);
-
-    return quad;
-  }
-
   private Matrix createQuadProjectionMatrix()
   {
-    Matrix quadProjectionMatrix = Matrix.identity();
+    Matrix quadProjectionMatrix = Matrix.identity;
     quadProjectionMatrix = quadProjectionMatrix.scale(2, 2, 1);
     quadProjectionMatrix = quadProjectionMatrix.translate(-1, -1);
 
@@ -167,7 +150,7 @@ class Screen : RenderTarget
     shaderProgram.setTexture(0, texture.id);
     shaderProgram.setVector4("clip", Rect(0, 0, 1, 1));
     shaderProgram.setVector4("tint", Color(1, 1, 1));
-    shaderProgram.drawMesh(DrawMode.TRIANGLE_FAN, quad, 0);
+    shaderProgram.drawMesh(quad, 0, DrawMode.TRIANGLE_FAN);
 
     SDL_GL_SwapWindow(game.window);
   }

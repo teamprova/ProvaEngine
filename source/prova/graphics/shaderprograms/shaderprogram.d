@@ -150,14 +150,14 @@ class ShaderProgram
   void setTexture(string name, uint texture)
   {
     useProgram();
-    
+
     const uint location = getUniform(name);
     glActiveTexture(location);
     Texture.bind(texture);
   }
 
   ///
-  void drawMesh(DrawMode mode, Mesh mesh, RenderTarget target)
+  void drawMesh(Mesh mesh, RenderTarget target, DrawMode mode)
   {
     target.bindFrameBuffer();
     useProgram();
@@ -167,7 +167,7 @@ class ShaderProgram
   }
 
   ///
-  void drawMesh(DrawMode mode, Mesh mesh, uint frameBufferId)
+  void drawMesh(Mesh mesh, uint frameBufferId, DrawMode mode)
   {
     RenderTarget.bindFrameBuffer(frameBufferId);
     useProgram();

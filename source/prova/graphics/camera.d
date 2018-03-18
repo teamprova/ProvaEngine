@@ -19,7 +19,7 @@ class Camera
   ///
   Vector3 position;
   ///
-  Vector3 rotation;
+  Quaternion rotation;
   ///
   bool useDepthBuffer = true;
   /// Width and height will be set to the screen resolution when true
@@ -44,12 +44,10 @@ class Camera
   ///
   Matrix getViewMatrix()
   {
-    Matrix transform = Matrix.identity();
+    Matrix transform = Matrix.identity;
     transform = transform.translate(-position);
     transform = transform.scale(scale);
-    transform = transform.rotateY(rotation.y);
-    transform = transform.rotateX(rotation.x);
-    transform = transform.rotateZ(rotation.z);
+    transform = transform.rotate(rotation);
 
     return transform;
   }

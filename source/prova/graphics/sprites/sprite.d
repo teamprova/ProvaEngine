@@ -9,7 +9,7 @@ class Sprite
   ///
   Texture texture;
   ///
-  int angle = 0;
+  float angle = 0;
   ///
   Rect clip;
   /// Defaults to the center of the sprite

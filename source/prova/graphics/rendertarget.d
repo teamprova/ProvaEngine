@@ -139,116 +139,15 @@ class RenderTarget
     begun = false;
   }
 
-  ///
-  void drawLine(float x1, float y1, float x2, float y2, Color color)
+  /// Draws mesh using a flat shader
+  void drawMesh(Mesh mesh, Matrix transform, DrawMode mode, Color color)
   {
     if(!begun)
       throw new Exception("RenderTarget not ready, call begin(Matrix projection)");
 
-    float[] vertices = [ x1, y1, x2, y2 ];
-    uint[] indexes = [0, 1];
-
-    auto mesh = scoped!Mesh();
-    mesh.setVBO(vertices, 2);
-    mesh.setIBO(indexes);
-
-    flatShaderProgram.setMatrix("transform", projection);
+    flatShaderProgram.setMatrix("transform", projection * transform);
     flatShaderProgram.setVector4("color", color);
-    flatShaderProgram.drawMesh(DrawMode.LINES, mesh, this);
-  }
-
-  ///
-  void drawLine(Vector2 start, Vector2 end, Color color)
-  {
-    drawLine(start.x, start.y, end.x, end.y, color);
-  }
-
-  ///
-  void drawLine(Vector3 start, Vector3 end, Color color)
-  {
-    if(!begun)
-      throw new Exception("RenderTarget not ready, call begin(Matrix projection)");
-
-    float[] vertices = [
-      start.x, start.y, start.z,
-      end.x, end.y, end.z
-    ];
-    uint[] indexes = [0, 1];
-
-    auto mesh = scoped!Mesh();
-    mesh.setVBO(vertices, 3);
-    mesh.setIBO(indexes);
-
-    flatShaderProgram.setMatrix("transform", projection);
-    flatShaderProgram.setVector4("color", color);
-    flatShaderProgram.drawMesh(DrawMode.LINES, mesh, this);
-  }
-
-  ///
-  void drawRect(Rect rect, Color color)
-  {
-    drawRect(rect.left, rect.top, rect.width, rect.height, color);
-  }
-
-  ///
-  void drawRect(float x, float y, float width, float height, Color color)
-  {
-    if(!begun)
-      throw new Exception("RenderTarget not ready, call begin(Matrix projection)");
-
-    float[] vertices = [
-      x, y - height, 
-      x + width, y - height, 
-      x + width, y, 
-      x, y
-    ];
-    uint[] indexes = [0, 1, 2, 3];
-
-    auto mesh = scoped!Mesh();
-    mesh.setVBO(vertices, 2);
-    mesh.setIBO(indexes);
-
-    flatShaderProgram.setMatrix("transform", projection);
-    flatShaderProgram.setVector4("color", color);
-    flatShaderProgram.drawMesh(DrawMode.LINE_LOOP, mesh, this);
-  }
-
-  ///
-  void drawCircle(Vector2 position, float radius, int segments, Color color)
-  {
-    drawCircle(position.x, position.y, radius, segments, color);
-  }
-
-  ///
-  void drawCircle(float x, float y, float radius, int segments, Color color)
-  {
-    if(!begun)
-      throw new Exception("RenderTarget not ready, call begin(Matrix projection)");
-
-    float[] vertices;
-    uint[] indexes;
-
-    indexes.length = segments + 1;
-    vertices.length = indexes.length * 2;
-
-    foreach(i; 0 .. indexes.length)
-    {
-      Vector2 point;
-      point.setMagnitude(radius);
-      point.setDirection(i * 360 / segments);
-
-      vertices[i * 2] = point.x + x;
-      vertices[i * 2 + 1] = point.y + y;
-      indexes[i] = cast(uint) i;
-    }
-
-    auto mesh = scoped!Mesh();
-    mesh.setVBO(vertices, 2);
-    mesh.setIBO(indexes);
-
-    flatShaderProgram.setMatrix("transform", projection);
-    flatShaderProgram.setVector4("color", color);
-    flatShaderProgram.drawMesh(DrawMode.LINE_LOOP, mesh, this);
+    flatShaderProgram.drawMesh(mesh, this, mode);
   }
 
   ///

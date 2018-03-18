@@ -7,5 +7,6 @@ public import prova.graphics.camera,
               prova.graphics.rendertarget,
               prova.graphics.screen,
               prova.graphics.shaderprograms,
+              prova.graphics.shapes,
               prova.graphics.sprites,
               prova.graphics.text;

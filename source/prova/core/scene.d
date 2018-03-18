@@ -153,12 +153,10 @@ class Scene
 
   package void updateAudio()
   {
-    Quaternion rotation = Quaternion.fromEuler(camera.rotation);
-
     Vector3 position = camera.position / Audio.scale;
     Vector3[] orientation = [
-      rotation * Vector3(0, 0, -1), // forward
-      rotation * Vector3(0, 1, 0) // up
+      camera.rotation * Vector3(0, 0, -1), // forward
+      camera.rotation * Vector3(0, 1, 0) // up
     ];
 
     alListener3f(AL_POSITION, position.x, position.y, position.z);

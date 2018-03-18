@@ -16,7 +16,7 @@ struct Matrix
   ];
 
   ///
-  static Matrix identity()
+  static @property Matrix identity()
   {
     Matrix identity;
 
@@ -60,6 +60,24 @@ struct Matrix
     return perspective;
   }
 
+  Matrix rotate(Quaternion rotation) const
+  {
+    Matrix rotationMatrix;
+    float x = rotation.x;
+    float y = rotation.y;
+    float z = rotation.z;
+    float w = rotation.w;
+
+    rotationMatrix.array = [
+      [1 - 2 * y * y - 2 * z * z,     2 * x * y - 2 * w * z,     2 * x * z + 2 * w * y, 0 ],
+      [    2 * x * y + 2 * w * z, 1 - 2 * x * x - 2 * z * z,     2 * y * z - 2 * w * x, 0 ],
+      [    2 * x * z - 2 * w * y,     2 * y * z + 2 * w * x, 1 - 2 * x * x - 2 * y * y, 0 ],
+      [    0f,                        0f,                        0f,                    1f]
+    ];
+
+    return rotationMatrix * this;
+  }
+
   ///
   Matrix rotateX(float degrees) const
   {
@@ -67,7 +85,7 @@ struct Matrix
     const float angleSin = sin(-angle);
     const float angleCos = cos(-angle);
 
-    Matrix rotation = identity();
+    Matrix rotation = identity;
     rotation[1][1] = angleCos;
     rotation[1][2] = -angleSin;
     rotation[2][1] = angleSin;
@@ -83,7 +101,7 @@ struct Matrix
     const float angleSin = sin(-angle);
     const float angleCos = cos(-angle);
 
-    Matrix rotation = identity();
+    Matrix rotation = identity;
     rotation[0][0] = angleCos;
     rotation[0][2] = angleSin;
     rotation[2][0] = -angleSin;
@@ -99,7 +117,7 @@ struct Matrix
     const float angleSin = sin(-angle);
     const float angleCos = cos(-angle);
 
-    Matrix rotation = identity();
+    Matrix rotation = identity;
     rotation[0][0] = angleCos;
     rotation[0][1] = -angleSin;
     rotation[1][0] = angleSin;
@@ -156,7 +174,7 @@ struct Matrix
   ///
   Matrix translate(float x, float y, float z) const
   {
-    Matrix translation = identity();
+    Matrix translation = identity;
     translation[0][3] = x;
     translation[1][3] = y;
     translation[2][3] = z;
@@ -180,7 +198,7 @@ struct Matrix
   Matrix invert() const
   {
     // calculating inverse using row operations
-    Matrix identity = Matrix.identity();
+    Matrix identity = Matrix.identity;
     float[8][4] appendedMatrix;
 
     // setup

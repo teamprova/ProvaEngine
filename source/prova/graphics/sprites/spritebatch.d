@@ -28,18 +28,7 @@ class SpriteBatch
     spritePrimitives = new LinkedList!(Sprite);
     positions = new LinkedList!(Vector3);
 
-    float[] vertices = [
-      0, 0, 0, 1,
-      1, 0, 0, 1,
-      1, 1, 0, 1,
-      0, 1, 0, 1
-    ];
-
-    uint[] indexes = [ 0, 1, 2, 3 ];
-
-    mesh = new Mesh();
-    mesh.setIBO(indexes);
-    mesh.setVBO(vertices, 4);
+    mesh = new SpriteMesh();
   }
 
   ///
@@ -122,7 +111,7 @@ class SpriteBatch
     clip.width = sprite.clip.width / sprite.texture.width;
     clip.height = sprite.clip.height / sprite.texture.height;
 
-    Matrix transform = Matrix.identity();
+    Matrix transform = Matrix.identity;
     transform = transform.scale(size);
     transform = transform.translate(-sprite.origin - center);
     transform = transform.scale(sprite.scale);
@@ -131,6 +120,6 @@ class SpriteBatch
 
     shaderProgram.setMatrix("transform", projection * transform);
     shaderProgram.setVector4("clip", clip);
-    shaderProgram.drawMesh(DrawMode.TRIANGLE_FAN, mesh, target);
+    shaderProgram.drawMesh(mesh, target, DrawMode.TRIANGLE_FAN);
   }
 }

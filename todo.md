@@ -40,7 +40,6 @@
 * Light base class
     * Color
     * Intensity
-* Quaternions for rotation
 * Entities
     * Children? toWorldSpacePosition and toWorldRotation?
 * Audio class
