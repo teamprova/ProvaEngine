@@ -14,13 +14,16 @@ class Input
   private Controller[int] controllers;
   private bool[] keystate;
   private bool[] oldKeystate;
+  private bool[] buttonState;
+  private bool[] oldButtonState;
 
   package(prova) this(Game game)
   {
     this.game = game;
 
-    updateKeystate();
+    update();
     oldKeystate = keystate;
+    oldButtonState = buttonState;
   }
 
   package(prova) void update()
@@ -35,7 +38,11 @@ class Input
 
     // update mouse state
     int x, y;
-    SDL_GetMouseState(&x, &y);
+    uint mouseState = SDL_GetMouseState(&x, &y);
+
+    // update button state
+    oldButtonState = buttonState;
+    updateButtonState(mouseState);
 
     mousePosition.x = -1f + x / (game.screen.width * .5f);
     mousePosition.y = 1f - y / (game.screen.height * .5f);
@@ -52,6 +59,17 @@ class Input
     (cast(ubyte*)keystate)[0 .. keystateLength][] = SDLKeystate[0 .. keystateLength];
   }
 
+  private void updateButtonState(uint mouseState)
+  {
+    buttonState = [];
+    buttonState.length = 5;
+
+    foreach(i; 0 .. 5) {
+      ubyte button = SDL_BUTTON(cast(ubyte) (i + 1));
+      buttonState[i] = cast(bool) (mouseState & button);
+    }
+  }
+
   /// 
   Controller getController(int index)
   {
@@ -61,6 +79,17 @@ class Input
       controllers[index] = new Controller(index);
 
     return controllers[index];
+  }
+
+  /// Uses the WASD format, returns a normalized vector
+  Vector2 simulateStick(Key up, Key left, Key down, Key right)
+  {
+    Vector2 vector = Vector2(
+      isKeyDown(right) - isKeyDown(left),
+      isKeyDown(up) - isKeyDown(down)
+    );
+
+    return vector.getNormalized();
   }
 
   ///
@@ -81,27 +110,22 @@ class Input
     return !oldKeystate[cast(int) key] && keystate[cast(int) key];
   }
 
-  /// Uses the WASD format, returns a normalized vector
-  Vector2 simulateStick(Key up, Key left, Key down, Key right)
+  ///
+  bool isMouseButtonDown(MouseButton button)
   {
-    Vector2 vector = Vector2(
-      isKeyDown(right) - isKeyDown(left),
-      isKeyDown(up) - isKeyDown(down)
-    );
-
-    return vector.getNormalized();
+    return buttonState[button];
   }
 
   ///
-  bool isMouseButtonDown(int mouseButton)
+  bool isMouseButtonUp(MouseButton button)
   {
-    return cast(bool) SDL_BUTTON(cast(ubyte) mouseButton);
+    return !buttonState[button];
   }
 
   ///
-  bool isMouseButtonUp(int mouseButton)
+  bool mouseButtonClicked(MouseButton button)
   {
-    return !SDL_BUTTON(cast(ubyte) mouseButton);
+    return oldButtonState[button] && !buttonState[button];
   }
 
   ///
