@@ -263,9 +263,7 @@ class Font
         int destinationRow = slot.bitmap.rows - row - 1;
         int idx = (slot.bitmap.width * destinationRow + col) * 4;
 
-        foreach(int i; 0 .. 4) {
-          data[idx + i] = color;
-        }
+        data[idx .. idx + 4] = color;
       }
     }
 
@@ -284,9 +282,8 @@ class Font
         int destinationRow = slot.bitmap.rows - row - 1;
         int destinationIdx = (slot.bitmap.width * destinationRow + col) * 4;
 
-        foreach(int i; 0 .. 4) {
-          data[destinationIdx + i] = slot.bitmap.buffer[sourceIdx];
-        }
+        data[destinationIdx .. destinationIdx + 3] = 255;
+        data[destinationIdx + 3] = slot.bitmap.buffer[sourceIdx];
       }
     }
 
