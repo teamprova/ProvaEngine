@@ -133,7 +133,7 @@ class Entity
   /// Called every update tick
   void update(){}
   /// Called every draw tick (skipped if update loop is behind)
-  void draw(RenderTarget renderTarget){}
+  void draw(RenderTarget renderTarget, Matrix transform){}
 
   ///
   void onCollisionEnter2D(Collider2D collider, Collider2D other){}

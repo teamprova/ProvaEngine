@@ -189,7 +189,7 @@ class Scene
 
     foreach_reverse(float key; sort(distanceMappedEntities.keys))
       foreach(Entity entity; distanceMappedEntities[key])
-        entity.draw(renderTarget);
+        entity.draw(renderTarget, entity.getLocalTransformMatrix());
   }
 
   /**

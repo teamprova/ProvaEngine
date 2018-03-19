@@ -81,9 +81,8 @@ class Text : Entity
   }
 
   ///
-  override void draw(RenderTarget renderTarget)
+  override void draw(RenderTarget renderTarget, Matrix transform)
   {
-    Matrix transform = getLocalTransformMatrix();
     transform = transform.translate(getOffset());
 
     foreach(i; 0 .. _text.length)
