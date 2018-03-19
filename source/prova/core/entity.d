@@ -32,19 +32,21 @@ class Entity
   ///
   @property Scene scene()
   {
+    if(!_scene)
+      throw new Exception("Entity is not attached to a scene");
     return _scene;
   }
 
   /// Shortcut for scene.game
   @property Game game()
   {
-    return _scene.game;
+    return scene.game;
   }
 
   /// Shortcut for scene.game.input
   @property Input input()
   {
-    return _scene.game.input;
+    return scene.game.input;
   }
 
   ///
