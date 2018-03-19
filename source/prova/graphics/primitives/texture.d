@@ -6,7 +6,7 @@ import imageformats,
        std.string;
 
 ///
-class Texture
+final class Texture
 {
   private static Texture[string] textureCache;
   private static uint bindedId;

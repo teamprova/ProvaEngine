@@ -32,7 +32,7 @@ class ShaderProgram
   }
 
   ///
-  @property int id()
+  final @property int id()
   {
     return _id;
   }
@@ -47,7 +47,7 @@ class ShaderProgram
   }
 
   ///
-  uint getAttribute(string name)
+  final uint getAttribute(string name)
   {
     const uint location = glGetAttribLocation(_id, toStringz(name));
 
@@ -58,7 +58,7 @@ class ShaderProgram
   }
 
   ///
-  uint getUniform(string name)
+  final uint getUniform(string name)
   {
     const uint location = glGetUniformLocation(_id, toStringz(name));
 
@@ -69,7 +69,7 @@ class ShaderProgram
   }
 
   ///
-  void setVector2(string name, Vector2 vector)
+  final void setVector2(string name, Vector2 vector)
   {
     useProgram();
 
@@ -78,7 +78,7 @@ class ShaderProgram
   }
 
   ///
-  void setVector3(string name, Vector3 vector)
+  final void setVector3(string name, Vector3 vector)
   {
     useProgram();
 
@@ -87,7 +87,7 @@ class ShaderProgram
   }
 
   ///
-  void setVector4(string name, Vector4 vector)
+  final void setVector4(string name, Vector4 vector)
   {
     useProgram();
 
@@ -96,7 +96,7 @@ class ShaderProgram
   }
 
   ///
-  void setVector4(string name, Rect rect)
+  final void setVector4(string name, Rect rect)
   {
     useProgram();
 
@@ -105,7 +105,7 @@ class ShaderProgram
   }
 
   ///
-  void setVector4(string name, Color color)
+  final void setVector4(string name, Color color)
   {
     useProgram();
 
@@ -114,7 +114,7 @@ class ShaderProgram
   }
 
   ///
-  void setMatrix(string name, Matrix matrix)
+  final void setMatrix(string name, Matrix matrix)
   {
     useProgram();
 
@@ -123,7 +123,7 @@ class ShaderProgram
   }
 
   ///
-  void setTexture(int sampler, Texture texture)
+  final void setTexture(int sampler, Texture texture)
   {
     useProgram();
 
@@ -132,7 +132,7 @@ class ShaderProgram
   }
 
   ///
-  void setTexture(int sampler, uint texture)
+  final void setTexture(int sampler, uint texture)
   {
     useProgram();
 
@@ -141,13 +141,13 @@ class ShaderProgram
   }
 
   ///
-  void setTexture(string name, Texture texture)
+  final void setTexture(string name, Texture texture)
   {
     setTexture(name, texture.id);
   }
 
   ///
-  void setTexture(string name, uint texture)
+  final void setTexture(string name, uint texture)
   {
     useProgram();
 
@@ -157,7 +157,7 @@ class ShaderProgram
   }
 
   ///
-  void drawMesh(Mesh mesh, RenderTarget target, DrawMode mode)
+  final void drawMesh(Mesh mesh, RenderTarget target, DrawMode mode)
   {
     target.bindFrameBuffer();
     useProgram();
@@ -167,7 +167,7 @@ class ShaderProgram
   }
 
   ///
-  void drawMesh(Mesh mesh, uint frameBufferId, DrawMode mode)
+  final void drawMesh(Mesh mesh, uint frameBufferId, DrawMode mode)
   {
     RenderTarget.bindFrameBuffer(frameBufferId);
     useProgram();
@@ -177,31 +177,31 @@ class ShaderProgram
   }
 
   ///
-  void loadVertexShader(string sourceFile)
+  final void loadVertexShader(string sourceFile)
   {
     loadShader(GL_VERTEX_SHADER, sourceFile);
   }
 
   ///
-  void loadFragmentShader(string sourceFile)
+  final void loadFragmentShader(string sourceFile)
   {
     loadShader(GL_FRAGMENT_SHADER, sourceFile);
   }
 
   ///
-  void attachVertexShader(string source)
+  final void attachVertexShader(string source)
   {
     compileShader(GL_VERTEX_SHADER, source);
   }
 
   ///
-  void attachFragmentShader(string source)
+  final void attachFragmentShader(string source)
   {
     compileShader(GL_FRAGMENT_SHADER, source);
   }
 
   ///
-  void link()
+  final void link()
   {
     glLinkProgram(_id);
 
@@ -217,7 +217,7 @@ class ShaderProgram
   }
 
   ///
-  void loadShader(uint shaderType, string sourceFile)
+  final void loadShader(uint shaderType, string sourceFile)
   {
     string contents = readText(sourceFile);
 
@@ -247,7 +247,7 @@ class ShaderProgram
   }
 
   ///
-  void printProgramLog()
+  final void printProgramLog()
   {
     int infoLogLength = 0;
     int maxLength = 0;
@@ -264,7 +264,7 @@ class ShaderProgram
   }
 
   ///
-  void printShaderLog(uint shader)
+  final void printShaderLog(uint shader)
   {
     int infoLogLength = 0;
     int maxLength = 0;

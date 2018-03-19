@@ -9,7 +9,7 @@ import derelict.freetype,
        std.string;
 
 ///
-class Font
+final class Font
 {
   package(prova) static FT_Library ftlibrary;
   ///

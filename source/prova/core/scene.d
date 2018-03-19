@@ -26,19 +26,21 @@ class Scene
   }
 
   ///
-  @property Game game()
+  final @property Game game()
   {
+    if(!_game)
+      throw new Exception("Scene is not attached to a game");
     return _game;
   }
 
   ///
-  @property Input input()
+  final @property Input input()
   {
-    return _game.input;
+    return game.input;
   }
 
   ///
-  Entity[] getEntities()
+  final Entity[] getEntities()
   {
     Entity[] clonedArray;
     clonedArray.length = entities.length;
@@ -51,7 +53,7 @@ class Scene
   }
 
   ///
-  void addEntity(Entity entity)
+  final void addEntity(Entity entity)
   {
     entities.insertBack(entity);
     entity._scene = this;
@@ -70,7 +72,7 @@ class Scene
   }
 
   ///
-  void removeEntity(Entity entity)
+  final void removeEntity(Entity entity)
   {
     entities.remove(entity);
 

@@ -19,7 +19,7 @@ class Mesh
   }
 
   ///
-  void setVBO(float[] vertices, int dimensions)
+  final void setVBO(float[] vertices, int dimensions)
   {
     glBindVertexArray(VAO);
     createBuffer(VBO);
@@ -30,7 +30,7 @@ class Mesh
   }
 
   ///
-  void setIBO(uint[] indexes)
+  final void setIBO(uint[] indexes)
   {
     indexCount = cast(int) indexes.length;
 

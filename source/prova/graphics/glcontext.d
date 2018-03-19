@@ -5,7 +5,7 @@ import derelict.opengl,
        std.conv;
 
 ///
-class GLContext
+final class GLContext
 {
   ///
   SDL_GLContext handle;

@@ -30,7 +30,7 @@ class Entity
   }
 
   ///
-  @property Scene scene()
+  final @property Scene scene()
   {
     if(!_scene)
       throw new Exception("Entity is not attached to a scene");
@@ -38,13 +38,13 @@ class Entity
   }
 
   /// Shortcut for scene.game
-  @property Game game()
+  final @property Game game()
   {
     return scene.game;
   }
 
   /// Shortcut for scene.game.input
-  @property Input input()
+  final @property Input input()
   {
     return scene.game.input;
   }
@@ -61,25 +61,25 @@ class Entity
   }
 
   ///
-  void addTag(int tag)
+  final void addTag(int tag)
   {
     tags.insertBack(tag);
   }
 
   ///
-  void removeTag(int tag)
+  final void removeTag(int tag)
   {
     tags.remove(tag);
   }
 
   ///
-  bool hasTag(int tag)
+  final bool hasTag(int tag)
   {
     return tags.contains(tag);
   }
 
   ///
-  void attach(Collider2D collider)
+  final void attach(Collider2D collider)
   {
     if(collider.entity != this)
       throw new Exception("Collider can not be attached to non owner entity");
@@ -94,7 +94,7 @@ class Entity
   }
 
   ///
-  void remove(Collider2D collider)
+  final void remove(Collider2D collider)
   {
     if(scene)
       scene.collider2DMap.remove(collider);
@@ -103,7 +103,7 @@ class Entity
   }
 
   ///
-  void attach(Audio source)
+  final void attach(Audio source)
   {
     if(source.channels == 2)
       throw new Exception("Source must use a mono format");
@@ -119,7 +119,7 @@ class Entity
   }
 
   ///
-  void remove(Audio source)
+  final void remove(Audio source)
   {
     if(scene)
       scene.audioSources.remove(source);

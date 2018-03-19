@@ -6,7 +6,7 @@ import prova.graphics,
        std.typecons;
 
 ///
-class SpriteBatch
+final class SpriteBatch
 {
   static ShaderProgram defaultShaderProgram;
   /// Copy of defaultShaderProgram
