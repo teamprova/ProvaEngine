@@ -151,51 +151,15 @@ class RenderTarget
   }
 
   ///
-  void drawSprite(Sprite sprite, Vector3 position)
+  void drawSprite(Sprite sprite, Matrix transform)
   {
-    spriteBatch.batchSprite(sprite, position);
+    spriteBatch.batchSprite(sprite, transform);
   }
 
   ///
-  void drawSprite(Sprite sprite, Vector2 position)
+  void drawSprite(AnimatedSprite sprite, Matrix transform)
   {
-    spriteBatch.batchSprite(sprite, Vector3(position.x, position.y, 0));
-  }
-
-  ///
-  void drawSprite(Sprite sprite, float x, float y)
-  {
-    spriteBatch.batchSprite(sprite, Vector3(x, y, 0));
-  }
-
-  ///
-  void drawSprite(Sprite sprite, float x, float y, float z)
-  {
-    spriteBatch.batchSprite(sprite, Vector3(x, y, z));
-  }
-
-  ///
-  void drawSprite(AnimatedSprite sprite, Vector3 position)
-  {
-    spriteBatch.batchSprite(sprite, position);
-  }
-
-  ///
-  void drawSprite(AnimatedSprite sprite, Vector2 position)
-  {
-    spriteBatch.batchSprite(sprite, Vector3(position.x, position.y, 0));
-  }
-
-  ///
-  void drawSprite(AnimatedSprite sprite, float x, float y)
-  {
-    spriteBatch.batchSprite(sprite, Vector3(x, y, 0));
-  }
-
-  ///
-  void drawSprite(AnimatedSprite sprite, float x, float y, float z)
-  {
-    spriteBatch.batchSprite(sprite, Vector3(x, y, z));
+    spriteBatch.batchSprite(sprite, transform);
   }
 
   ///

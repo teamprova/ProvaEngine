@@ -2,7 +2,8 @@ module prova.graphics.sprites.spritebatch;
 
 import prova.graphics,
        prova.math,
-       prova.util;
+       prova.util,
+       std.typecons;
 
 ///
 class SpriteBatch
@@ -12,10 +13,9 @@ class SpriteBatch
   ShaderProgram shaderProgram;
   private bool begun;
   private Mesh mesh;
-  private RenderTarget target;
+  private RenderTarget renderTarget;
   private Matrix projection;
-  private LinkedList!(Sprite) spritePrimitives;
-  private LinkedList!(Vector3) positions;
+  private LinkedList!(Tuple!(Sprite, Matrix)) sprites;
 
   ///
   this()
@@ -25,39 +25,37 @@ class SpriteBatch
 
     shaderProgram = defaultShaderProgram;
 
-    spritePrimitives = new LinkedList!(Sprite);
-    positions = new LinkedList!(Vector3);
+    sprites = new LinkedList!(Tuple!(Sprite, Matrix));
 
     mesh = new SpriteMesh();
   }
 
   ///
-  void begin(RenderTarget renderTarget, Matrix transform)
+  void begin(RenderTarget renderTarget, Matrix projection)
   {
     if(begun)
       throw new Exception("Batch already started");
 
-    target = renderTarget;
-    projection = transform;
+    this.renderTarget = renderTarget;
+    this.projection = projection;
     begun = true;
   }
 
   ///
-  void batchSprite(AnimatedSprite sprite, Vector3 position)
+  void batchSprite(AnimatedSprite sprite, Matrix transform)
   {
     sprite.update();
 
-    batchSprite(cast(Sprite) sprite, position);
+    batchSprite(cast(Sprite) sprite, transform);
   }
 
   ///
-  void batchSprite(Sprite sprite, Vector3 position)
+  void batchSprite(Sprite sprite, Matrix transform)
   {
     if(!begun)
       throw new Exception("Batch not started");
     
-    spritePrimitives.insertBack(sprite);
-    positions.insertBack(position);
+    sprites.insertBack(tuple(sprite, transform));
   }
 
   /// Draws batched sprites
@@ -68,15 +66,13 @@ class SpriteBatch
 
     Color lastTint;
     uint lastTexture = -1;
-    Node!Sprite spriteNode = spritePrimitives.getFirstNode();
-    Node!Vector3 positionNode = positions.getFirstNode();
 
     // set the inital value for the tint
     shaderProgram.setVector4("tint", lastTint);
 
-    foreach(i; 0 .. spritePrimitives.length) {
-      Sprite sprite = spriteNode.getValue();
-      Vector3 position = positionNode.getValue();
+    foreach(Tuple!(Sprite, Matrix) spriteTuple; sprites) {
+      Sprite sprite = spriteTuple[0];
+      Matrix transform = spriteTuple[1];
 
       if(sprite.texture.id != lastTexture) {
         shaderProgram.setTexture(0, sprite.texture);
@@ -88,19 +84,15 @@ class SpriteBatch
         lastTint = sprite.tint;
       }
       
-      drawSprite(sprite, position);
-
-      spriteNode = spriteNode.getNext();
-      positionNode = positionNode.getNext();
+      drawSprite(sprite, transform);
     }
 
-    spritePrimitives.clear();
-    positions.clear();
+    sprites.clear();
     begun = false;
   }
 
   ///
-  void drawSprite(Sprite sprite, Vector3 position)
+  void drawSprite(Sprite sprite, Matrix transform)
   {
     Vector2 size = sprite.clip.getSize();
     Vector3 center = size / 2;
@@ -111,15 +103,12 @@ class SpriteBatch
     clip.width = sprite.clip.width / sprite.texture.width;
     clip.height = sprite.clip.height / sprite.texture.height;
 
-    Matrix transform = Matrix.identity;
-    transform = transform.scale(size);
-    transform = transform.translate(-sprite.origin - center);
-    transform = transform.scale(sprite.scale);
-    transform = transform.rotateZ(sprite.angle);
-    transform = transform.translate(position.x, position.y, position.z);
+    Matrix offset = Matrix.identity;
+    offset = offset.scale(size);
+    offset = offset.translate(-sprite.origin - center);
 
-    shaderProgram.setMatrix("transform", projection * transform);
+    shaderProgram.setMatrix("transform", projection * (transform * offset));
     shaderProgram.setVector4("clip", clip);
-    shaderProgram.drawMesh(mesh, target, DrawMode.TRIANGLE_FAN);
+    shaderProgram.drawMesh(mesh, renderTarget, DrawMode.TRIANGLE_FAN);
   }
 }

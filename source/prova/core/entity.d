@@ -8,6 +8,10 @@ class Entity
   ///
   Vector3 position;
   ///
+  Quaternion rotation;
+  ///
+  Vector3 scale = Vector3(1, 1, 1);
+  ///
   Vector3 velocity;
   /// Velocity is multiplied by (1 - friction) every tick
   float friction = 0;
@@ -17,6 +21,7 @@ class Entity
   package LinkedList!(Audio) audioSources;
   private LinkedList!(int) tags;
 
+  ///
   this()
   {
     colliders2d = new LinkedList!(Collider2D);
@@ -40,6 +45,17 @@ class Entity
   @property Input input()
   {
     return _scene.game.input;
+  }
+
+  ///
+  final Matrix getLocalTransformMatrix()
+  {
+    Matrix transform = Matrix.identity;
+    transform = transform.scale(scale);
+    transform = transform.rotate(rotation);
+    transform = transform.translate(position);
+
+    return transform;
   }
 
   ///

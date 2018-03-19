@@ -10,14 +10,10 @@ enum TextAlign { LEFT, CENTER, RIGHT }
 enum TextBaseline { TOP, MIDDLE, BOTTOM, HANGING, ALPHABETIC }
 
 ///
-class Text
+class Text : Entity
 {
   ///
-  Vector3 position;
-  ///
   Color color;
-  ///
-  float scale;
   ///
   TextAlign textAlign;
   ///
@@ -32,7 +28,6 @@ class Text
   {
     this.font = font;
     this.text = text;
-    scale = 1;
   }
 
   ///
@@ -71,7 +66,9 @@ class Text
   ///
   Vector2 getSize()
   {
-    return font.measureString(_text) * scale;
+    Vector2 size = font.measureString(_text);
+
+    return Vector2(size.x * scale.x, size.y * scale.y);
   }
 
   ///
@@ -84,9 +81,10 @@ class Text
   }
 
   ///
-  void draw(RenderTarget renderTarget)
+  override void draw(RenderTarget renderTarget)
   {
-    Vector3 pos = position + getOffset();
+    Matrix transform = getLocalTransformMatrix();
+    transform = transform.translate(getOffset());
 
     foreach(i; 0 .. _text.length)
     {
@@ -94,22 +92,21 @@ class Text
       Sprite sprite = sprites[i];
 
       sprite.tint = color;
-      sprite.scale.x = scale;
-      sprite.scale.y = scale;
 
       Vector2 offset = glyph.offset;
 
       if(i > 0)
         offset += font.getKerning(_text[i - 1], _text[i]);
 
-      renderTarget.drawSprite(sprite, pos + offset * scale);
-      pos += glyph.advance * scale;
+      renderTarget.drawSprite(sprite, transform.translate(offset));
+
+      transform = transform.translate(glyph.advance);
     }
   }
 
   private Vector2 getOffset()
   {
-    const Vector2 size = font.measureString(_text) * scale;
+    const Vector2 size = getSize();
     Vector2 offset;
 
     if(textAlign == TextAlign.CENTER)
@@ -122,16 +119,16 @@ class Text
       case TextBaseline.TOP:
         break;
       case TextBaseline.MIDDLE:
-        offset.y += (font.ascentLine - font.descentLine) * scale / 2;
+        offset.y += (font.ascentLine - font.descentLine) * scale.y / 2;
         break;
       case TextBaseline.BOTTOM:
-        offset.y += (font.size - font.descentLine) * scale;
+        offset.y += (font.size - font.descentLine) * scale.y;
         break;
       case TextBaseline.HANGING:
-        offset.y += (font.ascentLine - font.size) * scale;
+        offset.y += (font.ascentLine - font.size) * scale.y;
         break;
       case TextBaseline.ALPHABETIC:
-        offset.y += font.size * scale;
+        offset.y += font.size * scale.y;
         break;
     }
 

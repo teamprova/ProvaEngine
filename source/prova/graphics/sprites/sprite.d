@@ -9,13 +9,9 @@ class Sprite
   ///
   Texture texture;
   ///
-  float angle = 0;
-  ///
   Rect clip;
   /// Defaults to the center of the sprite
   Vector2 origin;
-  ///
-  Vector2 scale = Vector2(1, 1);
   ///
   Color tint = Color(1, 1, 1, 1);
 
