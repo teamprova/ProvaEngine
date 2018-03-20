@@ -70,7 +70,7 @@ class Game
 
     SDL_SetWindowFullscreen(
       window,
-      _isFullscreen ? SDL_WINDOW_FULLSCREEN : 0
+      _isFullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0
     );
   }
 
