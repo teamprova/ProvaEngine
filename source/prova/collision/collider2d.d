@@ -65,10 +65,9 @@ abstract class Collider2D
   ///
   Vector2 getPosition()
   {
-    return Vector2(
-      entity.position.x + offset.x,
-      entity.position.y + offset.y
-    );
+    Vector3 position = _entity.getWorldPosition();
+
+    return Vector2(position.x, position.y);
   }
 
   ///

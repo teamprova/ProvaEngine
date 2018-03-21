@@ -67,23 +67,16 @@ class Text : Entity
   Vector2 getSize()
   {
     Vector2 size = font.measureString(_text);
+    Vector3 scale = getWorldScale();
 
     return Vector2(size.x * scale.x, size.y * scale.y);
   }
 
   ///
-  Rect getBounds()
-  {
-    Vector3 start = position + getOffset();
-    Vector2 size = getSize();
-
-    return Rect(start.x, start.y, size.x, size.y);
-  }
-
-  ///
   override void draw(RenderTarget renderTarget, Matrix transform)
   {
-    transform = transform.translate(getOffset());
+    Matrix glyphTransform = Matrix.identity;
+    glyphTransform = glyphTransform.translate(getOffset());
 
     foreach(i; 0 .. _text.length)
     {
@@ -97,15 +90,18 @@ class Text : Entity
       if(i > 0)
         offset += font.getKerning(_text[i - 1], _text[i]);
 
-      renderTarget.drawSprite(sprite, transform.translate(offset));
+      renderTarget.drawSprite(
+        sprite,
+        transform * glyphTransform.translate(offset)
+      );
 
-      transform = transform.translate(glyph.advance);
+      glyphTransform = glyphTransform.translate(glyph.advance);
     }
   }
 
   private Vector2 getOffset()
   {
-    const Vector2 size = getSize();
+    const Vector2 size = font.measureString(_text);
     Vector2 offset;
 
     if(textAlign == TextAlign.CENTER)

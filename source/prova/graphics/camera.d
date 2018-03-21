@@ -39,10 +39,13 @@ class Camera : Entity
   ///
   Matrix getViewMatrix()
   {
+    Vector3 worldPosition = getWorldPosition();
+    Quaternion worldRotation = getWorldRotation();
+
     Matrix transform = Matrix.identity;
-    transform = transform.translate(-position);
+    transform = transform.translate(-worldPosition);
+    transform = transform.rotate(worldRotation.getConjugate());
     transform = transform.scale(scale);
-    transform = transform.rotate(rotation);
 
     return transform;
   }

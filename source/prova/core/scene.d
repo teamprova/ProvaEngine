@@ -55,8 +55,15 @@ class Scene
   ///
   final void addEntity(Entity entity)
   {
+    if(entity._scene == this)
+      throw new Exception("Entity was already added to the scene");
+
     entities.insertBack(entity);
     entity._scene = this;
+
+    foreach(Entity child; entity.children)
+      if(!entities.contains(entity))
+        addEntity(entity);
 
     foreach(AudioSource source; entity.audioSources)
       audioSources.insertBack(source);
@@ -74,15 +81,28 @@ class Scene
   ///
   final void removeEntity(Entity entity)
   {
-    entities.remove(entity);
+    if(entity._scene != this)
+      throw new Exception("Entity was not added to the scene");
 
-    if(entity._scene == this)
-      entity._scene = null;
+    disassociateEntity(entity);
+
+    // detach from parent to not be drawn
+    if(entity.parent)
+      entity.parent.detach(entity);
+  }
+
+  package void disassociateEntity(Entity entity)
+  {
+    foreach(Entity child; entity.children)
+      disassociateEntity(entity);
 
     foreach(AudioSource source; entity.audioSources)
       audioSources.remove(source);
 
     collider2DMap.remove(entity.colliders2d);
+
+    entities.remove(entity);
+    entity._scene = null;
   }
 
   /// Finds the closest entity to this entity
@@ -155,10 +175,12 @@ class Scene
 
   package void updateAudio()
   {
-    Vector3 position = camera.position / Audio.scale;
+    Vector3 position = camera.getWorldPosition() / Audio.scale;
+    Quaternion rotation = camera.getWorldRotation();
+
     Vector3[] orientation = [
-      camera.rotation * Vector3(0, 0, -1), // forward
-      camera.rotation * Vector3(0, 1, 0) // up
+      rotation * Vector3(0, 0, -1), // forward
+      rotation * Vector3(0, 1, 0) // up
     ];
 
     alListener3f(AL_POSITION, position.x, position.y, position.z);
@@ -179,13 +201,18 @@ class Scene
 
     foreach(Entity entity; entities)
     {
+      // skip entities with parents
+      // the parent entity will handle rendering
+      if(entity.parent)
+        continue;
+
       float distance;
 
       if(camera.sortingMethod == SortingMethod.Distance)
         distance = entity.position.distanceTo(camera.position);
       else
         distance = camera.position.z - entity.position.z;
-      
+
       distanceMappedEntities[distance] ~= entity;
     }
 

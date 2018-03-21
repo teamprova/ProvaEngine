@@ -8,9 +8,9 @@ import derelict.openal.al,
 /// 
 class AudioSource
 {
-  package(prova) Entity entity;
   private uint sourceId;
   private AudioClip audioClip;
+  private Entity _entity;
   private bool _looping = false;
   private float _volume = 1;
   private float _pitch = 1;
@@ -22,6 +22,18 @@ class AudioSource
 
     alGenSources(1, &sourceId);
     alSourcei(sourceId, AL_BUFFER, audioClip.bufferId);
+  }
+
+  ///
+  @property Entity entity()
+  {
+    return _entity;
+  }
+
+  ///
+  @property void entity(Entity entity)
+  {
+    _entity = entity;
   }
 
   ///
@@ -107,8 +119,11 @@ class AudioSource
     if(!entity)
       return;
 
-    Vector3 position = entity.position / Audio.scale;
-    Vector3 velocity = entity.velocity / Audio.scale;
+    Vector3 position = entity.getWorldPosition();
+    Vector3 velocity = entity.getWorldRotation() * entity.velocity;
+
+    position /= Audio.scale;
+    velocity /= Audio.scale;
 
     alSource3f(sourceId, AL_POSITION, position.x, position.y, position.z);
     alSource3f(sourceId, AL_VELOCITY, velocity.x, velocity.y, velocity.z);
