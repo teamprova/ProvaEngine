@@ -1,6 +1,7 @@
 module prova.graphics.camera;
 
-import prova.math;
+import prova.core,
+       prova.math;
 
 ///
 enum SortingMethod { Z, Distance }
@@ -8,18 +9,12 @@ enum SortingMethod { Z, Distance }
 enum Projection { Perspective, Orthographic }
 
 ///
-class Camera
+class Camera : Entity
 {
   ///
   Projection projection = Projection.Perspective;
   ///
   SortingMethod sortingMethod = SortingMethod.Distance;
-  ///
-  Vector3 scale = Vector3(1, 1, 1);
-  ///
-  Vector3 position;
-  ///
-  Quaternion rotation;
   ///
   bool useDepthBuffer = true;
   /// Width and height will be set to the screen resolution when true
