@@ -17,17 +17,12 @@ class Screen : RenderTarget
   private Matrix quadProjectionMatrix;
   private Color clearColor;
 
-  private this(int width, int height)
-  {
-    super(width, height);
-  }
-
   package(prova) this(Game game, int width, int height)
   {
     this.game = game;
 
     glContext = new GLContext(game.window);
-    this(width, height);
+    super(width, height);
     disableVSync();
 
     quad = new SpriteMesh();
