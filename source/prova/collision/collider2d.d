@@ -21,9 +21,9 @@ abstract class Collider2D
   private Entity _entity;
   private Shape _shape;
 
-  package this(Entity entity, Shape shape)
+  ///
+  package this(Shape shape)
   {
-    _entity = entity;
     _shape = shape;
     collisions = new LinkedList!(Collider2D);
     tags = new LinkedList!(int);
@@ -33,6 +33,12 @@ abstract class Collider2D
   @property Entity entity()
   {
     return _entity;
+  }
+
+  ///
+  package(prova) @property void entity(Entity entity)
+  {
+    _entity = entity;
   }
 
   ///

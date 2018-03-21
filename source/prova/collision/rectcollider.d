@@ -16,9 +16,9 @@ class RectCollider : Collider2D
   float height;
 
   ///
-  this(Entity entity, float width, float height)
+  this(float width, float height)
   {
-    super(entity, Shape.RECTANGLE);
+    super(Shape.RECTANGLE);
     this.width = width;
     this.height = height;
   }

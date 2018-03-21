@@ -81,11 +81,10 @@ class Entity
   ///
   final void attach(Collider2D collider)
   {
-    if(collider.entity != this)
-      throw new Exception("Collider can not be attached to non owner entity");
+    if(collider.entity || collider.entity == this)
+      throw new Exception("Collider already attached");
 
-    if(colliders2d.contains(collider))
-      throw new Exception("Collider already added");
+    collider.entity = this;
 
     if(_scene)
       _scene.collider2DMap.add(collider);
@@ -94,8 +93,10 @@ class Entity
   }
 
   ///
-  final void remove(Collider2D collider)
+  final void detatch(Collider2D collider)
   {
+    collider.entity = null;
+
     if(_scene)
       _scene.collider2DMap.remove(collider);
 
@@ -105,11 +106,11 @@ class Entity
   ///
   final void attach(AudioSource source)
   {
+    if(source.entity || source.entity == this)
+      throw new Exception("AudioSource already attached");
+
     if(source.channels == 2)
       throw new Exception("Source must use a mono format");
-
-    if(source.entity)
-      throw new Exception("Detatch the AudioSource before attaching it to a new entity");
 
     if(_scene)
       _scene.audioSources.insertBack(source);
@@ -119,7 +120,7 @@ class Entity
   }
 
   ///
-  final void remove(AudioSource source)
+  final void detatch(AudioSource source)
   {
     if(_scene)
       _scene.audioSources.remove(source);

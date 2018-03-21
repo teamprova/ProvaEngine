@@ -11,9 +11,9 @@ import prova.collision,
 class PointCollider : Collider2D
 {
   ///
-  this(Entity entity)
+  this()
   {
-    super(entity, Shape.POINT);
+    super(Shape.POINT);
   }
 
   ///

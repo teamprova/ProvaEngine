@@ -14,9 +14,9 @@ class CircleCollider : Collider2D
   float radius;
 
   ///
-  this(Entity entity, float radius)
+  this(float radius)
   {
-    super(entity, Shape.CIRCLE);
+    super(Shape.CIRCLE);
     this.radius = radius;
   }
 
