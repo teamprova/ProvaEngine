@@ -74,7 +74,6 @@ package void finalize()
 
 private void finalizeOpenAL()
 {
-  Audio.cleanUp();
   alcMakeContextCurrent(null);
   alcDestroyContext(Audio.context);
   alcCloseDevice(Audio.device);

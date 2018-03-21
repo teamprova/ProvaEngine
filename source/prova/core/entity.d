@@ -18,14 +18,14 @@ class Entity
   package bool isSetup = false;
   package Scene _scene;
   package LinkedList!(Collider2D) colliders2d;
-  package LinkedList!(Audio) audioSources;
+  package LinkedList!(AudioSource) audioSources;
   private LinkedList!(int) tags;
 
   ///
   this()
   {
     colliders2d = new LinkedList!(Collider2D);
-    audioSources = new LinkedList!(Audio);
+    audioSources = new LinkedList!(AudioSource);
     tags = new LinkedList!(int);
   }
 
@@ -87,8 +87,8 @@ class Entity
     if(colliders2d.contains(collider))
       throw new Exception("Collider already added");
 
-    if(scene)
-      scene.collider2DMap.add(collider);
+    if(_scene)
+      _scene.collider2DMap.add(collider);
 
     colliders2d.insertBack(collider);
   }
@@ -96,33 +96,33 @@ class Entity
   ///
   final void remove(Collider2D collider)
   {
-    if(scene)
-      scene.collider2DMap.remove(collider);
+    if(_scene)
+      _scene.collider2DMap.remove(collider);
 
     colliders2d.remove(collider);
   }
 
   ///
-  final void attach(Audio source)
+  final void attach(AudioSource source)
   {
     if(source.channels == 2)
       throw new Exception("Source must use a mono format");
 
     if(source.entity)
-      throw new Exception("Remove the audio before attaching it to a new entity");
+      throw new Exception("Detatch the AudioSource before attaching it to a new entity");
 
-    if(scene)
-      scene.audioSources.insertBack(source);
+    if(_scene)
+      _scene.audioSources.insertBack(source);
 
     audioSources.insertBack(source);
     source.entity = this;
   }
 
   ///
-  final void remove(Audio source)
+  final void remove(AudioSource source)
   {
-    if(scene)
-      scene.audioSources.remove(source);
+    if(_scene)
+      _scene.audioSources.remove(source);
 
     audioSources.remove(source);
     source.entity = null;

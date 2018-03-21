@@ -10,7 +10,7 @@ class Scene
 {
   ///
   public Camera camera;
-  package LinkedList!(Audio) audioSources;
+  package LinkedList!(AudioSource) audioSources;
   package SpacialMap2D collider2DMap;
   package Game _game;
   package bool isSetup;
@@ -22,7 +22,7 @@ class Scene
     camera = new Camera();
     collider2DMap = new SpacialMap2D();
     entities = new LinkedList!(Entity);
-    audioSources = new LinkedList!(Audio);
+    audioSources = new LinkedList!(AudioSource);
   }
 
   ///
@@ -58,7 +58,7 @@ class Scene
     entities.insertBack(entity);
     entity._scene = this;
 
-    foreach(Audio source; entity.audioSources)
+    foreach(AudioSource source; entity.audioSources)
       audioSources.insertBack(source);
 
     collider2DMap.add(entity.colliders2d);
@@ -79,7 +79,7 @@ class Scene
     if(entity._scene == this)
       entity._scene = null;
 
-    foreach(Audio source; entity.audioSources)
+    foreach(AudioSource source; entity.audioSources)
       audioSources.remove(source);
 
     collider2DMap.remove(entity.colliders2d);
@@ -164,7 +164,7 @@ class Scene
     alListener3f(AL_POSITION, position.x, position.y, position.z);
     alListenerfv(AL_ORIENTATION, cast(float*) orientation.ptr);
 
-    foreach(Audio source; audioSources)
+    foreach(AudioSource source; audioSources)
       source.update();
   }
 
