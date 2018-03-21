@@ -13,7 +13,7 @@ struct Quaternion
   ///
   float z = 0;
   ///
-  float w = 0;
+  float w = 1;
 
   ///
   this(float x, float y, float z, float w)
