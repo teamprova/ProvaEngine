@@ -165,6 +165,16 @@ struct Vector4
     return this;
   }
 
+  Vector4 opMulAssign(Vector4 vector)
+  {
+    x *= vector.x;
+    y *= vector.y;
+    z *= vector.z;
+    w *= vector.w;
+
+    return this;
+  }
+
   Vector4 opMulAssign(float a)
   {
     x *= a;
@@ -218,6 +228,17 @@ struct Vector4
     result.w = -w;
 
     return result;
+  }
+
+  Vector4 opMul(Vector4 vector) const
+  {
+    Vector4 result;
+    result.x = x * vector.x;
+    result.y = y * vector.y;
+    result.z = z * vector.z;
+    result.w = w * vector.w;
+
+    return result; 
   }
 
   Vector4 opMul(float a) const

@@ -157,6 +157,14 @@ struct Vector2
     return this;
   }
 
+  Vector2 opMulAssign(Vector2 vector)
+  {
+    x *= vector.x;
+    y *= vector.y;
+
+    return this;
+  }
+
   Vector2 opMulAssign(float a)
   {
     x *= a;
@@ -220,6 +228,15 @@ struct Vector2
     result.y = -y;
 
     return result;
+  }
+
+  Vector2 opMul(Vector2 vector) const
+  {
+    Vector2 result;
+    result.x = x * vector.x;
+    result.y = y * vector.y;
+
+    return result; 
   }
 
   Vector2 opMul(float a) const
