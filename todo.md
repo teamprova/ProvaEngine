@@ -14,7 +14,6 @@
 * Stencils
     * Rectangle stencil using glScissor
     * Texture stencil
-* Borderless Fullscreen
 
 ## Optional/Future functionality
 * Console like Otter2D?
@@ -40,9 +39,7 @@
 * Light base class
     * Color
     * Intensity
-* Entities
-    * Children? toWorldSpacePosition and toWorldRotation?
-* Audio class
+* AudioSource class
     * PlaybackRate property
     * Duration property
     * CurrentTime property
