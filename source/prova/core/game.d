@@ -88,7 +88,7 @@ class Game
   void swapScene(Scene scene)
   {
     if(!running)
-      throw new Exception("Set initial scene through Game.start(Scene)");
+      throw new Exception("Set the initial scene through Game.start(Scene)");
 
     setScene(scene);
   }
@@ -111,7 +111,7 @@ class Game
   void start(Scene scene)
   {
     if(running)
-      throw new Exception("Attempt to start game while it is already running");
+      throw new Exception("The game is already running");
 
     running = true;
     setScene(scene);

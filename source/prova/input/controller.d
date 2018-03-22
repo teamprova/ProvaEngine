@@ -1,7 +1,8 @@
 module prova.input.controller;
 
 import derelict.sdl2.sdl,
-       prova.math;
+       prova.math,
+       std.conv;
 
 ///
 enum ThumbStick { LEFT, RIGHT }
@@ -105,7 +106,7 @@ class Controller
     if(button == ControllerButton.TRIGGER_RIGHT)
       return getAxis(SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
     
-    throw new Exception("Specified button is not a trigger.");
+    throw new Exception(to!string(button) ~ " is not a trigger");
   }
 
   private float getAxis(int axis)
