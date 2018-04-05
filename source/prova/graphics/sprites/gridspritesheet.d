@@ -35,6 +35,7 @@ class GridSpriteSheet : SpriteSheet
     }
   }
 
+  ///
   void createAnimation(string name, int start, int count)
   {
     SpriteFrame[] frames = this.frames[start .. start + count];

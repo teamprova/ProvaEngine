@@ -122,13 +122,13 @@ struct Vector3
     return a * a + b * b + c * c;
   }
 
-  // Returns the dot product of the two vectors
+  /// Returns the dot product of the two vectors
   float dot(Vector3 vector)
   {
     return x * vector.x + y * vector.y + z * vector.z;
   }
 
-  // Returns the cross product of the two vectors
+  /// Returns the cross product of the two vectors
   Vector3 cross(Vector3 vector)
   {
     Vector3 result;

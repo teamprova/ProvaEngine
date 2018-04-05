@@ -10,12 +10,14 @@ class SpriteAnimation
   ///
   SpriteFrame[] frames;
 
+  ///
   this(string name, SpriteFrame[] frames)
   {
     this.name = name;
     this.frames = frames;
   }
 
+  ///
   float getDuration()
   {
     float duration = 0;

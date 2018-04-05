@@ -14,8 +14,11 @@ final class Font
   package(prova) static FT_Library ftlibrary;
   ///
   immutable int size;
+  ///
   immutable int ascentLine;
+  ///
   immutable int descentLine;
+  ///
   immutable bool hasKerning;
   ///
   float lineHeight;
@@ -62,6 +65,7 @@ final class Font
       loadGlyph(48 + i);
   }
 
+  ///
   @property Texture texture()
   {
     return _texture;

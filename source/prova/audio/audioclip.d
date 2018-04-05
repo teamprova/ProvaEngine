@@ -13,11 +13,13 @@ final class AudioClip
   package(prova) uint bufferId;
   private uint _channels;
 
+  ///
   this(string path)
   {
     genFromOgg(path);
   }
 
+  ///
   @property uint channels()
   {
     return _channels;

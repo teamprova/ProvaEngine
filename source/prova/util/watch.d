@@ -61,6 +61,7 @@ class Watch
 
   // we currently only track using milliseconds so,
   // maybe this should be renamed?
+  ///
   int getElapsedMilliseconds()
   {
     if(startTime == 0)

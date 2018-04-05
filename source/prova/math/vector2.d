@@ -133,7 +133,7 @@ struct Vector2
     return a * a + b * b;
   }
 
-  // Returns the dot product of the two vectors
+  /// Returns the dot product of the two vectors
   float dot(Vector2 vector)
   {
     return x * vector.x + y * vector.y;

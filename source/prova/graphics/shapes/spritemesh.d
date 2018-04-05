@@ -6,6 +6,7 @@ import prova.graphics,
 /// Similar to QuadMesh, but not centered
 class SpriteMesh : Mesh
 {
+  ///
   this()
   {
     float[] vertices = [

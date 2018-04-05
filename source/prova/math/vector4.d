@@ -137,7 +137,7 @@ struct Vector4
     return a * a + b * b + c * c + d * d;
   }
 
-  // Returns the dot product of the two vectors
+  /// Returns the dot product of the two vectors
   float dot(Vector4 vector)
   {
     return x * vector.x + y * vector.y + z * vector.z + w * vector.w;

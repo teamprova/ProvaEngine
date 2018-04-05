@@ -10,22 +10,22 @@ class Node(T)
   private LinkedList!T list;
   private Node!T next;
   private Node!T last;
-  private Nullable!T value;
+  private Nullable!T _value;
 
   /**
    * Retrieves the stored value
    */
-  T getValue()
+  @property T value()
   {
-    return value;
+    return _value;
   }
 
   /**
    * Modifies the stored value
    */
-  void setValue(T value)
+  @property void value(T value)
   {
-    this.value = value;
+    _value = value;
   }
 
   /**
@@ -82,11 +82,13 @@ class LinkedList(T)
     return count;
   }
 
+  ///
   Node!T getFirstNode()
   {
     return first;
   }
 
+  ///
   Node!T getLastNode()
   {
     return last;

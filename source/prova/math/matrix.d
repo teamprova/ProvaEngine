@@ -60,6 +60,7 @@ struct Matrix
     return perspective;
   }
 
+  ///
   Matrix rotate(Quaternion rotation) const
   {
     Matrix rotationMatrix;

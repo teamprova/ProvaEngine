@@ -93,6 +93,7 @@ struct Rect
     return Vector2(right, bottom);
   }
 
+  ///
   Side getClosestSide(Rect rect) const
   {
     const Vector2 center = getCenter();
@@ -104,6 +105,7 @@ struct Rect
     );
   }
 
+  ///
   Side getClosestSide(Vector2 position) const
   {
     const Vector2 center = getCenter();

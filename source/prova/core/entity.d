@@ -46,6 +46,7 @@ class Entity
     return scene.game;
   }
 
+  ///
   final @property Entity parent()
   {
     return _parent;
