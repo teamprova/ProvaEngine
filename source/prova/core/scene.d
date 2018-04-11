@@ -47,7 +47,7 @@ class Scene
     int i = 0;
 
     foreach(Node!Entity node; entities)
-      clonedArray[i++] = node.getValue();
+      clonedArray[i++] = node.value;
 
     return clonedArray;
   }

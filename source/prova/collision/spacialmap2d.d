@@ -79,13 +79,13 @@ class SpacialMap2D
     // test for collision with every collider within the bucket
     foreach(Node!Collider2D nodeA; bucket)
     {
-      Collider2D colliderA = nodeA.getValue();
+      Collider2D colliderA = nodeA.value;
 
       // test with colliders that haven't already been tested with every collider
       // by starting after the current collider being tested
       for(Node!Collider2D nodeB = nodeA.getNext(); nodeB; nodeB = nodeB.getNext())
       {
-        Collider2D colliderB = nodeB.getValue();
+        Collider2D colliderB = nodeB.value;
 
         if(colliderA.intersects(colliderB) && !colliderA.collisions.contains(colliderB))
           markCollision(colliderA, colliderB);

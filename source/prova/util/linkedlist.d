@@ -199,7 +199,7 @@ class LinkedList(T)
     count = 0;
   }
 
-  int opApply(int delegate(ref Node!T result) dg)
+  int opApply(int delegate(Node!T result) dg)
   {
     int result = 0;
 
@@ -218,8 +218,9 @@ class LinkedList(T)
     int result = 0;
 
     for(Node!T node = first; node; node = node.next) {
-      T value = node.getValue();
+      T value = node.value;
       result = dg(value);
+      node.value = value;
 
       if(result)
         break;
