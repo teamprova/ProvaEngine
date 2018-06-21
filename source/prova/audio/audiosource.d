@@ -1,9 +1,9 @@
 module prova.audio.audiosource;
 
-import derelict.openal.al,
-       prova.audio,
-       prova.core,
-       prova.math;
+import derelict.openal.al;
+import prova.audio;
+import prova.core;
+import prova.math;
 
 /// 
 class AudioSource

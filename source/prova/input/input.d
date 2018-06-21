@@ -1,10 +1,10 @@
 module prova.input.input;
 
-import core.stdc.string,
-       derelict.sdl2.sdl,
-       prova.core,
-       prova.input,
-       prova.math;
+import core.stdc.string;
+import derelict.sdl2.sdl;
+import prova.core;
+import prova.input;
+import prova.math;
 
 ///
 class Input

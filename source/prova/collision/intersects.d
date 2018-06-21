@@ -1,8 +1,8 @@
 module prova.collision.intersects;
 
-import prova.collision,
-       prova.math,
-       std.math;
+import prova.collision;
+import prova.math;
+import std.math;
 
 bool pointIntersectsPoint(PointCollider pointA, PointCollider pointB)
 {

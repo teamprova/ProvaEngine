@@ -1,8 +1,8 @@
 module prova.math.matrix;
 
-import prova.math,
-       std.algorithm.mutation,
-       std.math;
+import prova.math;
+import std.algorithm.mutation;
+import std.math;
 
 /// Struct representing a 4x4 matrix
 struct Matrix

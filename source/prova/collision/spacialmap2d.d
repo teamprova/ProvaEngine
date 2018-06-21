@@ -1,11 +1,11 @@
 module prova.collision.spacialmap2d;
 
-import prova.collision,
-       prova.core,
-       prova.graphics,
-       prova.math,
-       prova.util,
-       std.math;
+import prova.collision;
+import prova.core;
+import prova.graphics;
+import prova.math;
+import prova.util;
+import std.math;
 
 ///
 class SpacialMap2D

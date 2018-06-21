@@ -1,7 +1,7 @@
 module prova.graphics.shapes.linemesh;
 
-import prova.graphics,
-       prova.math;
+import prova.graphics;
+import prova.math;
 
 ///
 class LineMesh : Mesh

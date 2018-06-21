@@ -1,8 +1,8 @@
 module prova.graphics.glcontext;
 
-import derelict.opengl,
-       derelict.sdl2.sdl,
-       std.conv;
+import derelict.opengl;
+import derelict.sdl2.sdl;
+import std.conv;
 
 ///
 final class GLContext

@@ -1,12 +1,12 @@
 module prova.collision.collider2d;
 
-import prova.collision,
-       prova.collision.intersects,
-       prova.collision.resolve,
-       prova.core,
-       prova.graphics,
-       prova.math,
-       prova.util;
+import prova.collision;
+import prova.collision.intersects;
+import prova.collision.resolve;
+import prova.core;
+import prova.graphics;
+import prova.math;
+import prova.util;
 
 package enum Shape { POINT, RECTANGLE, CIRCLE }
 

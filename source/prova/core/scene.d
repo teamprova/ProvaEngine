@@ -1,9 +1,9 @@
 module prova.core.scene;
 
-import derelict.openal.al,
-       prova,
-       std.algorithm,
-       std.math;
+import derelict.openal.al;
+import prova;
+import std.algorithm;
+import std.math;
 
 ///
 class Scene

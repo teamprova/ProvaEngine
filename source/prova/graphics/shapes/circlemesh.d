@@ -1,7 +1,7 @@
 module prova.graphics.shapes.circlemesh;
 
-import prova.graphics,
-       prova.math;
+import prova.graphics;
+import prova.math;
 
 ///
 class CircleMesh : Mesh

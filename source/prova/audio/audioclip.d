@@ -1,8 +1,8 @@
 module prova.audio.audioclip;
 
-import derelict.openal.al,
-       derelict.vorbis,
-       std.string;
+import derelict.openal.al;
+import derelict.vorbis;
+import std.string;
 
 /// Only supports ogg for now
 final class AudioClip

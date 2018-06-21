@@ -1,7 +1,7 @@
 module prova.math.vector4;
 
-import prova.math,
-       std.math;
+import prova.math;
+import std.math;
 
 ///
 struct Vector4

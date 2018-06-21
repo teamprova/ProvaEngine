@@ -1,7 +1,7 @@
 module prova.graphics.camera;
 
-import prova.core,
-       prova.math;
+import prova.core;
+import prova.math;
 
 ///
 enum SortingMethod { Z, Distance }

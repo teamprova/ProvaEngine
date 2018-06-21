@@ -1,11 +1,11 @@
 module prova.graphics.screen;
 
-import derelict.sdl2.sdl,
-       prova.core,
-       prova.graphics,
-       prova.math,
-       std.conv,
-       std.math;
+import derelict.sdl2.sdl;
+import prova.core;
+import prova.graphics;
+import prova.math;
+import std.conv;
+import std.math;
 
 ///
 class Screen : RenderTarget

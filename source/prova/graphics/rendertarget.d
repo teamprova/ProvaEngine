@@ -1,8 +1,8 @@
 module prova.graphics.rendertarget;
 
-import prova.graphics,
-       prova.math,
-       std.typecons;
+import prova.graphics;
+import prova.math;
+import std.typecons;
 
 ///
 class RenderTarget

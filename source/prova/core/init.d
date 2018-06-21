@@ -1,11 +1,11 @@
 module prova.core.init;
 
-import derelict.freetype,
-       derelict.openal.al,
-       derelict.sdl2.sdl,
-       derelict.vorbis,
-       prova,
-       std.conv;
+import derelict.freetype;
+import derelict.openal.al;
+import derelict.sdl2.sdl;
+import derelict.vorbis;
+import prova;
+import std.conv;
 
 package void init()
 {

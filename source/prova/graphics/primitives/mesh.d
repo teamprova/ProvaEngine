@@ -1,7 +1,7 @@
 module prova.graphics.primitives.mesh;
 
-import prova.graphics,
-       prova.math;
+import prova.graphics;
+import prova.math;
 
 ///
 class Mesh

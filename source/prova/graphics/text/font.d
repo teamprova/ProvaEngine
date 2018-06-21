@@ -1,12 +1,12 @@
 module prova.graphics.text.font;
 
-import derelict.freetype,
-       prova.graphics,
-       prova.math,
-       std.algorithm,
-       std.conv,
-       std.math,
-       std.string;
+import derelict.freetype;
+import prova.graphics;
+import prova.math;
+import std.algorithm;
+import std.conv;
+import std.math;
+import std.string;
 
 ///
 final class Font

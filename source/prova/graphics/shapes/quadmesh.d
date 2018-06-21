@@ -1,7 +1,7 @@
 module prova.graphics.shapes.quadmesh;
 
-import prova.graphics,
-       prova.math;
+import prova.graphics;
+import prova.math;
 
 ///
 class QuadMesh : Mesh

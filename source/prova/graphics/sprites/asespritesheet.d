@@ -1,9 +1,9 @@
 module prova.graphics.sprites.asespritesheet;
 
-import prova.graphics,
-       std.json,
-       std.file,
-       std.path;
+import prova.graphics;
+import std.json;
+import std.file;
+import std.path;
 
 /// Uses sprite sheets generated from Aseprite
 class AseSpriteSheet : SpriteSheet

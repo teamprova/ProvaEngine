@@ -1,11 +1,11 @@
 module prova.collision.rectcollider;
 
-import prova.collision,
-       prova.collision.intersects,
-       prova.collision.resolve,
-       prova.core,
-       prova.graphics,
-       prova.math;
+import prova.collision;
+import prova.collision.intersects;
+import prova.collision.resolve;
+import prova.core;
+import prova.graphics;
+import prova.math;
 
 ///
 class RectCollider : Collider2D

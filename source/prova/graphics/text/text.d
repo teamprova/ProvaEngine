@@ -1,8 +1,8 @@
 module prova.graphics.text.text;
 
-import prova.core,
-       prova.graphics,
-       prova.math;
+import prova.core;
+import prova.graphics;
+import prova.math;
 
 ///
 enum TextAlign { LEFT, CENTER, RIGHT }

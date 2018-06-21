@@ -1,9 +1,9 @@
 module prova.graphics.primitives.texture;
 
-import imageformats,
-       prova.graphics,
-       std.algorithm.mutation,
-       std.string;
+import imageformats;
+import prova.graphics;
+import std.algorithm.mutation;
+import std.string;
 
 ///
 final class Texture

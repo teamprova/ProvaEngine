@@ -1,11 +1,11 @@
 module prova.graphics.shaderprograms.shaderprogram;
 
-import prova.graphics,
-       prova.math,
-       std.conv,
-       std.file,
-       std.stdio,
-       std.string;
+import prova.graphics;
+import prova.math;
+import std.conv;
+import std.file;
+import std.stdio;
+import std.string;
 
 ///
 enum DrawMode : uint {

@@ -1,7 +1,7 @@
 module prova.math.quaternion;
 
-import prova.math,
-       std.math;
+import prova.math;
+import std.math;
 
 ///
 struct Quaternion

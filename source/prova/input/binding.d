@@ -1,8 +1,8 @@
 module prova.input.binding;
 
-import prova.input,
-       prova.math,
-       prova.util;
+import prova.input;
+import prova.math;
+import prova.util;
 
 /// Allows representation of input from multiple sources in a uniform way
 class Binding

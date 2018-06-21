@@ -1,9 +1,9 @@
 module prova.graphics.sprites.animatedsprite;
 
-import derelict.sdl2.sdl,
-       prova.graphics,
-       prova.math,
-       std.math;
+import derelict.sdl2.sdl;
+import prova.graphics;
+import prova.math;
+import std.math;
 
 ///
 class AnimatedSprite : Sprite

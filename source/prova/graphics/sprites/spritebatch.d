@@ -1,9 +1,9 @@
 module prova.graphics.sprites.spritebatch;
 
-import prova.graphics,
-       prova.math,
-       prova.util,
-       std.typecons;
+import prova.graphics;
+import prova.math;
+import prova.util;
+import std.typecons;
 
 ///
 final class SpriteBatch

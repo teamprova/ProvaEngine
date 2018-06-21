@@ -1,7 +1,7 @@
 module prova.graphics.shapes.spritemesh;
 
-import prova.graphics,
-       prova.math;
+import prova.graphics;
+import prova.math;
 
 /// Similar to QuadMesh, but not centered
 class SpriteMesh : Mesh
