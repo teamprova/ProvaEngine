@@ -146,6 +146,9 @@ class LinkedList(T)
 
     auto node = new Node!T(this, value);
 
+    if(referenceNode.list != this)
+      throw new Exception("Reference node does not belong to this list");
+
     node.next = referenceNode;
     node.last = referenceNode.last;
 
@@ -165,6 +168,9 @@ class LinkedList(T)
   {
     if(!referenceNode)
       return insertBack(value);
+
+    if(referenceNode.list != this)
+      throw new Exception("Reference node does not belong to this list");
 
     auto node = new Node!T(this, value);
 
