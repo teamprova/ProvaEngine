@@ -1,6 +1,7 @@
 module prova.util.linkedlist;
 
 import std.typecons;
+import std.exception;
 
 /**
  * Linked list node
@@ -11,6 +12,11 @@ class Node(T)
   private Node!T next;
   private Node!T last;
   private Nullable!T _value;
+
+  private this(LinkedList!T list, T value) {
+    this.list = list;
+    this.value = value;
+  }
 
   /**
    * Retrieves the stored value
@@ -99,7 +105,17 @@ class LinkedList(T)
    */
   Node!T insertFront(T value)
   {
-    return insertBefore(value, first);
+    auto node = new Node!T(this, value);
+
+    if(first) {
+      first.last = node;
+      node.next = first;
+      first = node;
+    } else {
+      first = last = node;
+    }
+
+    return node;
   }
 
   /**
@@ -107,61 +123,61 @@ class LinkedList(T)
    */
   Node!T insertBack(T value)
   {
-    return insertAfter(value, last);
+    auto node = new Node!T(this, value);
+
+    if(last) {
+      last.next = node;
+      node.last = last;
+      last = node;
+    } else {
+      first = last = node;
+    }
+
+    return node;
   }
 
   /**
-   * Creates a node in the list placed before the specified node
+   * Creates a node in the list placed before the reference node
    */
-  Node!T insertBefore(T value, Node!T node)
+  Node!T insertBefore(T value, Node!T referenceNode)
   {
-    if(!node && first)
-      return insertBefore(value, first);
+    if(!referenceNode)
+      return insertFront(value);
 
-    Node!T storedNode = new Node!T;
-    storedNode.value = value;
-    storedNode.list = this;
+    auto node = new Node!T(this, value);
 
-    if(node) {
-      storedNode.last = node.last;
-      node.last = storedNode;
-      storedNode.next = node;
-    } else {
-      first = last = storedNode;
-    }
+    node.next = referenceNode;
+    node.last = referenceNode.last;
 
-    if(storedNode.last)
-      storedNode.last.next = storedNode;
+    if(referenceNode.last)
+      referenceNode.last.next = node;
+
+    referenceNode.last = node;
 
     count++;
-    return storedNode;
+    return node;
   }
 
   /**
-   * Creates a node in the list placed after the specified node
+   * Creates a node in the list placed after the reference node
    */
-  Node!T insertAfter(T value, Node!T node)
+  Node!T insertAfter(T value, Node!T referenceNode)
   {
-    if(!node && last)
-      return insertAfter(value, last);
+    if(!referenceNode)
+      return insertBack(value);
 
-    Node!T storedNode = new Node!T;
-    storedNode.value = value;
-    storedNode.list = this;
+    auto node = new Node!T(this, value);
 
-    if(node) {
-      storedNode.next = node.next;
-      node.next = storedNode;
-      storedNode.last = node;
-    } else {
-      first = last = storedNode;
-    }
+    node.last = referenceNode;
+    node.next = referenceNode.next;
 
-    if(storedNode.next)
-      storedNode.next.last = storedNode;
+    if(referenceNode.next)
+      referenceNode.next.last = node;
+
+    referenceNode.next = node;
 
     count++;
-    return storedNode;
+    return node;
   }
 
   /**
