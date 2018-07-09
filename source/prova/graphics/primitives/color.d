@@ -42,6 +42,7 @@ struct Color
     this.a = a;
   }
 
+  ///
   Color lerp(Color color, float a) const
   {
     color.r = (color.r + r) * a;
