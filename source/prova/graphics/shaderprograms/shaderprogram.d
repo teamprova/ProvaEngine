@@ -1,6 +1,7 @@
 module prova.graphics.shaderprograms.shaderprogram;
 
 import prova.graphics;
+import prova.interfaces;
 import prova.math;
 import std.conv;
 import std.file;
@@ -19,7 +20,7 @@ enum DrawMode : uint {
 }
 
 ///
-class ShaderProgram
+class ShaderProgram : Asset
 {
   private static uint currentId = -1;
   private uint[] shaders;

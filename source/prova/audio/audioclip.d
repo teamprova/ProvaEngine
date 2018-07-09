@@ -2,10 +2,11 @@ module prova.audio.audioclip;
 
 import derelict.openal.al;
 import derelict.vorbis;
+import prova.interfaces;
 import std.string;
 
 /// Only supports ogg for now
-final class AudioClip
+final class AudioClip : Asset
 {
   /// What distance in units equals one meter (defaults to 1)
   static float scale = 1;

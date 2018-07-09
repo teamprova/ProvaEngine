@@ -14,6 +14,7 @@ class Game
   private Screen _screen;
   private Input _input;
   private Scene _activeScene;
+  private AssetManager assetManager; 
   private bool _isFullscreen = false;
   private bool running = false;
 
@@ -31,6 +32,7 @@ class Game
 
     _screen = new Screen(this, width, height);
     _input = new Input(this);
+    assetManager = new AssetManager();
   }
 
   ///
@@ -49,6 +51,12 @@ class Game
   @property Input input()
   {
     return _input;
+  }
+
+  ///
+  @property AssetManager assets()
+  {
+    return assetManager;
   }
 
   ///

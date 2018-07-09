@@ -2,6 +2,7 @@ module prova.graphics.text.font;
 
 import derelict.freetype;
 import prova.graphics;
+import prova.interfaces;
 import prova.math;
 import std.algorithm;
 import std.conv;
@@ -9,7 +10,7 @@ import std.math;
 import std.string;
 
 ///
-final class Font
+final class Font : Asset
 {
   package(prova) static FT_Library ftlibrary;
   ///

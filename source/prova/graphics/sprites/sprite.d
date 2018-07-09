@@ -22,7 +22,7 @@ class Sprite
   ///
   this(string sheetpath)
   {
-    Texture texture = Texture.fetch(sheetpath);
+    Texture texture = new Texture(sheetpath);
     this(texture);
   }
 

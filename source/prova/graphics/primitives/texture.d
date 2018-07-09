@@ -2,13 +2,13 @@ module prova.graphics.primitives.texture;
 
 import imageformats;
 import prova.graphics;
+import prova.interfaces;
 import std.algorithm.mutation;
 import std.string;
 
 ///
-final class Texture
+final class Texture : Asset
 {
-  private static Texture[string] textureCache;
   private static uint bindedId;
   ///
   immutable uint id;
@@ -33,6 +33,16 @@ final class Texture
     this.id = id;
 
     recreate(data, width, height);
+  }
+
+  ///
+  this(string path)
+  {
+    IFImage image = read_image(path, ColFmt.RGBA);
+
+    flipImage(image);
+
+    this(image.pixels, image.w, image.h);
   }
 
   ///
@@ -142,25 +152,6 @@ final class Texture
     return data;
   }
 
-  ///
-  public static Texture fetch(string path)
-  {
-    return path in textureCache ? textureCache[path] : cacheFile(path);
-  }
-
-  ///
-  public static Texture cacheFile(string path)
-  {
-    IFImage image = read_image(path, ColFmt.RGBA);
-
-    flipImage(image);
-
-    Texture texture = new Texture(image.pixels, image.w, image.h);
-    textureCache[path] = texture;
-
-    return texture;
-  }
-
   private static void flipImage(ref IFImage image)
   {
     int rowLength = image.w * 4;
@@ -196,10 +187,5 @@ final class Texture
 
     bindedId = id;
     glBindTexture(GL_TEXTURE_2D, id);
-  }
-
-  package(prova) static cleanUp()
-  {
-    textureCache.clear();
   }
 }

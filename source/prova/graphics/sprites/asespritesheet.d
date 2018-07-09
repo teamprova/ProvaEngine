@@ -8,8 +8,6 @@ import std.path;
 /// Uses sprite sheets generated from Aseprite
 class AseSpriteSheet : SpriteSheet
 {
-  private static SpriteSheet[string] sheetCache;
-
   /**
    * JSON file should have the same name and be in the same folder
    * 
@@ -17,17 +15,6 @@ class AseSpriteSheet : SpriteSheet
    *   path = Path of the image file
    */
   this(string path)
-  {
-    SpriteSheet cachedSheet;
-    cachedSheet = path in sheetCache ? sheetCache[path] : cacheFile(path);
-
-    frames = cachedSheet.frames;
-    animations = cachedSheet.animations;
-    texture = cachedSheet.texture;
-  }
-
-  ///
-  static SpriteSheet cacheFile(string path)
   {
     string jsonPath = stripExtension(path) ~ ".json";
     string jsonString = readText(jsonPath);
@@ -37,17 +24,12 @@ class AseSpriteSheet : SpriteSheet
     JSONValue metaObject = json["meta"].object;
     JSONValue frameTagsObject = metaObject["frameTags"];
 
-    SpriteSheet sheet = new SpriteSheet();
-    sheet.frames = getFrames(framesObject);
-    sheet.animations = getAnimations(frameTagsObject, sheet.frames);
-    sheet.texture = Texture.fetch(path);
-
-    sheetCache[path] = sheet;
-
-    return sheet;
+    frames = getFrames(framesObject);
+    animations = getAnimations(frameTagsObject, frames);
+    texture = new Texture(path);
   }
 
-  private static SpriteFrame[] getFrames(JSONValue framesObject)
+  private SpriteFrame[] getFrames(JSONValue framesObject)
   {
     SpriteFrame[] frames;
 
@@ -60,7 +42,7 @@ class AseSpriteSheet : SpriteSheet
     return frames;
   }
 
-  private static SpriteFrame readFrame(JSONValue frameObject)
+  private SpriteFrame readFrame(JSONValue frameObject)
   {
     SpriteFrame frame;
 
@@ -76,7 +58,7 @@ class AseSpriteSheet : SpriteSheet
     return frame;
   }
 
-  private static SpriteAnimation[string] getAnimations(JSONValue frameTagsObject, SpriteFrame[] frames)
+  private SpriteAnimation[string] getAnimations(JSONValue frameTagsObject, SpriteFrame[] frames)
   {
     SpriteAnimation[string] animations;
 

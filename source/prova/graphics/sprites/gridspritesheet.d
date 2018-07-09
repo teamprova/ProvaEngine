@@ -14,7 +14,7 @@ class GridSpriteSheet : SpriteSheet
    */
   this(string path, int cols, int rows, float defaultDuration)
   {
-    texture = Texture.fetch(path);
+    texture = new Texture(path);
 
     float clipWidth = texture.width / cols;
     float clipHeight = texture.height / rows;
