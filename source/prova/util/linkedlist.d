@@ -66,8 +66,8 @@ class Node(T)
 }
 
 /**
-  * LinkedList template
-  */
+ * LinkedList template
+ */
 class LinkedList(T)
 {
   private Node!T first;
@@ -75,8 +75,8 @@ class LinkedList(T)
   private int count = 0;
 
   /**
-    * Returns the node count
-    */
+   * Returns the node count
+   */
   @property int length()
   {
     return count;
@@ -95,24 +95,24 @@ class LinkedList(T)
   }
 
   /**
-    * Creates a node and places it at the start of the list
-    */
+   * Creates a node and places it at the start of the list
+   */
   Node!T insertFront(T value)
   {
     return insertBefore(value, first);
   }
 
   /**
-    * Creates a node and places it at the end of the list
-    */
+   * Creates a node and places it at the end of the list
+   */
   Node!T insertBack(T value)
   {
     return insertAfter(value, last);
   }
 
   /**
-    * Creates a node in the list placed before the specified node
-    */
+   * Creates a node in the list placed before the specified node
+   */
   Node!T insertBefore(T value, Node!T node)
   {
     if(!node && first)
@@ -138,8 +138,8 @@ class LinkedList(T)
   }
 
   /**
-    * Creates a node in the list placed after the specified node
-    */
+   * Creates a node in the list placed after the specified node
+   */
   Node!T insertAfter(T value, Node!T node)
   {
     if(!node && last)
@@ -165,8 +165,8 @@ class LinkedList(T)
   }
 
   /**
-    * Tests if the list contains a node with the specified value
-    */
+   * Tests if the list contains a node with the specified value
+   */
   bool contains(T value)
   {
     foreach(Node!T node; this)
@@ -177,8 +177,8 @@ class LinkedList(T)
   }
 
   /**
-    * Removes the first node with the specified value
-    */
+   * Removes the first node with the specified value
+   */
   void remove(T value)
   {
     foreach(Node!T node; this) {
@@ -190,8 +190,8 @@ class LinkedList(T)
   }
 
   /**
-    * Empties the LinkedList
-    */
+   * Empties the LinkedList
+   */
   void clear()
   {
     first = null;
@@ -199,6 +199,7 @@ class LinkedList(T)
     count = 0;
   }
 
+  ///
   int opApply(int delegate(Node!T result) dg)
   {
     int result = 0;
@@ -213,6 +214,7 @@ class LinkedList(T)
     return result;
   }
 
+  ///
   int opApply(int delegate(ref T result) dg)
   {
     int result = 0;
