@@ -1,6 +1,6 @@
 module prova.collision.intersects;
 
-import prova.collision;
+import prova.attachables;
 import prova.math;
 import std.math;
 

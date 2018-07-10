@@ -1,12 +1,8 @@
 module prova.graphics;
 
-public import prova.graphics.camera,
+public import prova.graphics.color,
               prova.graphics.glcontext,
               prova.graphics.opengl,
-              prova.graphics.primitives,
               prova.graphics.rendertarget,
               prova.graphics.screen,
-              prova.graphics.shaderprograms,
-              prova.graphics.shapes,
-              prova.graphics.sprites,
-              prova.graphics.text;
+              prova.graphics.spritebatch;

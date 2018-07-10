@@ -1,6 +1,7 @@
 module prova.graphics.screen;
 
 import derelict.sdl2.sdl;
+import prova.assets;
 import prova.core;
 import prova.graphics;
 import prova.math;

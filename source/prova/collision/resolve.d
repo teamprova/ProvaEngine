@@ -1,6 +1,6 @@
 module prova.collision.resolve;
 
-import prova.collision;
+import prova.attachables;
 import prova.math;
 
 // Helper functions for getting a displacement vector that allows colliderA to escape colliderB

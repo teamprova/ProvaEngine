@@ -1,5 +1,6 @@
 module prova.collision.spacialmap2d;
 
+import prova.attachables;
 import prova.collision;
 import prova.core;
 import prova.graphics;

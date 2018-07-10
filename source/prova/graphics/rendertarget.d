@@ -1,5 +1,7 @@
 module prova.graphics.rendertarget;
 
+import prova.assets;
+import prova.attachables;
 import prova.graphics;
 import prova.math;
 import std.typecons;
