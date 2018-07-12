@@ -47,6 +47,12 @@ struct Vector3
     return vector;
   }
 
+  ///
+  @property Vector2 xy() const
+  {
+    return Vector2(x, y);
+  }
+
   /// Returns a normalized copy of this vector
   Vector3 getNormalized() const
   {
