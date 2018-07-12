@@ -292,13 +292,14 @@ struct Matrix
 
   Vector3 opMul(Vector3 vector) const
   {
-    float[3] result;
+    float[3] result; // x, y, z, 1
 
     foreach(i; 0 .. 3) {
       result[i] = array[0][i] * vector.x +
                   array[1][i] * vector.y +
                   array[2][i] * vector.z +
-                  array[3][i];
+                  array[3][i]/*    1   */+
+                  array[i][3]; // translate
     }
 
     return Vector3(result[0], result[1], result[2]);
@@ -306,12 +307,13 @@ struct Matrix
 
   Vector2 opMul(Vector2 vector) const
   {
-    float[2] result;
+    float[2] result; // x, y, 0, 1
 
     foreach(i; 0 .. 2) {
       result[i] = array[0][i] * vector.x +
                   array[1][i] * vector.y +
-                  array[3][i];
+                  array[3][i]/*    1   */+
+                  array[i][3]; // translate
     }
 
     return Vector2(result[0], result[1]);
