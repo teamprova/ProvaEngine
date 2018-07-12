@@ -11,19 +11,16 @@ import std.math;
 ///
 class Screen : RenderTarget
 {
-  ///
-  GLContext glContext;
   private Game game;
   private Mesh quad;
   private Matrix quadProjectionMatrix;
   private Color clearColor;
 
-  package(prova) this(Game game, int width, int height)
+  package(prova) this(Game game, GraphicsContext context, int width, int height)
   {
     this.game = game;
 
-    glContext = new GLContext(game.window);
-    super(width, height);
+    super(context, width, height);
     disableVSync();
 
     quad = new SpriteMesh();
@@ -140,13 +137,11 @@ class Screen : RenderTarget
   package(prova) void swapBuffer()
   {
     // render the FBO
-    ShaderProgram shaderProgram = SpriteBatch.defaultShaderProgram;
-
-    shaderProgram.setMatrix("transform", quadProjectionMatrix);
-    shaderProgram.setTexture(0, texture.id);
-    shaderProgram.setVector4("clip", Rect(0, 0, 1, 1));
-    shaderProgram.setVector4("tint", Color(1, 1, 1));
-    shaderProgram.drawMesh(quad, 0, DrawMode.TRIANGLE_FAN);
+    context.spriteShader.setMatrix("transform", quadProjectionMatrix);
+    context.spriteShader.setTexture(0, texture.id);
+    context.spriteShader.setVector4("clip", Rect(0, 0, 1, 1));
+    context.spriteShader.setVector4("tint", Color(1, 1, 1));
+    context.spriteShader.drawMesh(quad, 0, DrawMode.TRIANGLE_FAN);
 
     SDL_GL_SwapWindow(game.window);
   }

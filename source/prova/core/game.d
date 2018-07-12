@@ -23,6 +23,8 @@ class Game
   {
     init();
 
+    auto context = new GraphicsContext();
+
     window = SDL_CreateWindow(
       toStringz(title),
       SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
@@ -30,7 +32,9 @@ class Game
       SDL_WINDOW_OPENGL
     );
 
-    _screen = new Screen(this, width, height);
+    context.setWindow(window);
+
+    _screen = new Screen(this, context, width, height);
     _input = new Input(this);
     assetManager = new AssetManager();
   }

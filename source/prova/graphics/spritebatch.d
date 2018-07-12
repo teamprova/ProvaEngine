@@ -10,22 +10,19 @@ import std.typecons;
 ///
 final class SpriteBatch
 {
-  static ShaderProgram defaultShaderProgram;
-  /// Copy of defaultShaderProgram
+  /// Copy of GraphicsContext.spriteShader
   ShaderProgram shaderProgram;
   private bool begun;
   private Mesh mesh;
+  private GraphicsContext context;
   private RenderTarget renderTarget;
   private Matrix projection;
   private LinkedList!(Tuple!(Sprite, Matrix)) sprites;
 
   ///
-  this()
+  this(GraphicsContext context)
   {
-    if(!defaultShaderProgram)
-      defaultShaderProgram = new SpriteShaderProgram();
-
-    shaderProgram = defaultShaderProgram;
+    shaderProgram = context.spriteShader;
 
     sprites = new LinkedList!(Tuple!(Sprite, Matrix));
 

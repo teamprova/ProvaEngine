@@ -12,7 +12,6 @@ package void init()
   initSDL();
   initOpenAL();
   initVorbis();
-  initOpenGL();
   initFreeType();
 }
 
@@ -46,15 +45,6 @@ private void initVorbis()
   DerelictVorbisFile.load();
 }
 
-private void initOpenGL()
-{
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-
-  DerelictGL3.load();
-}
-
 private void initFreeType()
 {
   DerelictFT.load();
@@ -67,7 +57,6 @@ private void initFreeType()
 package void finalize()
 {
   finalizeOpenAL();
-  finalizeOpenGL();
   finalizeSDL();
   finalizeFreeType();
 }
@@ -77,11 +66,6 @@ private void finalizeOpenAL()
   alcMakeContextCurrent(null);
   alcDestroyContext(Audio.context);
   alcCloseDevice(Audio.device);
-}
-
-private void finalizeOpenGL()
-{
-  SpriteBatch.defaultShaderProgram = null;
 }
 
 private void finalizeSDL()

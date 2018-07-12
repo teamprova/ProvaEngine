@@ -9,7 +9,6 @@ import std.typecons;
 ///
 class RenderTarget
 {
-  static ShaderProgram flatShaderProgram;
   private static uint currentFrameBuffer = -1;
 
   ///
@@ -17,6 +16,7 @@ class RenderTarget
   ///
   protected Matrix projection;
 
+  private GraphicsContext _context;
   private uint renderBufferId;
   private uint _frameBufferId;
   private Texture _texture;
@@ -25,12 +25,10 @@ class RenderTarget
   private bool begun;
 
   ///
-  this(int width, int height)
+  this(GraphicsContext context, int width, int height)
   {
-    if(!flatShaderProgram)
-      flatShaderProgram = new FlatShaderProgram();
-
-    spriteBatch = new SpriteBatch();
+    _context = context;
+    spriteBatch = new SpriteBatch(context);
     _texture = new Texture(width, height);
     _width = width;
     _height = height;
@@ -73,6 +71,12 @@ class RenderTarget
       GL_RENDERBUFFER,
       renderBufferId
     );
+  }
+
+  ///
+  @property GraphicsContext context()
+  {
+    return _context;
   }
 
   ///
@@ -147,9 +151,9 @@ class RenderTarget
     if(!begun)
       throw new Exception("RenderTarget not ready, call begin(Matrix projection)");
 
-    flatShaderProgram.setMatrix("transform", projection * transform);
-    flatShaderProgram.setVector4("color", color);
-    flatShaderProgram.drawMesh(mesh, this, mode);
+    context.flatShader.setMatrix("transform", projection * transform);
+    context.flatShader.setVector4("color", color);
+    context.flatShader.drawMesh(mesh, this, mode);
   }
 
   ///
