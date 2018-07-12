@@ -9,7 +9,7 @@ import std.conv;
 import std.math;
 
 ///
-class Screen : RenderTarget
+final class Screen : RenderTarget
 {
   private Game game;
   private Mesh quad;

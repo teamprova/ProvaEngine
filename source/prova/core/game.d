@@ -6,7 +6,7 @@ import prova.init;
 import std.string;
 
 /// Core class that manages input, scenes, and the window
-class Game
+final class Game
 {
   /// The FPS the gameloop will attempt to maintain
   int targetFPS = 60;
