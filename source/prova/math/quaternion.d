@@ -176,6 +176,7 @@ struct Quaternion
 
 
   // assignment overloading
+  ///
   Quaternion opAddAssign(Quaternion quaternion)
   {
     x += quaternion.x;
@@ -186,6 +187,7 @@ struct Quaternion
     return this;
   }
 
+  ///
   Quaternion opSubAssign(Quaternion quaternion)
   {
     x -= quaternion.x;
@@ -196,6 +198,7 @@ struct Quaternion
     return this;
   }
 
+  ///
   Quaternion opMulAssign(float a)
   {
     x *= a;
@@ -206,6 +209,7 @@ struct Quaternion
     return this;
   }
 
+  ///
   Quaternion opDivAssign(float a)
   {
     x /= a;
@@ -218,6 +222,7 @@ struct Quaternion
 
 
   // arithmetic overloading
+  ///
   Quaternion opAdd(Quaternion quaternion) const
   {
     Quaternion result;
@@ -229,6 +234,7 @@ struct Quaternion
     return result;
   }
 
+  ///
   Quaternion opSub(Quaternion quaternion) const
   {
     Quaternion result;
@@ -240,6 +246,7 @@ struct Quaternion
     return result; 
   }
 
+  ///
   Quaternion opUnary(string s)() const if (s == "-")
   {
     Quaternion result;
@@ -251,6 +258,7 @@ struct Quaternion
     return result;
   }
 
+  ///
   Quaternion opMul(float a) const
   {
     Quaternion result;
@@ -262,6 +270,7 @@ struct Quaternion
     return result; 
   }
 
+  ///
   Vector3 opMul(Vector3 vector) const
   {
     // Solution from Laurent Couvidou https://gamedev.stackexchange.com/users/14808/laurent-couvidou
@@ -274,6 +283,7 @@ struct Quaternion
            2 * w * xyz.cross(vector);
   }
 
+  ///
   Quaternion opMul(Quaternion quaternion) const
   {
     Vector3 crossProduct = xyz.cross(quaternion.xyz);
@@ -290,6 +300,7 @@ struct Quaternion
     return result;
   }
 
+  ///
   Quaternion opDiv(float a) const
   {
     Quaternion result;

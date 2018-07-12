@@ -141,6 +141,7 @@ struct Vector2
 
 
   // assignment overloading
+  ///
   Vector2 opAddAssign(Vector2 vector)
   {
     x += vector.x;
@@ -149,6 +150,7 @@ struct Vector2
     return this;
   }
 
+  ///
   Vector2 opSubAssign(Vector2 vector)
   {
     x -= vector.x;
@@ -157,6 +159,7 @@ struct Vector2
     return this;
   }
 
+  ///
   Vector2 opMulAssign(Vector2 vector)
   {
     x *= vector.x;
@@ -165,6 +168,7 @@ struct Vector2
     return this;
   }
 
+  ///
   Vector2 opMulAssign(float a)
   {
     x *= a;
@@ -173,6 +177,7 @@ struct Vector2
     return this;
   }
 
+  ///
   Vector2 opDivAssign(float a)
   {
     x /= a;
@@ -183,6 +188,7 @@ struct Vector2
 
 
   // arithmetic overloading
+  ///
   Vector2 opAdd(Vector2 vector) const
   {
     Vector2 result;
@@ -192,6 +198,7 @@ struct Vector2
     return result;
   }
 
+  ///
   Vector3 opAdd(Vector3 vector) const
   {
     Vector3 result;
@@ -202,6 +209,7 @@ struct Vector2
     return vector;
   }
 
+  ///
   Vector2 opSub(Vector2 vector) const
   {
     Vector2 result;
@@ -211,6 +219,7 @@ struct Vector2
     return result; 
   }
 
+  ///
   Vector3 opSub(Vector3 vector) const
   {
     Vector3 result;
@@ -221,6 +230,7 @@ struct Vector2
     return result; 
   }
 
+  ///
   Vector2 opUnary(string s)() const if (s == "-")
   {
     Vector2 result;
@@ -230,6 +240,7 @@ struct Vector2
     return result;
   }
 
+  ///
   Vector2 opMul(Vector2 vector) const
   {
     Vector2 result;
@@ -239,6 +250,7 @@ struct Vector2
     return result; 
   }
 
+  ///
   Vector2 opMul(float a) const
   {
     Vector2 result;
@@ -248,6 +260,7 @@ struct Vector2
     return result; 
   }
 
+  ///
   Vector2 opDiv(float a) const
   {
     Vector2 result;

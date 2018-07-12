@@ -147,6 +147,7 @@ struct Vector3
 
 
   // assignment overloading
+  ///
   Vector3 opAddAssign(Vector3 vector)
   {
     x += vector.x;
@@ -156,6 +157,7 @@ struct Vector3
     return this;
   }
 
+  ///
   Vector3 opAddAssign(Vector2 vector)
   {
     x += vector.x;
@@ -164,6 +166,7 @@ struct Vector3
     return this;
   }
 
+  ///
   Vector3 opSubAssign(Vector3 vector)
   {
     x -= vector.x;
@@ -173,6 +176,7 @@ struct Vector3
     return this;
   }
 
+  ///
   Vector3 opSubAssign(Vector2 vector)
   {
     x -= vector.x;
@@ -181,6 +185,7 @@ struct Vector3
     return this;
   }
 
+  ///
   Vector3 opMulAssign(Vector3 vector)
   {
     x *= vector.x;
@@ -190,6 +195,7 @@ struct Vector3
     return this; 
   }
 
+  ///
   Vector3 opMulAssign(float a)
   {
     x *= a;
@@ -199,6 +205,7 @@ struct Vector3
     return this;
   }
 
+  ///
   Vector3 opDivAssign(float a)
   {
     x /= a;
@@ -210,6 +217,7 @@ struct Vector3
 
 
   // arithmetic overloading
+  ///
   Vector3 opAdd(Vector3 vector) const
   {
     Vector3 result;
@@ -220,6 +228,7 @@ struct Vector3
     return result;
   }
 
+  ///
   Vector3 opAdd(Vector2 vector) const
   {
     Vector3 result;
@@ -230,6 +239,7 @@ struct Vector3
     return result; 
   }
 
+  ///
   Vector3 opSub(Vector3 vector) const
   {
     Vector3 result;
@@ -240,6 +250,7 @@ struct Vector3
     return result; 
   }
 
+  ///
   Vector3 opSub(Vector2 vector) const
   {
     Vector3 result;
@@ -250,6 +261,7 @@ struct Vector3
     return result; 
   }
 
+  ///
   Vector3 opUnary(string s)() const if (s == "-")
   {
     Vector3 result;
@@ -260,6 +272,7 @@ struct Vector3
     return result;
   }
 
+  ///
   Vector3 opMul(Vector3 vector) const
   {
     Vector3 result;
@@ -270,6 +283,7 @@ struct Vector3
     return result; 
   }
 
+  ///
   Vector3 opMul(float a) const
   {
     Vector3 result;
@@ -280,6 +294,7 @@ struct Vector3
     return result; 
   }
 
+  ///
   Vector3 opDiv(float a) const
   {
     Vector3 result;
@@ -290,6 +305,7 @@ struct Vector3
     return result; 
   }
 
+  ///
   void opAssign(Vector2 vector)
   {
     x = vector.x;

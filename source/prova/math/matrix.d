@@ -241,11 +241,13 @@ struct Matrix
     return result;
   }
 
+  ///
   ref float[4] opIndex(int i)
   {
     return array[i];
   }
 
+  ///
   Matrix opAdd(Matrix matrix) const
   {
     foreach(y; 0 .. 4)
@@ -255,6 +257,7 @@ struct Matrix
     return matrix;
   }
 
+  ///
   Matrix opSub(Matrix matrix) const
   {
     foreach(y; 0 .. 4)
@@ -264,6 +267,7 @@ struct Matrix
     return matrix;
   }
 
+  ///
   Matrix opMul(Matrix matrix) const
   {
     Matrix result;
@@ -276,6 +280,7 @@ struct Matrix
     return result;
   }
 
+  ///
   Vector4 opMul(Vector4 vector) const
   {
     float[4] result;
@@ -290,6 +295,7 @@ struct Matrix
     return Vector4(result[0], result[1], result[2], result[3]);
   }
 
+  ///
   Vector3 opMul(Vector3 vector) const
   {
     float[3] result; // x, y, z, 1
@@ -305,6 +311,7 @@ struct Matrix
     return Vector3(result[0], result[1], result[2]);
   }
 
+  ///
   Vector2 opMul(Vector2 vector) const
   {
     float[2] result; // x, y, 0, 1
@@ -319,6 +326,7 @@ struct Matrix
     return Vector2(result[0], result[1]);
   }
 
+  ///
   Matrix opMul(float a) const
   {
     Matrix matrix;
@@ -330,6 +338,7 @@ struct Matrix
     return matrix;
   }
 
+  ///
   Matrix opDiv(float a) const
   {
     Matrix matrix;
