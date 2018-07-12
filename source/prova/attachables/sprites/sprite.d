@@ -1,11 +1,12 @@
 module prova.attachables.sprites.sprite;
 
 import prova.assets;
+import prova.attachables;
 import prova.graphics;
 import prova.math;
 
 ///
-class Sprite
+class Sprite : Renderable
 {
   ///
   Texture texture;
@@ -34,5 +35,10 @@ class Sprite
 
     clip.width = texture.width;
     clip.height = texture.height;
+  }
+
+  void draw(RenderTarget renderTarget, Matrix transform)
+  {
+    renderTarget.drawSprite(this, transform);
   }
 }

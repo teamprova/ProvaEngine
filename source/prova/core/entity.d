@@ -20,6 +20,7 @@ class Entity
   package LinkedList!(Entity) children;
   package LinkedList!(Collider2D) colliders2d;
   package LinkedList!(AudioSource) audioSources;
+  private LinkedList!(Renderable) renderables;
   private Entity _parent;
   private LinkedList!(int) tags;
 
@@ -29,6 +30,7 @@ class Entity
     children = new LinkedList!(Entity);
     colliders2d = new LinkedList!(Collider2D);
     audioSources = new LinkedList!(AudioSource);
+    renderables = new LinkedList!(Renderable);
     tags = new LinkedList!(int);
   }
 
@@ -168,6 +170,21 @@ class Entity
   }
 
   ///
+  final void attach(Renderable renderable)
+  {
+    if(renderables.contains(renderable))
+      throw new Exception("Renderable already attached");
+
+    renderables.insertBack(renderable);
+  }
+
+  ///
+  final void detach(Renderable renderable)
+  {
+    renderables.remove(renderable);
+  }
+
+  ///
   final Matrix getLocalTransformMatrix()
   {
     Matrix transform = Matrix.identity;
@@ -224,6 +241,9 @@ class Entity
   {
     foreach(Entity child; children)
       child.draw(renderTarget, transform * child.getLocalTransformMatrix());
+
+    foreach(Renderable renderable; renderables)
+      renderable.draw(renderTarget, transform);
   }
 
   /// Called when first attached to a scene

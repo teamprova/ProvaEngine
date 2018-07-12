@@ -3,6 +3,7 @@ module prova.attachables.sprites.animatedsprite;
 import derelict.sdl2.sdl;
 import prova.assets;
 import prova.attachables;
+import prova.graphics;
 import prova.math;
 import std.math;
 
@@ -123,5 +124,10 @@ class AnimatedSprite : Sprite
     currentFrame = currentAnimation.frames[0];
     frameEndTime = currentFrame.duration;
     startTime = SDL_GetTicks();
+  }
+
+  override void draw(RenderTarget renderTarget, Matrix transform)
+  {
+    renderTarget.drawSprite(this, transform);
   }
 }
