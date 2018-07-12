@@ -134,7 +134,7 @@ struct Vector2
   }
 
   /// Returns the dot product of the two vectors
-  float dot(Vector2 vector)
+  float dot(Vector2 vector) const
   {
     return x * vector.x + y * vector.y;
   }

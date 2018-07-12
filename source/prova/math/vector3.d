@@ -129,13 +129,13 @@ struct Vector3
   }
 
   /// Returns the dot product of the two vectors
-  float dot(Vector3 vector)
+  float dot(Vector3 vector) const
   {
     return x * vector.x + y * vector.y + z * vector.z;
   }
 
   /// Returns the cross product of the two vectors
-  Vector3 cross(Vector3 vector)
+  Vector3 cross(Vector3 vector) const
   {
     Vector3 result;
     result.x = y * vector.z - vector.y * z;
