@@ -144,12 +144,10 @@ struct Matrix
   {
     Matrix result;
 
-    foreach(col; 0 .. 4) {
-      result[0][col] = array[0][col] * x;
-      result[1][col] = array[1][col] * y;
-      result[2][col] = array[2][col] * z;
-      result[3][col] = array[3][col];
-    }
+    result[0][] = array[0][] * x;
+    result[1][] = array[1][] * y;
+    result[2][] = array[2][] * z;
+    result[3][] = array[3][];
 
     return result;
   }
