@@ -20,7 +20,7 @@ class Camera : Entity
   /// Width and height will be set to the screen resolution when true
   bool resolutionDependent = false;
   ///
-  float zNear = 0;
+  float zNear = float.min_normal;
   ///
   float zFar = 1000;
   /// For orthographic projection and UI
