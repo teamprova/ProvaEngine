@@ -286,10 +286,10 @@ struct Matrix
     float[4] result;
 
     foreach(i; 0 .. 4) {
-      result[i] = array[0][i] * vector.x +
-                  array[1][i] * vector.y +
-                  array[2][i] * vector.z +
-                  array[3][i] * vector.w;
+      result[i] = array[i][0] * vector.x +
+                  array[i][1] * vector.y +
+                  array[i][2] * vector.z +
+                  array[i][3] * vector.w;
     }
 
     return Vector4(result[0], result[1], result[2], result[3]);
@@ -301,11 +301,10 @@ struct Matrix
     float[3] result; // x, y, z, 1
 
     foreach(i; 0 .. 3) {
-      result[i] = array[0][i] * vector.x +
-                  array[1][i] * vector.y +
-                  array[2][i] * vector.z +
-                  array[3][i]/*    1   */+
-                  array[i][3]; // translate
+      result[i] = array[i][0] * vector.x +
+                  array[i][1] * vector.y +
+                  array[i][2] * vector.z +
+                  array[i][3]/*    1   */;
     }
 
     return Vector3(result[0], result[1], result[2]);
@@ -317,10 +316,9 @@ struct Matrix
     float[2] result; // x, y, 0, 1
 
     foreach(i; 0 .. 2) {
-      result[i] = array[0][i] * vector.x +
-                  array[1][i] * vector.y +
-                  array[3][i]/*    1   */+
-                  array[i][3]; // translate
+      result[i] = array[i][0] * vector.x +
+                  array[i][1] * vector.y +
+                  array[i][3]/*    1   */;
     }
 
     return Vector2(result[0], result[1]);
