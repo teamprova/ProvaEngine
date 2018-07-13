@@ -211,7 +211,7 @@ class Entity
   {
     Matrix transform = getWorldTransformMatrix();
 
-    return transform.transpose() * Vector3();
+    return transform * Vector3();
   }
 
   ///
