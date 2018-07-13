@@ -2,6 +2,7 @@ module prova.math.quaternion;
 
 import prova.math;
 import std.math;
+import std.algorithm : clamp;
 
 ///
 struct Quaternion
@@ -160,6 +161,29 @@ struct Quaternion
     y *= magnitude;
     z *= magnitude;
     w *= magnitude;
+  }
+
+  ///
+  Vector3 toEuler()
+  {
+    Vector3 squared = xyz * xyz;
+
+
+    Vector3 result = Vector3(
+      atan2(
+        2 * (w * x + y * z),
+        1 - 2 * (squared.x + squared.y)
+      ),
+      asin(
+        clamp(2 * (w * y - z * x), -1, 1)
+      ),
+      atan2(
+        2 * (w * z + x * y),
+        1 - 2 * (squared.y + squared.z)
+      ),
+    );
+
+    return result / PI * 180;
   }
 
   ///
