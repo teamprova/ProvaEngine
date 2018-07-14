@@ -234,6 +234,23 @@ struct Quaternion
   }
 
   ///
+  Quaternion opMulAssign(Quaternion quaternion)
+  {
+    Vector3 crossProduct = xyz.cross(quaternion.xyz);
+    float dotProduct = xyz.dot(quaternion.xyz);
+
+    Vector3 axis = xyz * quaternion.w + quaternion.xyz * w + crossProduct;
+
+    Quaternion result;
+    this.x = axis.x;
+    this.y = axis.y;
+    this.z = axis.z;
+    this.w = (w * quaternion.w) - dotProduct;
+
+    return this;
+  }
+
+  ///
   Quaternion opDivAssign(float a)
   {
     x /= a;
