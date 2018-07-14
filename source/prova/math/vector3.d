@@ -7,6 +7,19 @@ import std.math;
 struct Vector3
 {
   ///
+  static immutable auto left = Vector3(-1, 0, 0);
+  ///
+  static immutable auto right = Vector3(1, 0, 0);
+  ///
+  static immutable auto up = Vector3(0, 1, 0);
+  ///
+  static immutable auto down = Vector3(0, -1, 0);
+  ///
+  static immutable auto forward = Vector3(0, 0, -1);
+  ///
+  static immutable auto back = Vector3(0, 0, 1);
+
+  ///
   float x = 0;
   ///
   float y = 0;
