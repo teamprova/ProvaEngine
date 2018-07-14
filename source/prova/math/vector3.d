@@ -121,6 +121,23 @@ struct Vector3
     z *= magnitude;
   }
 
+  ///
+  Quaternion getDirection() const
+  {
+    Vector3 normalizedThis = getNormalized();
+    Vector3 perpendicular = forward.cross(normalizedThis);
+
+    auto result = Quaternion.fromAxisAngle(perpendicular, 90);
+
+    // flip if the this vector is > 180deg away from forward
+    if(z > 0) {
+      result *= Quaternion(0, 1, 0, 0);
+      result.y *= -1;
+    }
+
+    return result;
+  }
+
   /// Returns the distance between the vectors
   float distanceTo(Vector3 vector) const
   {
