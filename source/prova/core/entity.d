@@ -185,6 +185,13 @@ class Entity
   }
 
   ///
+  final void lookAt(Entity entity)
+  {
+    Vector3 difference = entity.getWorldPosition() - getWorldPosition();
+    rotation = difference.getDirection();
+  }
+
+  ///
   final Matrix getLocalTransformMatrix()
   {
     Matrix transform = Matrix.identity;
