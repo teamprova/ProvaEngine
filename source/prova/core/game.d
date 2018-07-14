@@ -116,10 +116,10 @@ final class Game
   }
 
   /**
-  * Starts the game loop and sets the initial scene
-  *
-  * Lines after this statement will not execute until the loop has stopped
-  */
+   * Starts the game loop and sets the initial scene
+   *
+   * Lines after this statement will not execute until the loop has stopped
+   */
   void start(Scene scene)
   {
     if(running)
