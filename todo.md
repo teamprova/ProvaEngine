@@ -1,10 +1,6 @@
 # Todo
 
 ## Priority
-* SaveFile or GameState class
-    * Name
-    * Path
-    * Property of game to provide accessibility?
 * Font
     * Test kerning
     * Unicode support
@@ -14,19 +10,12 @@
 * Stencils
     * Rectangle stencil using glScissor
     * Texture stencil
+* Abstract away OpenGL
+    * Eventually add a Vulkan GraphicsContext
 
 ## Optional/Future functionality
-* Console like Otter2D?
-    * Autocomplete
-    * Ability to pause the update loop
-    * Ability to modify entities
-        * Drag
-        * Delete
-        * Clone
-    * Ability to save scene setups
-    * Ability to display hitboxes
-    * Show FPS
 * Model class
+    * Extends Renderable
     * Mesh
     * Textures
     * UV Maps
@@ -44,3 +33,7 @@
     * Duration property
     * CurrentTime property
     * Static fromArray method
+* SaveFile or GameState class
+    * Name
+    * Path
+    * Property of game to provide accessibility?
