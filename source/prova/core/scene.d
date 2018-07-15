@@ -2,7 +2,6 @@ module prova.core.scene;
 
 import derelict.openal.al;
 import prova;
-import std.algorithm;
 import std.math;
 
 ///
@@ -197,28 +196,21 @@ class Scene
    */
   void draw(RenderTarget renderTarget)
   {
-    Entity[][float] distanceMappedEntities;
+    import std.algorithm : filter, sort;
+    import std.array : array;
 
-    foreach(Entity entity; entities)
-    {
-      // skip entities with parents
-      // the parent entity will handle rendering
-      if(entity.parent)
-        continue;
+    const auto sortDelegate = camera.getSortDelegate();
 
-      float distance;
+    auto sortedEntities =
+        entities
+          .toRange()
+          .filter!(e => !is(e.parent))
+          .array
+          .sort!(sortDelegate);
 
-      if(camera.sortingMethod == SortingMethod.Distance)
-        distance = entity.position.distanceTo(camera.position);
-      else
-        distance = camera.position.z - entity.position.z;
-
-      distanceMappedEntities[distance] ~= entity;
+    foreach(Entity entity; sortedEntities) {
+      entity.draw(renderTarget, entity.getLocalTransformMatrix());
     }
-
-    foreach_reverse(float key; sort(distanceMappedEntities.keys))
-      foreach(Entity entity; distanceMappedEntities[key])
-        entity.draw(renderTarget, entity.getLocalTransformMatrix());
   }
 
   /**

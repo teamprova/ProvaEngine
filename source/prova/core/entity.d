@@ -252,7 +252,12 @@ class Entity
   /// Called every draw tick (skipped if update loop is behind)
   void draw(RenderTarget renderTarget, Matrix transform)
   {
-    foreach(Entity child; children)
+    import std.algorithm : sort;
+
+    const auto sortDelegate = scene.camera.getSortDelegate();
+    auto sortedChildren = children.toArray().sort!(sortDelegate);
+
+    foreach(Entity child; sortedChildren)
       child.draw(renderTarget, transform * child.getLocalTransformMatrix());
 
     foreach(Renderable renderable; renderables)

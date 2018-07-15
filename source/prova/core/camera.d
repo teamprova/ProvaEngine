@@ -88,4 +88,29 @@ class Camera : Entity
 
     return Matrix.ortho(left, right, top, bottom, -1, 1);
   }
+
+  ///
+  bool delegate(Entity, Entity) getSortDelegate()
+  {
+    final switch(sortingMethod)
+    {
+      case SortingMethod.Distance:
+        return (a, b) => distanceSort(a, b);
+      case SortingMethod.Z:
+        return (a, b) => zSort(a, b);
+    }
+  }
+
+  private bool distanceSort(Entity entityA, Entity entityB)
+  {
+    float distanceA = position.distanceTo(entityA.position);
+    float distanceB = position.distanceTo(entityB.position);
+
+    return distanceA < distanceB;
+  }
+
+  private bool zSort(Entity entityA, Entity entityB)
+  {
+    return entityA.position.z < entityB.position.z;
+  }
 }
