@@ -21,6 +21,8 @@ class Scene
     collider2DMap = new SpacialMap2D();
     entities = new LinkedList!(Entity);
     audioSources = new LinkedList!(AudioSource);
+
+    addEntity(camera);
   }
 
   ///
