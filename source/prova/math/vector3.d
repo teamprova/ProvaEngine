@@ -236,6 +236,16 @@ struct Vector3
   }
 
   ///
+  Vector3 opDivAssign(Vector3 vector)
+  {
+    x /= vector.x;
+    y /= vector.y;
+    z /= vector.z;
+
+    return this;
+  }
+
+  ///
   Vector3 opDivAssign(float a)
   {
     x /= a;
@@ -322,6 +332,17 @@ struct Vector3
     result.z = z * a;
 
     return result; 
+  }
+
+  ///
+  Vector3 opDiv(Vector3 vector)
+  {
+    Vector3 result;
+    result.x = x / vector.x;
+    result.y = y / vector.y;
+    result.z = z / vector.z;
+
+    return result;
   }
 
   ///

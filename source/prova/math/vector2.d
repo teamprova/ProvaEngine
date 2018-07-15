@@ -178,6 +178,15 @@ struct Vector2
   }
 
   ///
+  Vector2 opDivAssign(Vector2 vector)
+  {
+    x /= vector.x;
+    y /= vector.y;
+
+    return this;
+  }
+
+  ///
   Vector2 opDivAssign(float a)
   {
     x /= a;
@@ -258,6 +267,16 @@ struct Vector2
     result.y = y * a;
 
     return result; 
+  }
+
+  ///
+  Vector2 opDiv(Vector2 vector)
+  {
+    Vector2 result;
+    result.x = x / vector.x;
+    result.y = y / vector.y;
+
+    return result;
   }
 
   ///

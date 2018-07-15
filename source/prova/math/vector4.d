@@ -202,6 +202,28 @@ struct Vector4
   }
 
   ///
+  Vector3 opDiv(Vector3 vector)
+  {
+    Vector3 result;
+    result.x = x * vector.x;
+    result.y = y * vector.y;
+    result.z = z * vector.z;
+
+    return result;
+  }
+
+  ///
+  Vector4 opDivAssign(Vector4 vector)
+  {
+    x /= vector.x;
+    y /= vector.y;
+    z /= vector.z;
+    w /= vector.w;
+
+    return this;
+  }
+
+  ///
   Vector4 opDivAssign(float a)
   {
     x /= a;
@@ -272,6 +294,18 @@ struct Vector4
     result.w = w * a;
 
     return result; 
+  }
+
+  ///
+  Vector4 opDiv(Vector4 vector)
+  {
+    Vector4 result;
+    result.x = x / vector.x;
+    result.y = y / vector.y;
+    result.z = z / vector.z;
+    result.w = w / vector.w;
+
+    return result;
   }
 
   ///
