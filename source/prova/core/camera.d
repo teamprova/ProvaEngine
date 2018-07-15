@@ -4,17 +4,17 @@ import prova.core;
 import prova.math;
 
 ///
-enum SortingMethod { Z, Distance }
+enum SortingMethod { Z, DISTANCE }
 ///
-enum Projection { Perspective, Orthographic }
+enum Projection { PERSPECTIVE, ORTHOGRAPHIC }
 
 ///
 class Camera : Entity
 {
   ///
-  Projection projection = Projection.Perspective;
+  Projection projection = Projection.PERSPECTIVE;
   ///
-  SortingMethod sortingMethod = SortingMethod.Distance;
+  SortingMethod sortingMethod = SortingMethod.DISTANCE;
   ///
   bool useDepthBuffer = true;
   /// Width and height will be set to the screen resolution when true
@@ -53,7 +53,7 @@ class Camera : Entity
   ///
   Matrix getProjectionMatrix()
   {
-    if(projection == Projection.Orthographic)
+    if(projection == Projection.ORTHOGRAPHIC)
       return Matrix.ortho(-width/2, width/2, height/2, -height/2, zNear, zFar);
     return Matrix.perspective(width, height, zNear, zFar, FOV);
   }
@@ -94,7 +94,7 @@ class Camera : Entity
   {
     final switch(sortingMethod)
     {
-      case SortingMethod.Distance:
+      case SortingMethod.DISTANCE:
         return (a, b) => distanceSort(a, b);
       case SortingMethod.Z:
         return (a, b) => zSort(a, b);
