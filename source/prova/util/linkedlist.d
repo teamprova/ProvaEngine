@@ -222,6 +222,25 @@ class LinkedList(T)
   }
 
   ///
+  T[] toArray()
+  {
+    T[] array;
+    array.reserve(length);
+
+    foreach(T value; this) {
+      array ~= value;
+    }
+
+    return array;
+  }
+
+  ///
+  LinkedListRange!T toRange()
+  {
+    return LinkedListRange!T(this);
+  }
+
+  ///
   int opApply(int delegate(Node!T result) dg)
   {
     int result = 0;
@@ -251,5 +270,34 @@ class LinkedList(T)
     }
 
     return result;
+  }
+}
+
+///
+struct LinkedListRange(T)
+{
+  Node!T node;
+
+  private this(LinkedList!T list)
+  {
+    this.node = list.getFirstNode();
+  }
+
+  ///
+  T front()
+  {
+    return node.value;
+  }
+
+  ///
+  void popFront()
+  {
+    node = node.getNext();
+  }
+
+  ///
+  bool empty()
+  {
+    return node is null;
   }
 }
