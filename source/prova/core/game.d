@@ -171,6 +171,8 @@ final class Game
     SDL_Event event;
     string inputText = "";
 
+    _input.reset();
+
     while(SDL_PollEvent(&event) != 0) {
       switch(event.type) {
         case SDL_QUIT:
@@ -189,9 +191,8 @@ final class Game
           inputText = fromStringz(event.text.text.ptr).idup;
           break;
         case SDL_KEYDOWN:
-          if(event.key.keysym.sym == SDLK_RETURN) {
-            inputText ~= '\n';
-          }
+          _input.setKeyDown(event.key.keysym.sym);
+          break;
         default:
           break;
       }

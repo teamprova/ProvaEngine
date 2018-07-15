@@ -14,6 +14,7 @@ class Input
   private Controller[int] controllers;
   private bool[] keystate;
   private bool[] oldKeystate;
+  private bool[Key] repeatedKeyMap;
   private bool[] buttonState;
   private bool[] oldButtonState;
   private string text = "";
@@ -25,6 +26,11 @@ class Input
     update();
     oldKeystate = keystate;
     oldButtonState = buttonState;
+  }
+
+  package(prova) void reset()
+  {
+    repeatedKeyMap.clear();
   }
 
   package(prova) void update()
@@ -71,6 +77,27 @@ class Input
     }
   }
 
+  package(prova) void setKeyDown(SDL_Keycode keycode) {
+    Key key = cast(Key) SDL_GetScancodeFromKey(keycode);
+
+    if(isKeyDown(key)) {
+      repeatedKeyMap[key] = true;
+    }
+  }
+
+  package(prova) void updateTextInput(string text)
+  {
+    const bool enteredNewLine =
+      keyJustPressed(Key.KP_ENTER) || isKeyRepeated(Key.KP_ENTER) ||
+      keyJustPressed(Key.RETURN) || isKeyRepeated(Key.RETURN);
+
+    if(enteredNewLine) {
+      text ~= '\n';
+    }
+
+    this.text = text;
+  }
+
   /// 
   Controller getController(int index)
   {
@@ -109,6 +136,15 @@ class Input
   bool keyJustPressed(Key key)
   {
     return !oldKeystate[cast(int) key] && keystate[cast(int) key];
+  }
+
+  /**
+   * Returns true if a key down event was received before the key was released
+   * Useful for creating text inputs
+   */
+  bool isKeyRepeated(Key key)
+  {
+    return (key in repeatedKeyMap) != null;
   }
 
   ///
@@ -152,10 +188,5 @@ class Input
   string getTextInput()
   {
     return text;
-  }
-
-  package(prova) void updateTextInput(string text)
-  {
-    this.text = text;
   }
 }

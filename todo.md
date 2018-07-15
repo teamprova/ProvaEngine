@@ -5,8 +5,6 @@
     * Test kerning
     * Unicode support
     * Colored glyphs
-* Input
-    * Text input
 * Stencils
     * Rectangle stencil using glScissor
     * Texture stencil
