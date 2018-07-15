@@ -16,6 +16,7 @@ class Input
   private bool[] oldKeystate;
   private bool[] buttonState;
   private bool[] oldButtonState;
+  private string text = "";
 
   package(prova) this(Game game)
   {
@@ -132,5 +133,29 @@ class Input
   Vector2 getMousePosition()
   {
     return mousePosition;
+  }
+
+  ///
+  void startTextInput()
+  {
+    SDL_StartTextInput();
+  }
+
+  ///
+  void stopTextInput()
+  {
+    SDL_StopTextInput();
+    text = "";
+  }
+
+  ///
+  string getTextInput()
+  {
+    return text;
+  }
+
+  package(prova) void updateTextInput(string text)
+  {
+    this.text = text;
   }
 }

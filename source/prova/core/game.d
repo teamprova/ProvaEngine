@@ -169,6 +169,7 @@ final class Game
   private void update()
   {
     SDL_Event event;
+    string inputText = "";
 
     while(SDL_PollEvent(&event) != 0) {
       switch(event.type) {
@@ -184,12 +185,21 @@ final class Game
               break;
           }
           break;
+        case SDL_TEXTINPUT:
+          inputText = fromStringz(event.text.text.ptr).idup;
+          break;
+        case SDL_KEYDOWN:
+          if(event.key.keysym.sym == SDLK_RETURN) {
+            inputText ~= '\n';
+          }
         default:
           break;
       }
     }
 
     _input.update();
+    _input.updateTextInput(inputText);
+
     _activeScene.update();
     _activeScene.updateAudio();
   }
