@@ -67,6 +67,17 @@ class Camera : Entity
     return getProjectionMatrix() * getViewMatrix();
   }
 
+  /// 
+  Vector2 getScreenPosition(Vector3 worldPosition)
+  {
+    Vector4 worldPositionVec4 = worldPosition;
+    worldPositionVec4.w = 1;
+
+    Vector4 clipSpacePosition = getScreenMatrix() * worldPositionVec4;
+
+    return clipSpacePosition.xy / clipSpacePosition.w;
+  }
+
   ///
   Matrix getUIMatrix()
   {

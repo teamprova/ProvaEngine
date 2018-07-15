@@ -243,6 +243,12 @@ class Entity
     return scale * worldScale;
   }
 
+  ///
+  final Vector2 getScreenPosition()
+  {
+    return scene.camera.getScreenPosition(position);
+  }
+
   /// Called every draw tick (skipped if update loop is behind)
   void draw(RenderTarget renderTarget, Matrix transform)
   {
