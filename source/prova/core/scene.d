@@ -2,7 +2,6 @@ module prova.core.scene;
 
 import derelict.openal.al;
 import prova;
-import std.math;
 
 ///
 class Scene
