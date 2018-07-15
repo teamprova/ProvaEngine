@@ -28,8 +28,8 @@ struct Vector2
   static Vector2 random()
   {
     Vector2 vector = Vector2(
-      randomF(1),
-      randomF(1)
+      randomF(-1, 1),
+      randomF(-1, 1)
     );
 
     vector.normalize();

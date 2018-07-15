@@ -50,9 +50,9 @@ struct Vector3
   static Vector3 random()
   {
     Vector3 vector = Vector3(
-      randomF(1),
-      randomF(1),
-      randomF(1)
+      randomF(-1, 1),
+      randomF(-1, 1),
+      randomF(-1, 1)
     );
 
     vector.normalize();

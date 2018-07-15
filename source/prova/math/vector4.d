@@ -46,10 +46,10 @@ struct Vector4
   static Vector4 random()
   {
     Vector4 vector = Vector4(
-      randomF(1),
-      randomF(1),
-      randomF(1),
-      randomF(1)
+      randomF(-1, 1),
+      randomF(-1, 1),
+      randomF(-1, 1),
+      randomF(-1, 1)
     );
 
     vector.normalize();
