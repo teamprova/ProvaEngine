@@ -165,7 +165,7 @@ class SpacialMap2D
   void remove(LinkedList!Collider2D colliders)
   {
     foreach(Collider2D collider; colliders) {
-      colliders.remove(collider);
+      this.colliders.remove(collider);
       collider.spacialMap = null;
     }
 
