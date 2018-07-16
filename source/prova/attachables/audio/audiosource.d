@@ -4,6 +4,7 @@ import derelict.openal.al;
 import prova.assets;
 import prova.audio;
 import prova.core;
+import prova.entities;
 import prova.math;
 
 /// 

@@ -1,6 +1,6 @@
-module prova.core.camera;
+module prova.entities.camera;
 
-import prova.core;
+import prova.entities;
 import prova.math;
 
 ///

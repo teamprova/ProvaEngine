@@ -8,8 +8,8 @@ class Scene
 {
   ///
   public Camera camera;
-  package LinkedList!(AudioSource) audioSources;
-  package SpacialMap2D collider2DMap;
+  package(prova) LinkedList!(AudioSource) audioSources;
+  package(prova) SpacialMap2D collider2DMap;
   package Game _game;
   package bool isSetup;
   private LinkedList!(Entity) entities;

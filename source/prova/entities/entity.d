@@ -1,4 +1,4 @@
-module prova.core.entity;
+module prova.entities.entity;
 
 import prova;
 
@@ -15,11 +15,11 @@ class Entity
   Vector3 velocity;
   /// Velocity is multiplied by (1 - friction) every tick
   float friction = 0;
-  package bool isSetup = false;
-  package Scene _scene;
-  package LinkedList!(Entity) children;
-  package LinkedList!(Collider2D) colliders2d;
-  package LinkedList!(AudioSource) audioSources;
+  package(prova) bool isSetup = false;
+  package(prova) Scene _scene;
+  package(prova) LinkedList!(Entity) children;
+  package(prova) LinkedList!(Collider2D) colliders2d;
+  package(prova) LinkedList!(AudioSource) audioSources;
   private LinkedList!(Renderable) renderables;
   private Entity _parent;
   private LinkedList!(int) tags;

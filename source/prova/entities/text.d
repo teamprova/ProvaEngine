@@ -1,8 +1,9 @@
-module prova.attachables.text;
+module prova.entities.text;
 
 import prova.assets;
 import prova.attachables;
 import prova.core;
+import prova.entities;
 import prova.graphics;
 import prova.math;
 
@@ -12,7 +13,7 @@ enum TextAlign { LEFT, CENTER, RIGHT }
 enum TextBaseline { TOP, MIDDLE, BOTTOM, HANGING, ALPHABETIC }
 
 ///
-class Text : Entity
+final class Text : Entity
 {
   ///
   Color color;

@@ -1,11 +1,6 @@
 module prova.attachables.colliders.collider2d;
 
-import prova.attachables;
-import prova.collision;
-import prova.core;
-import prova.graphics;
-import prova.math;
-import prova.util;
+import prova;
 
 package(prova) enum Shape { POINT, RECTANGLE, CIRCLE }
 

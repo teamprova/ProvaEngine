@@ -1,6 +1,4 @@
 module prova.core;
 
-public import prova.core.camera,
-              prova.core.entity,
-              prova.core.game,
+public import prova.core.game,
               prova.core.scene;
