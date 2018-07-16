@@ -12,6 +12,20 @@ struct Color
   ///
   float a = 1;
 
+  /// Hex string starting with a #
+  this(string hex)
+  {
+    import std.conv : to;
+
+    r = to!int(hex[1..3], 16) / 255f;
+    g = to!int(hex[3..5], 16) / 255f;
+    b = to!int(hex[5..7], 16) / 255f;
+
+    if(hex.length == 9) {
+      a = to!int(hex[7..9], 16) / 255f;
+    }
+  }
+
   ///
   this(float r, float g, float b)
   {
