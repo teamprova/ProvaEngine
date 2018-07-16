@@ -10,20 +10,38 @@ import prova.math;
 ///
 class CircleCollider : Collider2D
 {
-  ///
-  float radius;
+  private float _radius;
 
   ///
   this(float radius)
   {
     super(Shape.CIRCLE);
-    this.radius = radius;
+    _radius = radius;
+  }
+
+  ///
+  @property float radius()
+  {
+    return _radius;
+  }
+
+  ///
+  @property void radius(float radius)
+  {
+    resize(radius);
+  }
+
+  ///
+  void resize(float radius)
+  {
+    this._radius = radius;
+    updateSize();
   }
 
   ///
   override Vector2 getSize()
   {
-    return Vector2(radius * 2, radius * 2);
+    return Vector2(_radius * 2, _radius * 2);
   }
 
   ///

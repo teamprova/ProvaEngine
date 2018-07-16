@@ -10,23 +10,55 @@ import prova.math;
 ///
 class RectCollider : Collider2D
 {
-  ///
-  float width;
-  ///
-  float height;
+  private float _width;
+  private float _height;
 
   ///
   this(float width, float height)
   {
     super(Shape.RECTANGLE);
-    this.width = width;
-    this.height = height;
+    this._width = width;
+    this._height = height;
+  }
+
+  ///
+  @property float width()
+  {
+    return _width;
+  }
+
+  ///
+  @property void width(float width)
+  {
+    this._width = width;
+    updateSize();
+  }
+
+  ///
+  @property float height()
+  {
+    return _height;
+  }
+
+  ///
+  @property void height(float height)
+  {
+    this._height = height;
+    updateSize();
+  }
+
+  ///
+  void resize(float width, float height)
+  {
+    this._width = width;
+    this._height = height;
+    updateSize();
   }
 
   ///
   override Vector2 getSize()
   {
-    return Vector2(width, height);
+    return Vector2(_width, _height);
   }
 
   ///

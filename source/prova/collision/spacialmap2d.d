@@ -136,6 +136,7 @@ class SpacialMap2D
   void add(Collider2D collider)
   {
     colliders.insertBack(collider);
+    collider.spacialMap = this;
 
     updateBucketSize(collider);
   }
@@ -145,6 +146,7 @@ class SpacialMap2D
   {
     foreach(Collider2D collider; colliders) {
       this.colliders.insertBack(collider);
+      collider.spacialMap = this;
 
       updateBucketSize(collider);
     }
@@ -154,6 +156,7 @@ class SpacialMap2D
   void remove(Collider2D collider)
   {
     colliders.remove(collider);
+    collider.spacialMap = null;
 
     updateBucketSize();
   }
@@ -161,8 +164,10 @@ class SpacialMap2D
   /// Should not be called in most circumstances
   void remove(LinkedList!Collider2D colliders)
   {
-    foreach(Collider2D collider; colliders)
+    foreach(Collider2D collider; colliders) {
       colliders.remove(collider);
+      collider.spacialMap = null;
+    }
 
     updateBucketSize();
   }
@@ -175,7 +180,7 @@ class SpacialMap2D
       updateBucketSize(collider);
   }
 
-  private void updateBucketSize(Collider2D collider)
+  package(prova) void updateBucketSize(Collider2D collider)
   {
     const Vector2 size = collider.getSize();
 

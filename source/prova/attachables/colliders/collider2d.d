@@ -1,8 +1,7 @@
 module prova.attachables.colliders.collider2d;
 
 import prova.attachables;
-import prova.collision.intersects;
-import prova.collision.resolve;
+import prova.collision;
 import prova.core;
 import prova.graphics;
 import prova.math;
@@ -17,6 +16,7 @@ abstract class Collider2D
   Vector2 offset;
   package(prova) LinkedList!(Collider2D) collisions;
   package(prova) LinkedList!(Collider2D) previousCollisions;
+  package(prova) SpacialMap2D spacialMap;
   private LinkedList!(int) tags;
   private Entity _entity;
   private Shape _shape;
@@ -127,6 +127,14 @@ abstract class Collider2D
         return resolve(cast(CircleCollider) collider);
       case Shape.RECTANGLE:
         return resolve(cast(RectCollider) collider);
+    }
+  }
+
+  /// Should be called when a collider is resized
+  protected void updateSize()
+  {
+    if(spacialMap) {
+      spacialMap.updateBucketSize(this);
     }
   }
 }
