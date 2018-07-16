@@ -40,19 +40,6 @@ class Scene
   }
 
   ///
-  final Entity[] getEntities()
-  {
-    Entity[] clonedArray;
-    clonedArray.length = entities.length;
-    int i = 0;
-
-    foreach(Node!Entity node; entities)
-      clonedArray[i++] = node.value;
-
-    return clonedArray;
-  }
-
-  ///
   final void addEntity(Entity entity)
   {
     if(entity._scene == this)
