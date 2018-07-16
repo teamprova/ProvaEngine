@@ -48,7 +48,7 @@ class Scene
     entity._scene = this;
 
     foreach(Entity child; entity.children)
-      if(child.scene != this)
+      if(child._scene != this)
         addEntity(child);
 
     foreach(AudioSource source; entity.audioSources)
@@ -191,7 +191,7 @@ class Scene
 
     auto sortedEntities =
         entities
-          .filter!(e => !is(e.parent))
+          .filter!(e => e.parent is null)
           .array
           .sort!(sortDelegate);
 
