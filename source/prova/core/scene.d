@@ -12,14 +12,13 @@ class Scene
   package(prova) SpacialMap2D collider2DMap;
   package Game _game;
   package bool isSetup;
-  private LinkedList!(Entity) entities;
+  private Entity[] entities;
 
   ///
   this()
   {
     camera = new Camera();
     collider2DMap = new SpacialMap2D();
-    entities = new LinkedList!(Entity);
     audioSources = new LinkedList!(AudioSource);
 
     addEntity(camera);
@@ -45,12 +44,12 @@ class Scene
     if(entity._scene == this)
       throw new Exception("Entity was already added to the scene");
 
-    entities.insertBack(entity);
+    entities ~= entity;
     entity._scene = this;
 
     foreach(Entity child; entity.children)
-      if(!entities.contains(entity))
-        addEntity(entity);
+      if(child.scene != this)
+        addEntity(child);
 
     foreach(AudioSource source; entity.audioSources)
       audioSources.insertBack(source);
@@ -80,6 +79,8 @@ class Scene
 
   package void disassociateEntity(Entity entity)
   {
+    import std.algorithm : countUntil, remove;
+
     foreach(Entity child; entity.children)
       disassociateEntity(entity);
 
@@ -88,7 +89,9 @@ class Scene
 
     collider2DMap.remove(entity.colliders2d);
 
-    entities.remove(entity);
+    auto index = entities.countUntil(entity);
+    entities = entities.remove(index);
+
     entity._scene = null;
   }
 
@@ -191,7 +194,6 @@ class Scene
 
     auto sortedEntities =
         entities
-          .toRange()
           .filter!(e => !is(e.parent))
           .array
           .sort!(sortDelegate);
