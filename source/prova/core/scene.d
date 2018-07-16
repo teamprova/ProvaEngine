@@ -106,6 +106,7 @@ class Scene
 
   private Entity findClosestEntity(Entity entity, int tag, bool needsTag)
   {
+    Vector3 worldPosition = entity.getWorldPosition();
     float closestDistance = -1;
     Entity closestEntity = null;
 
@@ -119,7 +120,7 @@ class Scene
       if(needsTag && !other.hasTag(tag))
         continue;
 
-      const float distance = other.position.distanceTo(entity.position);
+      const float distance = worldPosition.distanceTo(other.getWorldPosition());
 
       if(distance < closestDistance || closestDistance == -1) {
         closestDistance = distance;
