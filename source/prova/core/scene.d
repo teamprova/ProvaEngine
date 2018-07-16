@@ -79,8 +79,6 @@ class Scene
 
   package void disassociateEntity(Entity entity)
   {
-    import std.algorithm : countUntil, remove;
-
     foreach(Entity child; entity.children)
       disassociateEntity(entity);
 
@@ -89,8 +87,7 @@ class Scene
 
     collider2DMap.remove(entity.colliders2d);
 
-    auto index = entities.countUntil(entity);
-    entities = entities.remove(index);
+    entities = entities.removeElement(entity);
 
     entity._scene = null;
   }
