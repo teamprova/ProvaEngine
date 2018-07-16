@@ -187,7 +187,13 @@ class Entity
   ///
   final void lookAt(Entity entity)
   {
-    Vector3 difference = entity.getWorldPosition() - getWorldPosition();
+    lookAt(entity.getWorldPosition());
+  }
+
+  ///
+  final void lookAt(Vector3 position)
+  {
+    Vector3 difference = position - getWorldPosition();
     rotation = difference.getDirection();
   }
 
