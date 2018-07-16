@@ -19,7 +19,7 @@ class Entity
   package(prova) Scene _scene;
   package(prova) LinkedList!(Entity) children;
   package(prova) LinkedList!(Collider2D) colliders2d;
-  package(prova) LinkedList!(AudioSource) audioSources;
+  package(prova) AudioSource[] audioSources;
   private LinkedList!(Renderable) renderables;
   private Entity _parent;
   private LinkedList!(int) tags;
@@ -29,7 +29,6 @@ class Entity
   {
     children = new LinkedList!(Entity);
     colliders2d = new LinkedList!(Collider2D);
-    audioSources = new LinkedList!(AudioSource);
     renderables = new LinkedList!(Renderable);
     tags = new LinkedList!(int);
   }
@@ -150,9 +149,9 @@ class Entity
       throw new Exception("Source must use a mono format");
 
     if(_scene)
-      _scene.audioSources.insertBack(source);
+      _scene.audioSources ~= source;
 
-    audioSources.insertBack(source);
+    audioSources ~= source;
     source.entity = this;
   }
 
@@ -163,9 +162,9 @@ class Entity
       throw new Exception("Collider was not attached");
 
     if(_scene)
-      _scene.audioSources.remove(source);
+      _scene.audioSources = _scene.audioSources.removeElement(source);
 
-    audioSources.remove(source);
+    audioSources = audioSources.removeElement(source);
     source.entity = null;
   }
 

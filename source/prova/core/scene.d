@@ -8,7 +8,7 @@ class Scene
 {
   ///
   public Camera camera;
-  package(prova) LinkedList!(AudioSource) audioSources;
+  package(prova) AudioSource[] audioSources;
   package(prova) SpacialMap2D collider2DMap;
   package Game _game;
   package bool isSetup;
@@ -19,7 +19,6 @@ class Scene
   {
     camera = new Camera();
     collider2DMap = new SpacialMap2D();
-    audioSources = new LinkedList!(AudioSource);
 
     addEntity(camera);
   }
@@ -52,7 +51,7 @@ class Scene
         addEntity(child);
 
     foreach(AudioSource source; entity.audioSources)
-      audioSources.insertBack(source);
+      audioSources ~= source;
 
     collider2DMap.add(entity.colliders2d);
 
@@ -82,8 +81,9 @@ class Scene
     foreach(Entity child; entity.children)
       disassociateEntity(entity);
 
-    foreach(AudioSource source; entity.audioSources)
-      audioSources.remove(source);
+    foreach(AudioSource source; entity.audioSources) {
+      audioSources = audioSources.removeElement(source);
+    }
 
     collider2DMap.remove(entity.colliders2d);
 
