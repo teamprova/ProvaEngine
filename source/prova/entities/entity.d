@@ -81,11 +81,13 @@ class Entity
     if(entity.parent || entity.parent == this)
       throw new Exception("Entity already attached");
 
+    // marked as parent before Scene.addEntity, scene needs to find
+    // entities without parents for it's root entities list
+    entity.parent = this;
+    children ~= entity;
+
     if(_scene)
       _scene.addEntity(entity);
-
-    children ~= entity;
-    entity.parent = this;
   }
 
   /// Detach a child entity or the parent entity
@@ -102,8 +104,10 @@ class Entity
     if(_scene && entity._scene)
       _scene.removeEntity(entity);
 
-    children = children.removeElement(entity);
+    // abandon child after Scene.removeEntity, so that the scene
+    // knows that the entity removed is not a root entity
     entity.parent = null;
+    children = children.removeElement(entity);
   }
 
   ///

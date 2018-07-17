@@ -12,7 +12,8 @@ class Scene
   package(prova) SpacialMap2D collider2DMap;
   package Game _game;
   package bool isSetup;
-  private Entity[] entities;
+  private Entity[] rootEntities;
+  private Entity[] allEntities;
 
   ///
   this()
@@ -43,7 +44,11 @@ class Scene
     if(entity._scene == this)
       throw new Exception("Entity was already added to the scene");
 
-    entities ~= entity;
+    if(!entity.parent)
+      rootEntities ~= entity;
+
+    allEntities ~= entity;
+
     entity._scene = this;
 
     foreach(Entity child; entity.children)
@@ -87,7 +92,10 @@ class Scene
 
     collider2DMap.remove(entity.colliders2d);
 
-    entities = entities.removeElement(entity);
+    if(!entity.parent)
+      rootEntities = rootEntities.removeElement(entity);
+
+    allEntities = allEntities.removeElement(entity);
 
     entity._scene = null;
   }
@@ -110,7 +118,7 @@ class Scene
     float closestDistance = -1;
     Entity closestEntity = null;
 
-    foreach(Entity other; entities)
+    foreach(Entity other; allEntities)
     {
       // make sure we aren't matching with self
       if(other == entity)
@@ -146,7 +154,7 @@ class Scene
   /// Called by Scene.update()
   void updateEntities()
   {
-    foreach(Entity entity; entities) {
+    foreach(Entity entity; allEntities) {
       entity.update();
       entity.position += entity.velocity;
       entity.velocity *= 1 - entity.friction;
@@ -190,11 +198,7 @@ class Scene
 
     const auto sortDelegate = camera.getSortDelegate();
 
-    auto sortedEntities =
-        entities
-          .filter!(e => e.parent is null)
-          .array
-          .sort!(sortDelegate);
+    auto sortedEntities = rootEntities.sort!(sortDelegate);
 
     foreach(Entity entity; sortedEntities) {
       entity.draw(renderTarget, entity.getLocalTransformMatrix());
