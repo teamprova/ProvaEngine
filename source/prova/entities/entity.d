@@ -20,7 +20,7 @@ class Entity
   package(prova) Entity[] children;
   package(prova) LinkedList!(Collider2D) colliders2d;
   package(prova) AudioSource[] audioSources;
-  private LinkedList!(Renderable) renderables;
+  private Renderable[] renderables;
   private Entity _parent;
   private LinkedList!(int) tags;
 
@@ -28,7 +28,6 @@ class Entity
   this()
   {
     colliders2d = new LinkedList!(Collider2D);
-    renderables = new LinkedList!(Renderable);
     tags = new LinkedList!(int);
   }
 
@@ -170,16 +169,18 @@ class Entity
   ///
   final void attach(Renderable renderable)
   {
-    if(renderables.contains(renderable))
+    import std.algorithm : canFind;
+
+    if(renderables.canFind(renderable))
       throw new Exception("Renderable already attached");
 
-    renderables.insertBack(renderable);
+    renderables ~= renderable;
   }
 
   ///
   final void detach(Renderable renderable)
   {
-    renderables.remove(renderable);
+    renderables = renderables.removeElement(renderable);
   }
 
   ///
