@@ -2,17 +2,16 @@ module prova.input.binding;
 
 import prova.input;
 import prova.math;
-import prova.util;
 
 /// Allows representation of input from multiple sources in a uniform way
 class Binding
 {
   private Controller controller;
   private Input input;
-  private LinkedList!(Key)[int] boundKeyButtons;
-  private LinkedList!(ControllerButton)[int] boundControllerButtons;
-  private LinkedList!(Key[4])[int] boundKeySticks;
-  private LinkedList!(ThumbStick)[int] boundControllerSticks;
+  private Key[][int] boundKeyButtons;
+  private ControllerButton[][int] boundControllerButtons;
+  private Key[4][][int] boundKeySticks;
+  private ThumbStick[][int] boundControllerSticks;
 
   /// Forward of deadzone on Controller
   @property float deadzone()
@@ -47,19 +46,13 @@ class Binding
   ///
   void bindButton(int button, Key key)
   {
-    if(!(button in boundKeyButtons))
-      boundKeyButtons[button] = new LinkedList!(Key);
-
-    boundKeyButtons[button].insertBack(key);
+    boundKeyButtons[button] ~= key;
   }
 
   ///
   void bindButton(int button, ControllerButton controllerButton)
   {
-    if(!(button in boundControllerButtons))
-      boundControllerButtons[button] = new LinkedList!(ControllerButton);
-
-    boundControllerButtons[button].insertBack(controllerButton);
+    boundControllerButtons[button] ~= controllerButton;
   }
 
   /**
@@ -69,20 +62,14 @@ class Binding
    */
   void bindStick(int stick, Key up, Key left, Key down, Key right)
   {
-    if(!(stick in boundKeySticks))
-      boundKeySticks[stick] = new LinkedList!(Key[4]);
-
     Key[4] simulatedStick = [up, left, down, right];
-    boundKeySticks[stick].insertBack(simulatedStick);
+    boundKeySticks[stick] ~= simulatedStick;
   }
 
   ///
   void bindStick(int stick, ThumbStick joystick)
   {
-    if(!(stick in boundControllerSticks))
-      boundControllerSticks[stick] = new LinkedList!(ThumbStick);
-
-    boundControllerSticks[stick].insertBack(joystick);
+    boundControllerSticks[stick] ~= joystick;
   }
 
   ///
@@ -100,7 +87,7 @@ class Binding
       return false;
 
     // loop through bound keys and return true if just pressed
-    LinkedList!Key keyButtons = boundKeyButtons[button];
+    Key[] keyButtons = boundKeyButtons[button];
 
     foreach(Key keyButton; keyButtons)
       if(input.isKeyDown(keyButton))
@@ -117,7 +104,7 @@ class Binding
       return false;
 
     // loop through bound buttons and return true if just pressed
-    LinkedList!ControllerButton controllerButtons = boundControllerButtons[button];
+    ControllerButton[] controllerButtons = boundControllerButtons[button];
 
     foreach(ControllerButton controllerButton; controllerButtons)
       if(controller.isButtonDown(controllerButton))
@@ -147,7 +134,7 @@ class Binding
       return false;
 
     // loop through bound keys and return true if just pressed
-    LinkedList!Key keyButtons = boundKeyButtons[button];
+    Key[] keyButtons = boundKeyButtons[button];
 
     foreach(Key keyButton; keyButtons)
       if(input.keyJustPressed(keyButton))
@@ -164,7 +151,7 @@ class Binding
       return false;
 
     // loop through bound buttons and return true if just pressed
-    LinkedList!ControllerButton controllerButtons = boundControllerButtons[button];
+    ControllerButton[] controllerButtons = boundControllerButtons[button];
 
     foreach(ControllerButton controllerButton; controllerButtons)
       if(controller.buttonJustPressed(controllerButton))
@@ -203,7 +190,7 @@ class Binding
       return zero;
 
     // loop through bound sticks and return only if it does not equal zero
-    LinkedList!(Key[4]) keySticks = boundKeySticks[stick];
+    Key[4][] keySticks = boundKeySticks[stick];
 
     foreach(Key[4] keyStick; keySticks) {
       Vector2 vector = input.simulateStick(
@@ -227,7 +214,7 @@ class Binding
       return zero;
 
     // loop through bound sticks and return only if it does not equal zero
-    LinkedList!ThumbStick thumbsticks = boundControllerSticks[stick];
+    ThumbStick[] thumbsticks = boundControllerSticks[stick];
 
     foreach(ThumbStick thumbstick; thumbsticks) {
       Vector2 vector = controller.getStick(thumbstick);
