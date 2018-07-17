@@ -19,7 +19,7 @@ class PointCollider : Collider2D
   ///
   override Vector2 getSize()
   {
-    return Vector2(1, 1);
+    return Vector2(0, 0);
   }
 
   ///
