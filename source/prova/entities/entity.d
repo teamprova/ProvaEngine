@@ -17,7 +17,7 @@ class Entity
   float friction = 0;
   package(prova) bool isSetup = false;
   package(prova) Scene _scene;
-  package(prova) LinkedList!(Entity) children;
+  package(prova) Entity[] children;
   package(prova) LinkedList!(Collider2D) colliders2d;
   package(prova) AudioSource[] audioSources;
   private LinkedList!(Renderable) renderables;
@@ -27,7 +27,6 @@ class Entity
   ///
   this()
   {
-    children = new LinkedList!(Entity);
     colliders2d = new LinkedList!(Collider2D);
     renderables = new LinkedList!(Renderable);
     tags = new LinkedList!(int);
@@ -91,7 +90,7 @@ class Entity
     if(_scene)
       _scene.addEntity(entity);
 
-    children.insertBack(entity);
+    children ~= entity;
     entity.parent = this;
   }
 
@@ -109,7 +108,7 @@ class Entity
     if(_scene && entity._scene)
       _scene.removeEntity(entity);
 
-    children.remove(entity);
+    children = children.removeElement(entity);
     entity.parent = null;
   }
 
@@ -260,7 +259,7 @@ class Entity
     import std.algorithm : sort;
 
     const auto sortDelegate = scene.camera.getSortDelegate();
-    auto sortedChildren = children.toArray().sort!(sortDelegate);
+    auto sortedChildren = children.sort!(sortDelegate);
 
     foreach(Entity child; sortedChildren)
       child.draw(renderTarget, transform * child.getLocalTransformMatrix());
