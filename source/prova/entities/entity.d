@@ -22,13 +22,12 @@ class Entity
   package(prova) AudioSource[] audioSources;
   private Renderable[] renderables;
   private Entity _parent;
-  private LinkedList!(int) tags;
+  private int[] tags;
 
   ///
   this()
   {
     colliders2d = new LinkedList!(Collider2D);
-    tags = new LinkedList!(int);
   }
 
   ///
@@ -65,19 +64,21 @@ class Entity
   ///
   final void addTag(int tag)
   {
-    tags.insertBack(tag);
+    tags ~= tag;
   }
 
   ///
   final void removeTag(int tag)
   {
-    tags.remove(tag);
+    tags = tags.removeElement(tag);
   }
 
   ///
   final bool hasTag(int tag)
   {
-    return tags.contains(tag);
+    import std.algorithm : canFind;
+
+    return tags.canFind(tag);
   }
 
   /// Makes the passed entity a child of this entity
