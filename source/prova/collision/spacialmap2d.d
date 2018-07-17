@@ -15,13 +15,12 @@ class SpacialMap2D
   int bucketPadding = 5;
   private Vector2 bucketSize;
   private LinkedList!(Collider2D)[Vector2] map;
-  private LinkedList!(Collider2D) colliders;
+  private Collider2D[] colliders;
   private LinkedList!(Collider2D[2]) collisions;
 
   ///
   this()
   {
-    colliders = new LinkedList!(Collider2D);
     collisions = new LinkedList!(Collider2D[2]);
   }
 
@@ -135,17 +134,17 @@ class SpacialMap2D
   /// Should not be called in most circumstances
   void add(Collider2D collider)
   {
-    colliders.insertBack(collider);
+    colliders ~= collider;
     collider.spacialMap = this;
 
     updateBucketSize(collider);
   }
 
   /// Should not be called in most circumstances
-  void add(LinkedList!Collider2D colliders)
+  void add(Collider2D[] colliders)
   {
     foreach(Collider2D collider; colliders) {
-      this.colliders.insertBack(collider);
+      this.colliders ~= collider;
       collider.spacialMap = this;
 
       updateBucketSize(collider);
@@ -155,17 +154,17 @@ class SpacialMap2D
   /// Should not be called in most circumstances
   void remove(Collider2D collider)
   {
-    colliders.remove(collider);
+    colliders = colliders.removeElement(collider);
     collider.spacialMap = null;
 
     updateBucketSize();
   }
 
   /// Should not be called in most circumstances
-  void remove(LinkedList!Collider2D colliders)
+  void remove(Collider2D[] colliders)
   {
     foreach(Collider2D collider; colliders) {
-      this.colliders.remove(collider);
+      this.colliders = this.colliders.removeElement(collider);
       collider.spacialMap = null;
     }
 

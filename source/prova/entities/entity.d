@@ -18,17 +18,11 @@ class Entity
   package(prova) bool isSetup = false;
   package(prova) Scene _scene;
   package(prova) Entity[] children;
-  package(prova) LinkedList!(Collider2D) colliders2d;
+  package(prova) Collider2D[] colliders2d;
   package(prova) AudioSource[] audioSources;
   private Renderable[] renderables;
   private Entity _parent;
   private int[] tags;
-
-  ///
-  this()
-  {
-    colliders2d = new LinkedList!(Collider2D);
-  }
 
   ///
   final @property Scene scene()
@@ -121,7 +115,7 @@ class Entity
     if(_scene)
       _scene.collider2DMap.add(collider);
 
-    colliders2d.insertBack(collider);
+    colliders2d ~= collider;
     collider.entity = this;
   }
 
@@ -134,7 +128,7 @@ class Entity
     if(_scene)
       _scene.collider2DMap.remove(collider);
 
-    colliders2d.remove(collider);
+    colliders2d = colliders2d.removeElement(collider);
     collider.entity = null;
   }
 
