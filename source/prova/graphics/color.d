@@ -56,17 +56,6 @@ struct Color
     this.a = a;
   }
 
-  ///
-  Color lerp(Color color, float a) const
-  {
-    color.r = (color.r + r) * a;
-    color.g = (color.g + g) * a;
-    color.b = (color.b + b) * a;
-    color.a = (color.a + a) * a;
-
-    return color;
-  }
-
   invariant
   {
     // limit components to be [0-1]
@@ -75,4 +64,23 @@ struct Color
     assert(b <= 1 && b >= 0);
     assert(a <= 1 && a >= 0);
   }
+}
+
+///
+Color lerp(Color from, Color to, float a)
+{
+  return Color(
+    from.r * (1 - a) + to.r * a,
+    from.g * (1 - a) + to.g * a,
+    from.b * (1 - a) + to.b * a,
+    from.a * (1 - a) + to.a * a,
+  );
+}
+
+unittest {
+  auto red = Color(1, 0, 0);
+  auto blue = Color(0, 0, 1);
+
+  assert(lerp(red, blue, .5) == Color(.5, 0, .5));
+  assert(lerp(red, blue, .75) == Color(.25, 0, .75));
 }
