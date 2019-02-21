@@ -10,6 +10,7 @@ prova.dll
 prova.a
 prova.lib
 prova-test-*
+provaengine-test-*
 *.exe
 *.o
 *.obj
