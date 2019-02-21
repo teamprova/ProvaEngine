@@ -126,8 +126,7 @@ class RenderTarget
   /// Updates projection and prepares batches
   void begin(Matrix projection)
   {
-    if(begun)
-      throw new Exception("RenderTarget already started");
+    assert(!begun, "RenderTarget should not already be started");
 
     spriteBatch.begin(this, projection);
 
@@ -138,8 +137,7 @@ class RenderTarget
   /// Finishes the batch
   void end()
   {
-    if(!begun)
-      throw new Exception("RenderTarget not ready, call begin(Matrix projection)");
+    assert(begun, "RenderTarget not ready, call begin(Matrix projection)");
 
     spriteBatch.end();
     begun = false;
@@ -148,8 +146,7 @@ class RenderTarget
   /// Draws mesh using a flat shader
   void drawMesh(Mesh mesh, Matrix transform, DrawMode mode, Color color)
   {
-    if(!begun)
-      throw new Exception("RenderTarget not ready, call begin(Matrix projection)");
+    assert(begun, "RenderTarget not ready, call begin(Matrix projection)");
 
     context.flatShader.setMatrix("transform", projection * transform);
     context.flatShader.setVector4("color", color);

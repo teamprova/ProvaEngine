@@ -105,8 +105,8 @@ class Controller
       return getAxis(SDL_CONTROLLER_AXIS_TRIGGERLEFT);
     if(button == ControllerButton.TRIGGER_RIGHT)
       return getAxis(SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
-    
-    throw new Exception(to!string(button) ~ " is not a trigger");
+
+    throw new Error(to!string(button) ~ " is not a trigger");
   }
 
   private float getAxis(int axis)

@@ -27,8 +27,8 @@ class Entity
   ///
   final @property Scene scene()
   {
-    if(!_scene)
-      throw new Exception("Entity is not attached to a scene");
+    assert(_scene, "Entity should be attached to a scene");
+
     return _scene;
   }
 
@@ -78,8 +78,7 @@ class Entity
   /// Makes the passed entity a child of this entity
   final void attach(Entity entity)
   {
-    if(entity.parent || entity.parent == this)
-      throw new Exception("Entity already attached");
+    assert(!entity.parent, "Entity should not already be attached to an entity");
 
     // marked as parent before Scene.addEntity, scene needs to find
     // entities without parents for it's root entities list
@@ -98,8 +97,7 @@ class Entity
       return;
     }
 
-    if(entity.parent != this)
-      throw new Exception("Entity was not attached");
+    assert(entity.parent == this, "Entity should be attached to this entity");
 
     if(_scene && entity._scene)
       _scene.removeEntity(entity);
@@ -113,8 +111,7 @@ class Entity
   ///
   final void attach(Collider2D collider)
   {
-    if(collider.entity || collider.entity == this)
-      throw new Exception("Collider already attached");
+    assert(!collider.entity, "Collider should not already be attached to an entity");
 
     if(_scene)
       _scene.collider2DMap.add(collider);
@@ -126,8 +123,7 @@ class Entity
   ///
   final void detach(Collider2D collider)
   {
-    if(collider.entity != this)
-      throw new Exception("Collider was not attached");
+    assert(collider.entity == this, "Collider should be attached to this entity");
 
     if(_scene)
       _scene.collider2DMap.remove(collider);
@@ -139,11 +135,9 @@ class Entity
   ///
   final void attach(AudioSource source)
   {
-    if(source.entity || source.entity == this)
-      throw new Exception("AudioSource already attached");
+    assert(!source.entity, "AudioSource should not already be attached to an entity");
 
-    if(source.channels == 2)
-      throw new Exception("Source must use a mono format");
+    assert(source.channels == 1, "Source must use a mono format");
 
     if(_scene)
       _scene.audioSources ~= source;
@@ -155,8 +149,7 @@ class Entity
   ///
   final void detach(AudioSource source)
   {
-    if(source.entity != this)
-      throw new Exception("Collider was not attached");
+    assert(source.entity == this, "AudioSource should be attached to this entity");
 
     if(_scene)
       _scene.audioSources = _scene.audioSources.removeElement(source);
@@ -168,17 +161,16 @@ class Entity
   ///
   final void attach(Renderable renderable)
   {
-    import std.algorithm : canFind;
-
-    if(renderables.canFind(renderable))
-      throw new Exception("Renderable already attached");
-
     renderables ~= renderable;
   }
 
   ///
   final void detach(Renderable renderable)
   {
+    import std.algorithm : canFind;
+
+    assert(renderables.canFind(renderable), "Renderable should be attached to this entity");
+
     renderables = renderables.removeElement(renderable);
   }
 

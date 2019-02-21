@@ -27,8 +27,8 @@ class Scene
   ///
   final @property Game game()
   {
-    if(!_game)
-      throw new Exception("Scene is not attached to a game");
+    assert(_game, "Scene should be attached to a game");
+
     return _game;
   }
 
@@ -41,8 +41,7 @@ class Scene
   ///
   final void addEntity(Entity entity)
   {
-    if(entity._scene == this)
-      throw new Exception("Entity was already added to the scene");
+    assert(entity._scene != this, "Entity should not already be included in this scene");
 
     if(!entity.parent)
       rootEntities ~= entity;
@@ -71,8 +70,7 @@ class Scene
   ///
   final void removeEntity(Entity entity)
   {
-    if(entity._scene != this)
-      throw new Exception("Entity was not added to the scene");
+    assert(entity._scene == this, "Entity should already be added to this scene");
 
     disassociateEntity(entity);
 

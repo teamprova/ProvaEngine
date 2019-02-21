@@ -32,8 +32,7 @@ final class SpriteBatch
   ///
   void begin(RenderTarget renderTarget, Matrix projection)
   {
-    if(begun)
-      throw new Exception("Batch already started");
+    assert(!begun, "Batch should not already be started");
 
     this.renderTarget = renderTarget;
     this.projection = projection;
@@ -51,8 +50,7 @@ final class SpriteBatch
   ///
   void batchSprite(Sprite sprite, Matrix transform)
   {
-    if(!begun)
-      throw new Exception("Batch not started");
+    assert(begun, "Batch should have started with begin(RenderTarget, Matrix projection)");
     
     sprites.insertBack(tuple(sprite, transform));
   }
@@ -60,8 +58,7 @@ final class SpriteBatch
   /// Draws batched sprites
   void end()
   {
-    if(!begun)
-      throw new Exception("Batch not started");
+    assert(begun, "Batch should have started with begin(RenderTarget, Matrix projection)");
 
     Color lastTint;
     uint lastTexture = -1;

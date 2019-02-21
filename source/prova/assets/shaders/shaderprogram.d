@@ -52,8 +52,7 @@ class ShaderProgram : Asset
   {
     const uint location = glGetAttribLocation(_id, toStringz(name));
 
-    if(location == -1)
-      throw new Exception("Couldn't find attribute: " ~ name);
+    assert(location != -1, "Attribute " ~ name ~ " should have a location in shader");
 
     return location;
   }
@@ -63,8 +62,7 @@ class ShaderProgram : Asset
   {
     const uint location = glGetUniformLocation(_id, toStringz(name));
 
-    if(location == -1)
-      throw new Exception("Couldn't find uniform: " ~ name);
+    assert(location != -1, "Uniform " ~ name ~ " should have a location in shader");
 
     return location;
   }

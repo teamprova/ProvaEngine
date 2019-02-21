@@ -99,8 +99,7 @@ final class Game
    */
   void swapScene(Scene scene)
   {
-    if(!running)
-      throw new Exception("Set the initial scene through Game.start(Scene)");
+    assert(running, "The initial scene should be set through Game.start(Scene)");
 
     setScene(scene);
   }
@@ -122,8 +121,7 @@ final class Game
    */
   void start(Scene scene)
   {
-    if(running)
-      throw new Exception("The game is already running");
+    assert(!running, "The game should not already be running");
 
     running = true;
     setScene(scene);

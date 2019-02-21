@@ -28,8 +28,7 @@ class Binding
   /// Must be called before using any other method
   void bindInput(Input input)
   {
-    if(!input)
-      throw new Exception("Input is null. Did you bind in a constructor rather than during setup()?");
+    assert(input, "Input should not be null. Did you bind in a constructor rather than during setup()?");
 
     this.input = input;
   }
@@ -37,8 +36,7 @@ class Binding
   ///
   void bindController(int index)
   {
-    if(!input)
-      throw new Exception("Input has not been binded yet");
+    assert(input, "Input should be bound");
     
     controller = input.getController(index);
   }
@@ -75,8 +73,7 @@ class Binding
   ///
   bool isButtonDown(int button)
   {
-    if(!input)
-      throw new Exception("Input has not been binded yet");
+    assert(input, "Input should be bound");
 
     return isKeyDown(button) || isControllerButtonDown(button);
   }
@@ -122,8 +119,7 @@ class Binding
   ///
   bool buttonJustPressed(int button)
   {
-    if(!input)
-      throw new Exception("Input has not been binded yet");
+    assert(input, "Input should be bound");
 
     return keyJustPressed(button) || controllerButtonJustPressed(button);
   }
@@ -163,8 +159,7 @@ class Binding
   ///
   Vector2 getStick(int stick)
   {
-    if(!input)
-      throw new Exception("Input has not been binded yet");
+    assert(input, "Input must be bound");
     
     Vector2 result;
     Vector2 zero;

@@ -64,8 +64,7 @@ class Watch
   ///
   int getElapsedMilliseconds()
   {
-    if(startTime == 0)
-      throw new Exception("Watch never started");
+    assert(startTime != 0, "Watch should have been started");
     
     return SDL_GetTicks() - startTime + timeStored;
   }
